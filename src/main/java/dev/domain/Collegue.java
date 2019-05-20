@@ -1,30 +1,40 @@
 package dev.domain;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Collegue {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+@Entity
+public class Collegue
+{
+	// - attribut - 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
-
+    @Column
     private String nom;
-
+    @Column
     private String prenom;
-
+    @Column
     private String email;
-
+    @Column
     private String motDePasse;
-
+    @Column
     @OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
     private List<RoleCollegue> roles;
-
+    @Column
     public Long getId() {
         return id;
     }
 
+    // - getter/setter - 
     public void setId(Long id) {
         this.id = id;
     }
