@@ -2,8 +2,8 @@ package dev.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import dev.domain.Version;
+import dev.domain.Mission;
 
-public interface MissionRepo extends JpaRepository<Version, Integer> {
+public interface MissionRepo extends JpaRepository<Mission, Integer> {
 	// to do something with nature
 }
