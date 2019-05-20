@@ -56,6 +56,35 @@ public class StartupListener {
         col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_UTILISATEUR)));
         this.collegueRepo.save(col2);
         
+        //il manque le repo des missions pour pouvoir sauvegarder dans la base de donnees
+        
+        /*
+        Mission miss1 = new Mission();
+        miss1.setDateDebut(LocalDate.parse("2015-05-15"));
+        miss1.setDateFin(LocalDate.parse("2015-09-25"));
+        miss1.setVilleDepart("Pau");
+        miss1.setVilleArrivee("Bordeau");
+        miss1.setTransport(Transport.VoitureDeService);
+        miss1.setCollegue(col2);
+        
+        Mission miss2 = new Mission();
+        miss2.setDateDebut(LocalDate.parse("2015-12-01"));
+        miss2.setDateFin(LocalDate.parse("2016-02-28"));
+        miss2.setVilleDepart("Nice");
+        miss2.setVilleArrivee("Brest");
+        miss2.setTransport(Transport.Train);
+        miss2.setCollegue(col2);
+        
+        Mission miss3 = new Mission();
+        miss3.setDateDebut(LocalDate.parse("2014-04-20"));
+        miss3.setDateFin(LocalDate.parse("2016-07-10"));
+        miss3.setVilleDepart("Paris");
+        miss3.setVilleArrivee("Montpellier");
+        miss3.setTransport(Transport.Avion);
+        miss3.setCollegue(col1);
+        */
+        
+        
     }
 
 }
