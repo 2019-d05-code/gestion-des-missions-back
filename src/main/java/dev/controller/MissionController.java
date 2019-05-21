@@ -11,25 +11,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.domain.Mission;
 import dev.domainDto.MissionDto;
-import dev.service.MissonService;
+import dev.service.MissionService;
 
 @RestController
 @RequestMapping("/mission")
 public class MissionController {
 
 	@Autowired
-	private MissonService missionService;
+	private MissionService missionService;
 
 	@GetMapping
-	public List<Mission> searchAll() {
+	public List<MissionDto> searchAll() {
 
 		return this.missionService.findAllMission();
 	}
 
 	@PostMapping
-
 	public ResponseEntity<Object> create(@RequestBody MissionDto mission) {
 
 		this.missionService.ajouterMission(mission);
