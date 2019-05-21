@@ -13,18 +13,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Mission
-{
-	// -  attribut - 
+public class Mission {
+	// - attribut -
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Long id;
 	@Column
 	private LocalDate dateDebut;
 	@Column
 	private LocalDate dateFin;
-	//private Nature nature;
+	// private Nature nature;
 	@Column
 	private String villeDepart;
 	@Column
@@ -35,12 +34,23 @@ public class Mission
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Statut statut;
+
 	@ManyToOne
-    @JoinColumn(name = "collegue_id")
-    private Collegue collegue;
+  @JoinColumn(name = "collegue_id")
+  private Collegue collegue;
 	
 	// - constructeur - 
 	public Mission () {}
+	
+	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport)
+	{
+		this.dateDebut = debut;
+		this.dateFin = fin;
+		this.villeDepart = depart;
+		this.villeArrivee = arrivee;
+		this.transport = transport;
+		this.setStatut(Statut.INITIALE);
+	}
 	
 	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport, Collegue coll)
 	{
@@ -117,6 +127,4 @@ public class Mission
 	public void setCollegue(Collegue collegue) {
 		this.collegue = collegue;
 	}
-	
-
 }
