@@ -2,6 +2,7 @@ package dev.domainDto;
 
 import java.time.LocalDate;
 
+import dev.domain.Statut;
 import dev.domain.Transport;
 
 public class MissionDto {
@@ -16,6 +17,8 @@ public class MissionDto {
 
 	private Transport transport;
 
+	private Statut statut;
+
 	// - constructeur -
 	public MissionDto() {
 	}
@@ -28,8 +31,10 @@ public class MissionDto {
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
+		this.setStatut(Statut.INITIALE);
 	}
 
+	// - getter/setter
 	/**
 	 * @return the dateDebut
 	 */
@@ -105,6 +110,19 @@ public class MissionDto {
 		this.transport = transport;
 	}
 
-	// - getter/setter
+	/**
+	 * @return the statut
+	 */
+	public Statut getStatut() {
+		return statut;
+	}
+
+	/**
+	 * @param statut
+	 *            the statut to set
+	 */
+	public void setStatut(Statut statut) {
+		this.statut = statut;
+	}
 
 }
