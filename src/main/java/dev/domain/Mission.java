@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+
+
 @Entity
 public class Mission
 {
@@ -38,6 +40,7 @@ public class Mission
 	@ManyToOne
     @JoinColumn(name = "collegue_id")
     private Collegue collegue;
+
 	
 	// - constructeur - 
 	public Mission () {}

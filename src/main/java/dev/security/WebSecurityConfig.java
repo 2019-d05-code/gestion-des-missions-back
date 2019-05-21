@@ -51,10 +51,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public UserDetailsService userDetailsService(DataSource ds) {
+    	System.out.println("debut user detail");
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
         manager.setDataSource(ds);
         manager.setUsersByUsernameQuery("select email, mot_de_passe, 'true' from collegue where email=?");
         manager.setAuthoritiesByUsernameQuery("select c.email, rc.role from collegue c, role_collegue rc where c.id=rc.collegue_id and c.email=?");
+        System.out.println("retour manager");
         return manager;
     }
 
@@ -89,7 +91,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // en cas de validation avec succès du formulaire
                 // jwtAuthenticationSuccessHandler personnalise la réponse à envoyer
                 //     => la génération d'un jeton JWT
-                //     => la pause d'un cookie d'authentification
                 .successHandler(jwtAuthenticationSuccessHandler)
                 // en cas d'echec, code 400 envoyé
                 .failureHandler((request, response, exception) -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST))
