@@ -33,6 +33,9 @@ public class Collegue
     public Long getId() {
         return id;
     }
+    @Column
+    @OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
+    private List<Mission> missions;
 
     // - getter/setter - 
     public void setId(Long id) {

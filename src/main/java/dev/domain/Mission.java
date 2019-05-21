@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Mission
@@ -33,11 +35,14 @@ public class Mission
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Statut statut;
+	@ManyToOne
+    @JoinColumn(name = "collegue_id")
+    private Collegue collegue;
 	
 	// - constructeur - 
 	public Mission () {}
 	
-	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport)
+	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport, Collegue coll)
 	{
 		this.dateDebut = debut;
 		this.dateFin = fin;
@@ -45,9 +50,18 @@ public class Mission
 		this.villeArrivee = arrivee;
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
+		this.collegue = coll;
 	}
 
 	// - getter/setter
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
@@ -94,6 +108,14 @@ public class Mission
 
 	public void setStatut(Statut statut) {
 		this.statut = statut;
+	}
+	
+	public Collegue getCollegue() {
+		return collegue;
+	}
+
+	public void setCollegue(Collegue collegue) {
+		this.collegue = collegue;
 	}
 	
 
