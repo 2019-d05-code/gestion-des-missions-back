@@ -2,6 +2,7 @@ package dev.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.Exception.MissionInvalidException;
+import dev.Utils.DtoUtils;
 import dev.domain.Mission;
+import dev.domainDto.MissionDto;
 import dev.repository.MissionRepo;
 
 @Service
@@ -18,7 +21,7 @@ public class MissonService {
 	@Autowired
 	private MissionRepo missionRepo;
 
-	public Mission ajouterMission(Mission missionAjouter) {
+	public MissionDto ajouterMission(MissionDto missionAjouter) {
 		// une mission ne peut pas débuter le jour même, ni dans le passé
 		if (missionAjouter.getDateDebut().isBefore(missionAjouter.getDateDebut()))
 			throw new MissionInvalidException("Illegal argument Date: la date exigee en passé ");
@@ -41,23 +44,19 @@ public class MissonService {
 		List<Mission> missionList = this.findAllMission().stream()
 				.filter(mission -> mission.getStatut().toString().equalsIgnoreCase("VALIDE"))
 				.collect(Collectors.toList());
-		boolean checkDate = missionList.stream().filter(mission -> {
-			Interval interval = new Interval(mission.getDateDebut(), mission.getDateFin());
-			boolean intervalContainsDate = interval.contains(missionAjouter.getDateDebut());
-			if (intervalContainsDate) {
-				return true;
 
+		// iterator loop
+		Iterator<Mission> iterator = missionList.iterator();
+		while (iterator.hasNext()) {
+			if (missionAjouter.getDateDebut().isAfter(iterator.next().getDateDebut())
+					|| missionAjouter.getDateDebut().isBefore(iterator.next().getDateFin())) {
+
+				throw new MissionInvalidException("Illegal argument Date: la date de Fin est pas correct ");
 			}
-		}).findAny().orElseThrow(MissionInvalidException);
 
-		// if
-		// (missionAjouter.getStatut().toString().equalsIgnoreCase("VALIDEE"))
-		// throw new MissionInvalidException("Illegal argument Mission Date: la
-		// date de demarre est pas bon ");
-
-		missionRepo.save(missionAjouter);
+		}
+		missionRepo.save(DtoUtils.toMission(missionAjouter));
 		return missionAjouter;
-
 	}
 
 	public List<Mission> findAllMission() {

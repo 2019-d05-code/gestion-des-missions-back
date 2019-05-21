@@ -1,99 +1,110 @@
-package dev.domain;
+package dev.domainDto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import dev.domain.Transport;
 
-@Entity
-public class Mission {
-	// - attribut -
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
-	private Long id;
-	@Column
+public class MissionDto {
+
 	private LocalDate dateDebut;
-	@Column
+
 	private LocalDate dateFin;
 	// private Nature nature;
-	@Column
 	private String villeDepart;
-	@Column
+
 	private String villeArrivee;
-	@Column
-	@Enumerated(EnumType.STRING)
+
 	private Transport transport;
-	@Column
-	@Enumerated(EnumType.STRING)
-	private Statut statut;
 
 	// - constructeur -
-	public Mission() {
+	public MissionDto() {
 	}
 
-	public Mission(LocalDate debut, LocalDate fin, /* Nature nature, */ String depart, String arrivee,
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
 			Transport transport) {
-		this.dateDebut = debut;
-		this.dateFin = fin;
-		this.villeDepart = depart;
-		this.villeArrivee = arrivee;
+
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
 		this.transport = transport;
-		this.setStatut(Statut.INITIALE);
 	}
 
-	// - getter/setter
+	/**
+	 * @return the dateDebut
+	 */
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
 
+	/**
+	 * @param dateDebut
+	 *            the dateDebut to set
+	 */
 	public void setDateDebut(LocalDate dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
+	/**
+	 * @return the dateFin
+	 */
 	public LocalDate getDateFin() {
 		return dateFin;
 	}
 
+	/**
+	 * @param dateFin
+	 *            the dateFin to set
+	 */
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
 	}
 
+	/**
+	 * @return the villeDepart
+	 */
 	public String getVilleDepart() {
 		return villeDepart;
 	}
 
+	/**
+	 * @param villeDepart
+	 *            the villeDepart to set
+	 */
 	public void setVilleDepart(String villeDepart) {
 		this.villeDepart = villeDepart;
 	}
 
+	/**
+	 * @return the villeArrivee
+	 */
 	public String getVilleArrivee() {
 		return villeArrivee;
 	}
 
+	/**
+	 * @param villeArrivee
+	 *            the villeArrivee to set
+	 */
 	public void setVilleArrivee(String villeArrivee) {
 		this.villeArrivee = villeArrivee;
 	}
 
+	/**
+	 * @return the transport
+	 */
 	public Transport getTransport() {
 		return transport;
 	}
 
+	/**
+	 * @param transport
+	 *            the transport to set
+	 */
 	public void setTransport(Transport transport) {
 		this.transport = transport;
 	}
 
-	public Statut getStatut() {
-		return statut;
-	}
-
-	public void setStatut(Statut statut) {
-		this.statut = statut;
-	}
+	// - getter/setter
 
 }

@@ -12,6 +12,7 @@ import dev.repository.VersionRepo;
  * WEB API : Version applicative.
  */
 @RestController
+
 public class VersionController {
 
 	private VersionRepo versionRepo;
