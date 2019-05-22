@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -83,6 +84,14 @@ public class MissionServiceTest {
 				&& newMission.getDateDebut().isBefore(LocalDate.now().plusDays(20)));
 		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
 
+	}
+
+	@Test
+	public void testForBaseDesDonne() {
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), "Toulouse",
+				"Bordeaux", Transport.Train);
+		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 	}
 
 }

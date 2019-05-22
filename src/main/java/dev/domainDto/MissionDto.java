@@ -34,6 +34,17 @@ public class MissionDto {
 		this.setStatut(Statut.INITIALE);
 	}
 
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
+			Transport transport, Statut statut) {
+
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.statut = statut;
+	}
+
 	// - getter/setter
 	/**
 	 * @return the dateDebut
