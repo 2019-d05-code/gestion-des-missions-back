@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import dev.domain.Role;
+
 /**
  * Configuration Spring Security.
  */
@@ -80,8 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 																				// celle
 																				// dur
 																				// h2
-				.antMatchers("/manager").hasRole("Manager").anyRequest().authenticated().and().headers().frameOptions()
-				.disable().and()
+				.antMatchers("/manager").hasAuthority(Role.ROLE_MANAGER.name()).anyRequest().authenticated().and()
+				.headers().frameOptions().disable().and()
 				// génération d'un formulaire de login
 				// il faut produire une requête avec les caractéristiques
 				// suivantes :
