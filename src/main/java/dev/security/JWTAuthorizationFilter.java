@@ -24,10 +24,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 
 /**
- * Filtre permettant de passer du jeton JWT à un utilisateur connecté au sens Spring Security.
+ * Filtre permettant de passer du jeton JWT à un utilisateur connecté au sens
+ * Spring Security.
  */
 @Configuration
-public class JWTAuthorizationFilter  extends OncePerRequestFilter {
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	@Value("${jwt.cookie}")
 	private String TOKEN_COOKIE;
@@ -38,25 +39,26 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 	private Authentication authentication;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
 
 		// Recherche du jeton par Cookie
-		if(req.getCookies() != null) {
+		if (req.getCookies() != null) {
 			Stream.of(req.getCookies()).filter(cookie -> cookie.getName().equals(TOKEN_COOKIE))
-			.map(cookie -> cookie.getValue())
-			.forEach(token -> {
-				try {
-					Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-					String username = body.getSubject();
-					List<SimpleGrantedAuthority> roles = Arrays.asList(body.get("roles", String.class)).stream().map(roleString -> new SimpleGrantedAuthority(roleString)).collect(Collectors.toList());
-					authentication =  new UsernamePasswordAuthenticationToken(username, null, roles);
-					SecurityContextHolder.getContext().setAuthentication(authentication);
-				}
-				catch (ExpiredJwtException e)
-				{
-					logger.info("Cookie invalide, mais la connexion passe quand même !");
-				}
-			});
+					.map(cookie -> cookie.getValue()).forEach(token -> {
+						try {
+							Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+							String username = body.getSubject();
+							List<SimpleGrantedAuthority> roles = Arrays
+									.asList(body.get("roles", String.class).split(",")).stream()
+									.map(roleString -> new SimpleGrantedAuthority(roleString))
+									.collect(Collectors.toList());
+							authentication = new UsernamePasswordAuthenticationToken(username, null, roles);
+							SecurityContextHolder.getContext().setAuthentication(authentication);
+						} catch (ExpiredJwtException e) {
+							logger.info("Cookie invalide, mais la connexion passe quand même !");
+						}
+					});
 		}
 		chain.doFilter(req, res);
 	}
