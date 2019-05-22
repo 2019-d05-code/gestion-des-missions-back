@@ -70,6 +70,7 @@ public class StartupListener {
         col3.setMotDePasse(passwordEncoder.encode("superpass"));
         col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER)));
         this.collegueRepo.save(col3);
+        
         // creation de trois missions
 
         Mission miss1 = new Mission();
@@ -77,7 +78,7 @@ public class StartupListener {
         miss1.setDateFin(LocalDate.parse("2015-09-25"));
         miss1.setVilleDepart("Pau");
         miss1.setVilleArrivee("Bordeau");
-        miss1.setStatut(Statut.INITIALE);
+        miss1.setStatut(Statut.REJETEE);
         miss1.setTransport(Transport.VoitureDeService);
         miss1.setCollegue(col2);
         this.missionRepo.save(miss1);
@@ -87,7 +88,7 @@ public class StartupListener {
         miss2.setDateFin(LocalDate.parse("2016-02-28"));
         miss2.setVilleDepart("Nice");
         miss2.setVilleArrivee("Brest");
-        miss2.setStatut(Statut.INITIALE);
+        miss2.setStatut(Statut.VALIDEE);
         miss2.setTransport(Transport.Train);
         miss2.setCollegue(col2);
         this.missionRepo.save(miss2);
@@ -101,6 +102,36 @@ public class StartupListener {
         miss3.setTransport(Transport.Avion);
         miss3.setCollegue(col1);
         this.missionRepo.save(miss3);
+        
+        Mission miss4 = new Mission();
+        miss4.setDateDebut(LocalDate.parse("2019-10-31"));
+        miss4.setDateFin(LocalDate.parse("2019-12-01"));
+        miss4.setVilleDepart("Bordeaux");
+        miss4.setVilleArrivee("Strasbourg");
+        miss4.setStatut(Statut.EN_ATTENTE_VALIDATION);
+        miss4.setTransport(Transport.VoitureDeService);
+        miss4.setCollegue(col1);
+        this.missionRepo.save(miss4);
+        
+        Mission miss5 = new Mission();
+        miss5.setDateDebut(LocalDate.parse("2019-10-15"));
+        miss5.setDateFin(LocalDate.parse("2019-11-05"));
+        miss5.setVilleDepart("Albi");
+        miss5.setVilleArrivee("St Etienne");
+        miss5.setStatut(Statut.INITIALE);
+        miss5.setTransport(Transport.Avion);
+        miss5.setCollegue(col3);
+        this.missionRepo.save(miss5);
+        
+        Mission miss6 = new Mission();
+        miss6.setDateDebut(LocalDate.parse("2019-06-10"));
+        miss6.setDateFin(LocalDate.parse("2019-07-25"));
+        miss6.setVilleDepart("Frejus");
+        miss6.setVilleArrivee("Cannes");
+        miss6.setStatut(Statut.EN_ATTENTE_VALIDATION);
+        miss6.setTransport(Transport.Covoiturage);
+        miss6.setCollegue(col2);
+        this.missionRepo.save(miss6);
 	}
 
 }
