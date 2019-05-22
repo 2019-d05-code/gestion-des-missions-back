@@ -28,34 +28,35 @@ import io.jsonwebtoken.Jwts;
 @Configuration
 public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 
-    @Value("${jwt.cookie}")
-    private String TOKEN_COOKIE;
+	@Value("${jwt.cookie}")
+	private String TOKEN_COOKIE;
 
-    @Value("${jwt.secret}")
-    private String SECRET;
+	@Value("${jwt.secret}")
+	private String SECRET;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+	private Authentication authentication;
 
-        // Recherche du jeton par Cookie
-        if(req.getCookies() != null) {
-            Stream.of(req.getCookies()).filter(cookie -> cookie.getName().equals(TOKEN_COOKIE))
-                    .map(cookie -> cookie.getValue())
-                    .forEach(token -> {
+	@Override
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
-                        Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-
-                        String username = body.getSubject();
-
-                        List<SimpleGrantedAuthority> roles = Arrays.asList(body.get("roles", String.class)).stream().map(roleString -> new SimpleGrantedAuthority(roleString)).collect(Collectors.toList());
-
-                        Authentication authentication =  new UsernamePasswordAuthenticationToken(username, null, roles);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    });
-        }
-
-        chain.doFilter(req, res);
-
-    }
+		// Recherche du jeton par Cookie
+		if(req.getCookies() != null) {
+			Stream.of(req.getCookies()).filter(cookie -> cookie.getName().equals(TOKEN_COOKIE))
+			.map(cookie -> cookie.getValue())
+			.forEach(token -> {
+				try {
+					Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+					String username = body.getSubject();
+					List<SimpleGrantedAuthority> roles = Arrays.asList(body.get("roles", String.class)).stream().map(roleString -> new SimpleGrantedAuthority(roleString)).collect(Collectors.toList());
+					authentication =  new UsernamePasswordAuthenticationToken(username, null, roles);
+				}
+				catch (Exception e)
+				{
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+			});
+		}
+		chain.doFilter(req, res);
+	}
 
 }
