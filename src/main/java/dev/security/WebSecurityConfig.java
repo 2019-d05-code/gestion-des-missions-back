@@ -89,7 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // en cas de validation avec succès du formulaire
                 // jwtAuthenticationSuccessHandler personnalise la réponse à envoyer
                 //     => la génération d'un jeton JWT
-                //     => la pause d'un cookie d'authentification
                 .successHandler(jwtAuthenticationSuccessHandler)
                 // en cas d'echec, code 400 envoyé
                 .failureHandler((request, response, exception) -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST))
