@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 
 /**
@@ -49,10 +50,11 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 					String username = body.getSubject();
 					List<SimpleGrantedAuthority> roles = Arrays.asList(body.get("roles", String.class)).stream().map(roleString -> new SimpleGrantedAuthority(roleString)).collect(Collectors.toList());
 					authentication =  new UsernamePasswordAuthenticationToken(username, null, roles);
-				}
-				catch (Exception e)
-				{
 					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+				catch (ExpiredJwtException e)
+				{
+					
 				}
 			});
 		}
