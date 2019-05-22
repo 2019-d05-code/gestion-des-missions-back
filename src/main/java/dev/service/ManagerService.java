@@ -27,7 +27,7 @@ public class ManagerService {
 	public List<MissionDto> findAllMission() {
 		List<Mission> missionList = this.missionRepo.findAll();
 		return missionList.stream().filter(mission -> mission.getStatut().equals(Statut.EN_ATTENTE_VALIDATION))
-				.map(DtoUtils::toMissionDto).collect(Collectors.toList());
+				.map(DtoUtils::toMissionDtoAvecStatut).collect(Collectors.toList());
 
 	}
 

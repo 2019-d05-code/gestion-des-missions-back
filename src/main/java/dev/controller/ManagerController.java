@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,14 +23,14 @@ public class ManagerController {
 	private ManagerService managerService;
 
 	@GetMapping
-	@Secured("ROLE_MANAGER")
+	//@Secured("ROLE_MANAGER")
 	public List<MissionDto> searchAll() {
 
 		return this.managerService.findAllMission();
 	}
 
 	@PatchMapping
-	@Secured("ROLE_MANAGER")
+	//@Secured("ROLE_MANAGER")
 	public ResponseEntity<Object> modifierEmail(@RequestBody ManagerMission mission) {
 
 		MissionDto missionDto = (this.managerService.modifierStatut(mission));
