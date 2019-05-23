@@ -12,15 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
-
 @Entity
 public class Mission {
 	// - attribut -
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Long id;
+	private Integer id;
 	@Column
 	private LocalDate dateDebut;
 	@Column
@@ -38,15 +36,15 @@ public class Mission {
 	private Statut statut;
 
 	@ManyToOne
-    @JoinColumn(name = "collegue_id")
-    private Collegue collegue;
+	@JoinColumn(name = "collegue_id")
+	private Collegue collegue;
 
-	
-	// - constructeur - 
-	public Mission () {}
-	
-	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport)
-	{
+	// - constructeur -
+	public Mission() {
+	}
+
+	public Mission(LocalDate debut, LocalDate fin, /* Nature nature, */ String depart, String arrivee,
+			Transport transport) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
 		this.villeDepart = depart;
@@ -54,9 +52,9 @@ public class Mission {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 	}
-	
-	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport, Collegue coll)
-	{
+
+	public Mission(LocalDate debut, LocalDate fin, /* Nature nature, */ String depart, String arrivee,
+			Transport transport, Collegue coll) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
 		this.villeDepart = depart;
@@ -66,15 +64,26 @@ public class Mission {
 		this.collegue = coll;
 	}
 
+	public Mission(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
+			Statut statut) {
+
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.statut = statut;
+	}
+
 	// - getter/setter
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
@@ -122,7 +131,7 @@ public class Mission {
 	public void setStatut(Statut statut) {
 		this.statut = statut;
 	}
-	
+
 	public Collegue getCollegue() {
 		return collegue;
 	}
