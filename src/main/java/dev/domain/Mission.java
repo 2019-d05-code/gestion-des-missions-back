@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
-
 @Entity
 public class Mission {
 	// - attribut -
@@ -25,7 +23,9 @@ public class Mission {
 	private LocalDate dateDebut;
 	@Column
 	private LocalDate dateFin;
-	// private Nature nature;
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Nature nature;
 	@Column
 	private String villeDepart;
 	@Column
@@ -38,27 +38,28 @@ public class Mission {
 	private Statut statut;
 
 	@ManyToOne
-    @JoinColumn(name = "collegue_id")
-    private Collegue collegue;
+	@JoinColumn(name = "collegue_id")
+	private Collegue collegue;
 
-	
-	// - constructeur - 
-	public Mission () {}
-	
-	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport)
-	{
+	// - constructeur -
+	public Mission() {
+	}
+
+	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
+		this.nature = nature;
 		this.villeDepart = depart;
 		this.villeArrivee = arrivee;
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 	}
-	
-	public Mission(LocalDate debut,	LocalDate fin, /*Nature nature,*/ String depart, String arrivee, Transport transport, Collegue coll)
-	{
+
+	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport,
+			Collegue coll) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
+		this.nature = nature;
 		this.villeDepart = depart;
 		this.villeArrivee = arrivee;
 		this.transport = transport;
@@ -66,16 +67,18 @@ public class Mission {
 		this.collegue = coll;
 	}
 
-	/**touch pas cest pour modif*/
-	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
-			Statut statut) {
-        this.id=id;
+	/** touch pas cest pour modif */
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+			Transport transport, Statut statut) {
+		this.id = id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
+		this.nature = nature;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.statut = statut;
+		this.nature = nature;
 	}
 
 	// - getter/setter
@@ -86,7 +89,7 @@ public class Mission {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
@@ -101,6 +104,14 @@ public class Mission {
 
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
+	}
+
+	public Nature getNature() {
+		return nature;
+	}
+
+	public void setNature(Nature nature) {
+		this.nature = nature;
 	}
 
 	public String getVilleDepart() {
@@ -134,7 +145,7 @@ public class Mission {
 	public void setStatut(Statut statut) {
 		this.statut = statut;
 	}
-	
+
 	public Collegue getCollegue() {
 		return collegue;
 	}

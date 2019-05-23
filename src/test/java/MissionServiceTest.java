@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import dev.Exception.MissionInvalidException;
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domain.Transport;
 import dev.repository.MissionRepo;
 import dev.service.MissionService;
@@ -32,8 +33,8 @@ public class MissionServiceTest {
 	@Test(expected = MissionInvalidException.class)
 	public void testIfTheDateIsToday() {
 		LOG.info("Etant donné, une instance de Mission");
-		Mission newMission = new Mission(LocalDate.now(), LocalDate.now().plusDays(80), "Toulouse", "Bordeaux",
-				Transport.Train);
+		Mission newMission = new Mission(LocalDate.now(), LocalDate.now().plusDays(80), Nature.Conseil, "Toulouse",
+				"Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
 
 	}
@@ -41,8 +42,8 @@ public class MissionServiceTest {
 	@Test
 	public void testIfTheDateIsIsToday() {
 		LOG.info("Etant donné, une instance de Mission");
-		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(8), "Toulouse",
-				"Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(8), Nature.Conseil,
+				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
 
 		// Assert.assertTrue(result.getVilleDepart().equals("Toulouse"));
@@ -52,8 +53,8 @@ public class MissionServiceTest {
 	@Test(expected = MissionInvalidException.class)
 	public void testIfTheDateFinIsInPast() {
 		LOG.info("Etant donné, une instance de Mission");
-		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().minusDays(1), "Toulouse",
-				"Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().minusDays(1), Nature.Technique,
+				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
 
 	}
@@ -61,24 +62,24 @@ public class MissionServiceTest {
 	@Test
 	public void testIfTheDateFinIsIntoday() {
 		LOG.info("Etant donné, une instance de Mission");
-		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now(), "Toulouse", "Bordeaux",
-				Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now(), Nature.Conseil, "Toulouse",
+				"Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
 	}
 
 	@Test(expected = MissionInvalidException.class)
 	public void testIfTheTransAvion() {
 		LOG.info("Etant donné, une instance de Mission");
-		Mission newMission = new Mission(LocalDate.now().plusDays(5), LocalDate.now().plusDays(20), "Toulouse",
-				"Bordeaux", Transport.Avion);
+		Mission newMission = new Mission(LocalDate.now().plusDays(5), LocalDate.now().plusDays(20), Nature.Conseil,
+				"Toulouse", "Bordeaux", Transport.Avion);
 		this.missionService.ajouterMission(newMission);
 
 	}
 
 	@Test
 	public void testIfProjectPresent() {
-		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(20), "Toulouse",
-				"Bordeaux", Transport.Avion);
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(20), Nature.Expertise,
+				"Toulouse", "Bordeaux", Transport.Avion);
 		Assert.assertTrue(newMission.getDateDebut().isAfter(LocalDate.now().plusDays(8))
 				&& newMission.getDateDebut().isBefore(LocalDate.now().plusDays(20)));
 		this.missionService.ajouterMission(newMission);
@@ -87,8 +88,8 @@ public class MissionServiceTest {
 
 	@Test
 	public void testForBaseDesDonne() {
-		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), "Toulouse",
-				"Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
 		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 	}
