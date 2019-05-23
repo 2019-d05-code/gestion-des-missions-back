@@ -92,7 +92,7 @@ public class MissionService {
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
-	public List<MissionDto> recupererMissionParCollegue(Long id) {
+	public List<MissionDto> recupererMissionParCollegue(Integer id) {
 		Collegue collegue = collegueRepo.findById(id).orElseThrow(RuntimeException::new);
 		List<Mission> missionList = this.missionRepo.findByCollegue(collegue);
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
