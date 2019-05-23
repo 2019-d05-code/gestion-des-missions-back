@@ -17,7 +17,7 @@ public class RestResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = { MissionInvalidException.class })
 	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-		String bodyOfResponse = "Mission est invalid : les valeurs sont pas bon";
+		String bodyOfResponse = "La mission est invalide : les valeurs ne sont pas bonnes";
 		return ResponseEntity.status(400).body(bodyOfResponse);
 	}
 
