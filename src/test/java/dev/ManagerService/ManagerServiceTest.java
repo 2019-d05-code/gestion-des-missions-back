@@ -7,10 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import dev.Utils.DtoUtils;
 import dev.domain.ManagerMission;
 import dev.domain.Mission;
 import dev.domain.Statut;
@@ -21,7 +18,6 @@ import dev.service.ManagerService;
 import dev.service.MissionService;
 
 public class ManagerServiceTest {
-	private static final Logger LOG = LoggerFactory.getLogger(ManagerServiceTest.class);
 
 	private ManagerService managerService;
 

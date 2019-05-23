@@ -25,7 +25,7 @@ public class MissionController {
 	private MissionService missionService;
 
 	@GetMapping
-	public List<MissionDto> searchAll() {
+	public List<MissionDto> afficherToutesLesMissions() {
 		return this.missionService.recupererToutesLesMissions();
 	}
 

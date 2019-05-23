@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import dev.Exception.MissionInvalidException;
 import dev.Exception.ModificationInvalideException;
 import dev.Utils.DtoUtils;
+import dev.domain.Collegue;
 import dev.domain.Mission;
 import dev.domain.Statut;
 import dev.domain.Transport;
 import dev.domainDto.MissionDto;
+import dev.repository.CollegueRepo;
 import dev.repository.MissionRepo;
 
 @Service
@@ -26,6 +28,9 @@ public class MissionService {
 
 	@Autowired
 	private MissionRepo missionRepo;
+	@Autowired
+	private CollegueRepo collegueRepo;
+
 	// mise à jour de la base de données
 	public void setMissionRepository(MissionRepo missionRepo) {
 		this.missionRepo = missionRepo;
@@ -86,6 +91,12 @@ public class MissionService {
 		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
 	}
 
+	public List<MissionDto> recupererMissionParCollegue(Long id) {
+		Collegue collegue = collegueRepo.findById(id).orElseThrow(RuntimeException::new);
+		List<Mission> missionList = this.missionRepo.findByCollegue(collegue);
+		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
+	}
+
 	public MissionDto trouverMissionDepuisId(Integer id) {
 		Optional<Mission> missionTrouve = missionRepo.findById(id);
 		if (missionTrouve.isPresent()) {
@@ -98,8 +109,9 @@ public class MissionService {
 
 	public Boolean missionExistante(Mission mission) {
 		List<MissionDto> missionsEnBaseDeDonnees = recupererToutesLesMissions();
-		
-		List <Mission> missionBDD = missionsEnBaseDeDonnees.stream().map(missionUnique -> DtoUtils.toMission(missionUnique)).collect (Collectors.toList());
+
+		List<Mission> missionBDD = missionsEnBaseDeDonnees.stream()
+				.map(missionUnique -> DtoUtils.toMission(missionUnique)).collect(Collectors.toList());
 		for (Mission m : missionBDD) {
 			if (m.equals(mission)) {
 				return true;
