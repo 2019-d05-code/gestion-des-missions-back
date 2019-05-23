@@ -16,9 +16,9 @@ import dev.service.MissionService;
 public class CollegueController {
 	@Autowired
 	private MissionService missionService;
-	
+
 	@GetMapping(path = "/{id}")
-	public List<MissionDto> afficherToutesLesMissions(@PathVariable Long id) {
+	public List<MissionDto> afficherToutesLesMissions(@PathVariable Integer id) {
 		return this.missionService.recupererMissionParCollegue(id);
 	}
 
