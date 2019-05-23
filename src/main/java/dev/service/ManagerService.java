@@ -27,7 +27,7 @@ public class ManagerService {
 	public List<MissionDto> findAllMission() {
 		List<Mission> missionList = this.missionRepo.findAll();
 		return missionList.stream().filter(mission -> mission.getStatut().equals(Statut.EN_ATTENTE_VALIDATION))
-				.map(DtoUtils::toMissionDtoAvecStatut).collect(Collectors.toList());
+				.map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 
 	}
 
@@ -43,7 +43,7 @@ public class ManagerService {
 
 		// collegueModifieEmail.setEmail(email);
 
-		return DtoUtils.toMissionDtoAvecStatut(miss);
+		return DtoUtils.toMissionDtoAvecId(miss);
 
 	}
 

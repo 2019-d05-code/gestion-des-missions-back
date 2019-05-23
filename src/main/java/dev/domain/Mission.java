@@ -65,11 +65,11 @@ public class Mission {
 		this.setStatut(Statut.INITIALE);
 		this.collegue = coll;
 	}
-	
-/**Touch pas stp, cest pour le modif*/
-	public Mission(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
+
+	/**touch pas cest pour modif*/
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
 			Statut statut) {
-		super();
+        this.id=id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.villeDepart = villeDepart;

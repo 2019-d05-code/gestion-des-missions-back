@@ -9,6 +9,8 @@ import dev.domain.Transport;
 
 public class MissionDto {
 
+	private Integer id;
+	
 	private LocalDate dateDebut;
 
 	private LocalDate dateFin;
@@ -37,10 +39,11 @@ public class MissionDto {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 	}
-
-	/**Touch pas stp , cest pour le modif*/
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
+  
+	/**touch pas cest pour modif*/
+	public MissionDto(Integer id,LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
 			Transport transport, Statut statut) {
+        this.id=id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.villeDepart = villeDepart;
@@ -187,5 +190,13 @@ public class MissionDto {
 		} else if (!villeDepart.equals(other.villeDepart))
 			return false;
 		return true;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
