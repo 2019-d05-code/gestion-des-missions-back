@@ -1,5 +1,7 @@
 package dev.domainDto;
 
+
+
 import java.time.LocalDate;
 
 import dev.domain.Statut;
@@ -10,7 +12,9 @@ public class MissionDto {
 	private LocalDate dateDebut;
 
 	private LocalDate dateFin;
+
 	// private Nature nature;
+
 	private String villeDepart;
 
 	private String villeArrivee;
@@ -34,15 +38,15 @@ public class MissionDto {
 		this.setStatut(Statut.INITIALE);
 	}
 
+	/**Touch pas stp , cest pour le modif*/
 	public MissionDto(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
 			Transport transport, Statut statut) {
-
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
-		this.statut = statut;
+		this.statut=statut;
 	}
 
 	// - getter/setter
@@ -136,4 +140,52 @@ public class MissionDto {
 		this.statut = statut;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateDebut == null) ? 0 : dateDebut.hashCode());
+		result = prime * result + ((dateFin == null) ? 0 : dateFin.hashCode());
+		result = prime * result + ((statut == null) ? 0 : statut.hashCode());
+		result = prime * result + ((transport == null) ? 0 : transport.hashCode());
+		result = prime * result + ((villeArrivee == null) ? 0 : villeArrivee.hashCode());
+		result = prime * result + ((villeDepart == null) ? 0 : villeDepart.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MissionDto other = (MissionDto) obj;
+		if (dateDebut == null) {
+			if (other.dateDebut != null)
+				return false;
+		} else if (!dateDebut.equals(other.dateDebut))
+			return false;
+		if (dateFin == null) {
+			if (other.dateFin != null)
+				return false;
+		} else if (!dateFin.equals(other.dateFin))
+			return false;
+		if (statut != other.statut)
+			return false;
+		if (transport != other.transport)
+			return false;
+		if (villeArrivee == null) {
+			if (other.villeArrivee != null)
+				return false;
+		} else if (!villeArrivee.equals(other.villeArrivee))
+			return false;
+		if (villeDepart == null) {
+			if (other.villeDepart != null)
+				return false;
+		} else if (!villeDepart.equals(other.villeDepart))
+			return false;
+		return true;
+	}
 }

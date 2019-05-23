@@ -48,7 +48,6 @@ public class ManagerServiceTest {
 		ManagerMission miss = new ManagerMission(newMission.getId(), Statut.VALIDEE);
 		MissionDto resultat = this.managerService.modifierStatut(miss);
 		Assert.assertTrue(resultat.getStatut().equals(Statut.VALIDEE));
-
 	}
 
 	@Test

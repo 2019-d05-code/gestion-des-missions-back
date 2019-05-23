@@ -3,12 +3,15 @@ package dev.service;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import dev.Exception.MissionInvalidException;
+import dev.Exception.ModificationInvalideException;
 import dev.Utils.DtoUtils;
 import dev.domain.Mission;
 import dev.domain.Statut;
@@ -19,58 +22,155 @@ import dev.repository.MissionRepo;
 @Service
 public class MissionService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(MissionService.class);
+
 	@Autowired
 	private MissionRepo missionRepo;
-
+	// mise à jour de la base de données
 	public void setMissionRepository(MissionRepo missionRepo) {
 		this.missionRepo = missionRepo;
 	}
 
-	public MissionDto ajouterMission(MissionDto missionAjouter) {
-		// une mission ne peut pas débuter le jour même, ni dans le passé
-
-		LocalDate dateDebut = LocalDate.now().plusDays(1);
-
-		if (missionAjouter.getTransport().equals(Transport.Avion)) {
-			dateDebut = LocalDate.now().plusDays(7);
+	public Boolean ajouterMission(MissionDto missionAjouter) {
+		// Envoi d'une exception en cas de non-respect des règles métier
+		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)
+				&& regleMetierDateFin(missionAjouter) && regleMetierMissionDisponible(missionAjouter)) {
+			// Vérification de la présence en base de données avant l'insertion
+			if (missionExistante(missionAjouter)) {
+				LOG.error(" Cette mission existe déjà. ");
+				return false;
+			} else {
+				missionRepo.save(DtoUtils.toMission(missionAjouter));
+				return true;
+			}
+		} else {
+			return false;
 		}
+	}
 
-		if (missionAjouter.getDateDebut().isBefore(dateDebut))
-			throw new MissionInvalidException("Illegal argument Date: la date exigée est passée ");
+	public void modifierMission(Integer id, MissionDto modifications) {
+		MissionDto missionAModifier = trouverMissionDepuisId(id);
+		if (regleMetierStatut(missionAModifier)) {
+			if (regleMetierDateDebut(modifications)) {
+				missionAModifier.setDateDebut(modifications.getDateDebut());
+			} else {
+				LOG.error(" Modification impossible. ");
+			}
+			if (regleMetierDateFin(modifications)) {
+				missionAModifier.setDateFin(modifications.getDateFin());
+			} else {
+				LOG.error(" Modification impossible. ");
+			}
+			if (regleMetierAvion(modifications)) {
+				missionAModifier.setTransport(modifications.getTransport());
+			} else {
+				LOG.error(" Modification impossible. ");
+			}
+			missionAModifier.setVilleDepart(modifications.getVilleDepart());
+			missionAModifier.setVilleArrivee(modifications.getVilleArrivee());
+			missionAModifier.setStatut(Statut.INITIALE);
+			// Envoi d'une exception en cas de non-respect des règles métier
+			if (ajouterMission(missionAModifier)) {
+				LOG.info(" La mission a bien été modifiée. ");
+			} else {
+				LOG.error(" La mission n'a pas été modifiée. ");
+			}
+		} else {
+			LOG.error(" Modification impossible. ");
+		}
+	}
 
-		// si le type de transport est l'avion, une anticipation de 7 jours est
-		// exigée
+	public List<MissionDto> recupererToutesLesMissions() {
+		List<Mission> missionList = this.missionRepo.findAll();
+		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
+	}
 
-		// la date de fin est supérieure ou égale à la date de début
+	public MissionDto trouverMissionDepuisId(Integer id) {
+		Optional<Mission> missionTrouve = missionRepo.findById(id);
+		if (missionTrouve.isPresent()) {
+			return DtoUtils.toMissionDto(missionTrouve.get());
+		} else {
+			LOG.error("Aucune mission trouvée avec cet ID");
+			return null;
+		}
+	}
+
+	public Boolean missionExistante(MissionDto mission) {
+		List<MissionDto> missionsEnBaseDeDonnees = recupererToutesLesMissions();
+		for (MissionDto m : missionsEnBaseDeDonnees) {
+			if (m.equals(mission)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Règles métier :
+	/** Une mission ne peut pas débuter le jour même, ni dans le passé */
+	private Boolean regleMetierDateDebut(MissionDto mission) {
+		LocalDate dateDebut = LocalDate.now().plusDays(1);
+		if (mission.getDateDebut().isBefore(dateDebut)) {
+			throw new MissionInvalidException(" La mission ne peut pas démarrer le jour même ou avant. ");
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * Si le type de transport est l'avion, une anticipation de 7 jours est
+	 * exigée
+	 */
+	private Boolean regleMetierAvion(MissionDto mission) {
+		LocalDate dateAvion = LocalDate.now().plusDays(7);
+		if (mission.getTransport().equals(Transport.Avion)) {
+			if (mission.getDateDebut().isBefore(dateAvion)) {
+				throw new MissionInvalidException(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
+			} else {
+			}
+		}
+		return true;
+	}
+
+	/** La date de fin est supérieure ou égale à la date de début */
+	private Boolean regleMetierDateFin(MissionDto mission) {
 		LocalDate dateToCheck = LocalDate.now();
-		if (missionAjouter.getDateFin().isBefore(dateToCheck))
-			throw new MissionInvalidException("Illegal argument Date: la date de Fin est pas correcte ");
+		if (mission.getDateFin().isBefore(dateToCheck)) {
+			throw new MissionInvalidException(" La date de Fin n'est pas correcte. ");
+		} else {
+			return true;
+		}
+	}
 
-		// il est interdit de créer une mission qui chevauche une autre mission
-		// ou un congé (absence)
-		// il est interdit de créer une mission qui commence ou finit un jour
-		// non travaillé
-		List<MissionDto> missionList = this.findAllMission().stream()
-				.filter(mission -> mission.getStatut().equals(Statut.VALIDEE)).collect(Collectors.toList());
+	/**
+	 * 1. Il est interdit de créer une mission qui chevauche une autre mission
+	 * ou un congé (absence) 2. Il est interdit de créer une mission qui
+	 * commence ou finit un jour non travaillé
+	 */
+	private Boolean regleMetierMissionDisponible(MissionDto mission) {
+		List<MissionDto> missionList = this.recupererToutesLesMissions().stream()
+				.filter(m -> m.getStatut().equals(Statut.VALIDEE)).collect(Collectors.toList());
 
 		// iterator loop
 		Iterator<MissionDto> iterator = missionList.iterator();
 		while (iterator.hasNext()) {
-			if (missionAjouter.getDateDebut().isAfter(iterator.next().getDateDebut())
-					&& missionAjouter.getDateDebut().isBefore(iterator.next().getDateFin())) {
-
-				throw new MissionInvalidException("Illegal argument Date: la date de Fin est pas correcte ");
+			if (mission.getDateDebut().isAfter(iterator.next().getDateDebut())
+					&& mission.getDateDebut().isBefore(iterator.next().getDateFin())) {
+				throw new MissionInvalidException(" La date de Fin n'est pas correcte. ");
+			} else {
 			}
-
 		}
-		missionRepo.save(DtoUtils.toMission(missionAjouter));
-		return missionAjouter;
+		return true;
 	}
 
-	public List<MissionDto> findAllMission() {
-		List<Mission> missionList = this.missionRepo.findAll();
-		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
-
+	/**
+	 * Seules les missions au statut INITIALE ou REJETEE peuvent être modifiées
+	 */
+	private Boolean regleMetierStatut(MissionDto mission) {
+		if (mission.getStatut() == Statut.INITIALE || mission.getStatut() == Statut.REJETEE) {
+			return true;
+		} else {
+			throw new ModificationInvalideException(
+					" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
+		}
 	}
-
 }
