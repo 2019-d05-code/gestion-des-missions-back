@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import dev.Exception.MissionInvalidException;
 import dev.Exception.ModificationInvalideException;
 import dev.Utils.DtoUtils;
@@ -88,13 +89,13 @@ public class MissionService {
 
 	public List<MissionDto> recupererToutesLesMissions() {
 		List<Mission> missionList = this.missionRepo.findAll();
-		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
+		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
 	public List<MissionDto> recupererMissionParCollegue(Long id) {
 		Collegue collegue = collegueRepo.findById(id).orElseThrow(RuntimeException::new);
 		List<Mission> missionList = this.missionRepo.findByCollegue(collegue);
-		return missionList.stream().map(DtoUtils::toMissionDto).collect(Collectors.toList());
+		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
 	public MissionDto trouverMissionDepuisId(Integer id) {
