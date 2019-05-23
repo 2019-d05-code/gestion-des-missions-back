@@ -1,7 +1,5 @@
 package dev.domainDto;
 
-
-
 import java.time.LocalDate;
 
 import dev.domain.Statut;
@@ -10,12 +8,12 @@ import dev.domain.Transport;
 public class MissionDto {
 
 	private Integer id;
-	
+
 	private LocalDate dateDebut;
 
 	private LocalDate dateFin;
 
-	// private Nature nature;
+	private Nature nature;
 
 	private String villeDepart;
 
@@ -39,17 +37,17 @@ public class MissionDto {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 	}
-  
-	/**touch pas cest pour modif*/
-	public MissionDto(Integer id,LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
+
+	/** touch pas cest pour modif */
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
 			Transport transport, Statut statut) {
-        this.id=id;
+		this.id = id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
-		this.statut=statut;
+		this.statut = statut;
 	}
 
 	// - getter/setter
