@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 
 import dev.domain.ManagerMission;
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domain.Statut;
 import dev.domain.Transport;
 import dev.domainDto.MissionDto;
@@ -36,8 +37,8 @@ public class ManagerServiceTest {
 
 	@Test
 	public void testModification() {
-		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), "Toulouse",
-				"Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Conseil,
+				"Toulouse", "Bordeaux", Transport.Train);
 		newMission.setId(1);
 		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 		this.serviceMission.ajouterMission(newMission);
@@ -48,8 +49,8 @@ public class ManagerServiceTest {
 
 	@Test
 	public void testForBaseDesDonne() {
-		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), "Toulouse",
-				"Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Technique,
+				"Toulouse", "Bordeaux", Transport.Train);
 		this.serviceMission.ajouterMission(newMission);
 		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 	}

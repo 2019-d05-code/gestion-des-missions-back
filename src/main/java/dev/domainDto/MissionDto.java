@@ -1,21 +1,20 @@
 package dev.domainDto;
 
-
-
 import java.time.LocalDate;
 
+import dev.domain.Nature;
 import dev.domain.Statut;
 import dev.domain.Transport;
 
 public class MissionDto {
 
 	private Integer id;
-	
+
 	private LocalDate dateDebut;
 
 	private LocalDate dateFin;
 
-	// private Nature nature;
+	private Nature nature;
 
 	private String villeDepart;
 
@@ -29,27 +28,29 @@ public class MissionDto {
 	public MissionDto() {
 	}
 
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
 			Transport transport) {
 
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
+		this.nature = nature;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 	}
-  
-	/**touch pas cest pour modif*/
-	public MissionDto(Integer id,LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee,
-			Transport transport, Statut statut) {
-        this.id=id;
+
+	/** touch pas cest pour modif */
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+			String villeArrivee, Transport transport, Statut statut) {
+		this.id = id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
+		this.nature = nature;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
-		this.statut=statut;
+		this.statut = statut;
 	}
 
 	// - getter/setter
@@ -81,6 +82,14 @@ public class MissionDto {
 	 */
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
+	}
+
+	public Nature getNature() {
+		return nature;
+	}
+
+	public void setNature(Nature nature) {
+		this.nature = nature;
 	}
 
 	/**
