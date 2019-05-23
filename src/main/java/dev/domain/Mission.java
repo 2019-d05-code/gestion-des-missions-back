@@ -64,9 +64,10 @@ public class Mission {
 		this.collegue = coll;
 	}
 
-	public Mission(LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
+	/**touch pas cest pour modif*/
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, String villeDepart, String villeArrivee, Transport transport,
 			Statut statut) {
-
+        this.id=id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.villeDepart = villeDepart;
