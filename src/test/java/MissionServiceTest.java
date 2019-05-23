@@ -35,7 +35,7 @@ public class MissionServiceTest {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now(), LocalDate.now().plusDays(80), "Toulouse", "Bordeaux",
 				Transport.Train);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 
 	}
 
@@ -44,7 +44,7 @@ public class MissionServiceTest {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(8), "Toulouse",
 				"Bordeaux", Transport.Train);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 
 		// Assert.assertTrue(result.getVilleDepart().equals("Toulouse"));
 
@@ -55,7 +55,7 @@ public class MissionServiceTest {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().minusDays(1), "Toulouse",
 				"Bordeaux", Transport.Train);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 
 	}
 
@@ -64,7 +64,7 @@ public class MissionServiceTest {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now(), "Toulouse", "Bordeaux",
 				Transport.Train);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 	}
 
 	@Test(expected = MissionInvalidException.class)
@@ -72,7 +72,7 @@ public class MissionServiceTest {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(5), LocalDate.now().plusDays(20), "Toulouse",
 				"Bordeaux", Transport.Avion);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 
 	}
 
@@ -82,7 +82,7 @@ public class MissionServiceTest {
 				"Bordeaux", Transport.Avion);
 		Assert.assertTrue(newMission.getDateDebut().isAfter(LocalDate.now().plusDays(8))
 				&& newMission.getDateDebut().isBefore(LocalDate.now().plusDays(20)));
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 
 	}
 
@@ -90,7 +90,7 @@ public class MissionServiceTest {
 	public void testForBaseDesDonne() {
 		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), "Toulouse",
 				"Bordeaux", Transport.Train);
-		this.missionService.ajouterMission(DtoUtils.toMissionDto(newMission));
+		this.missionService.ajouterMission(newMission);
 		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 	}
 

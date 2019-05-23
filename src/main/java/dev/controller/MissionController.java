@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.Utils.DtoUtils;
 import dev.domainDto.MissionDto;
 import dev.service.MissionService;
 
@@ -35,14 +36,14 @@ public class MissionController {
 
 	@PostMapping
 	public ResponseEntity<Boolean> creer(@RequestBody MissionDto mission) {
-		this.missionService.ajouterMission(mission);
+		this.missionService.ajouterMission(DtoUtils.toMission(mission));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@PatchMapping(path = "/{id}")
-	public ResponseEntity<Object> modifier(@RequestBody MissionDto nouvelleMission, @PathVariable int id) {
+	public ResponseEntity<Object> modifier(@PathVariable int id, @RequestBody MissionDto nouvelleMission) {
 		// La mission à modifier est indiquée dans l'URL depuis son identifiant
-		this.missionService.modifierMission(id, nouvelleMission);
+		this.missionService.modifierMission(id, DtoUtils.toMission(nouvelleMission));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

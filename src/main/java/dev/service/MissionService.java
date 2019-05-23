@@ -31,7 +31,7 @@ public class MissionService {
 		this.missionRepo = missionRepo;
 	}
 
-	public Boolean ajouterMission(MissionDto missionAjouter) {
+	public Boolean ajouterMission(Mission missionAjouter) {
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)
 				&& regleMetierDateFin(missionAjouter) && regleMetierMissionDisponible(missionAjouter)) {
@@ -40,7 +40,7 @@ public class MissionService {
 				LOG.error(" Cette mission existe déjà. ");
 				return false;
 			} else {
-				missionRepo.save(DtoUtils.toMission(missionAjouter));
+				missionRepo.save(missionAjouter);
 				return true;
 			}
 		} else {
@@ -48,8 +48,9 @@ public class MissionService {
 		}
 	}
 
-	public void modifierMission(Integer id, MissionDto modifications) {
-		MissionDto missionAModifier = trouverMissionDepuisId(id);
+	public void modifierMission(Integer id, Mission modifications) {
+		Mission missionAModifier = missionRepo.findById(id).orElseThrow(RuntimeException::new);
+
 		if (regleMetierStatut(missionAModifier)) {
 			if (regleMetierDateDebut(modifications)) {
 				missionAModifier.setDateDebut(modifications.getDateDebut());
@@ -95,9 +96,11 @@ public class MissionService {
 		}
 	}
 
-	public Boolean missionExistante(MissionDto mission) {
+	public Boolean missionExistante(Mission mission) {
 		List<MissionDto> missionsEnBaseDeDonnees = recupererToutesLesMissions();
-		for (MissionDto m : missionsEnBaseDeDonnees) {
+		
+		List <Mission> missionBDD = missionsEnBaseDeDonnees.stream().map(missionUnique -> DtoUtils.toMission(missionUnique)).collect (Collectors.toList());
+		for (Mission m : missionBDD) {
 			if (m.equals(mission)) {
 				return true;
 			}
@@ -107,7 +110,7 @@ public class MissionService {
 
 	// Règles métier :
 	/** Une mission ne peut pas débuter le jour même, ni dans le passé */
-	private Boolean regleMetierDateDebut(MissionDto mission) {
+	private Boolean regleMetierDateDebut(Mission mission) {
 		LocalDate dateDebut = LocalDate.now().plusDays(1);
 		if (mission.getDateDebut().isBefore(dateDebut)) {
 			throw new MissionInvalidException(" La mission ne peut pas démarrer le jour même ou avant. ");
@@ -120,7 +123,7 @@ public class MissionService {
 	 * Si le type de transport est l'avion, une anticipation de 7 jours est
 	 * exigée
 	 */
-	private Boolean regleMetierAvion(MissionDto mission) {
+	private Boolean regleMetierAvion(Mission mission) {
 		LocalDate dateAvion = LocalDate.now().plusDays(7);
 		if (mission.getTransport().equals(Transport.Avion)) {
 			if (mission.getDateDebut().isBefore(dateAvion)) {
@@ -132,7 +135,7 @@ public class MissionService {
 	}
 
 	/** La date de fin est supérieure ou égale à la date de début */
-	private Boolean regleMetierDateFin(MissionDto mission) {
+	private Boolean regleMetierDateFin(Mission mission) {
 		LocalDate dateToCheck = LocalDate.now();
 		if (mission.getDateFin().isBefore(dateToCheck)) {
 			throw new MissionInvalidException(" La date de Fin n'est pas correcte. ");
@@ -146,7 +149,7 @@ public class MissionService {
 	 * ou un congé (absence) 2. Il est interdit de créer une mission qui
 	 * commence ou finit un jour non travaillé
 	 */
-	private Boolean regleMetierMissionDisponible(MissionDto mission) {
+	private Boolean regleMetierMissionDisponible(Mission mission) {
 		List<MissionDto> missionList = this.recupererToutesLesMissions().stream()
 				.filter(m -> m.getStatut().equals(Statut.VALIDEE)).collect(Collectors.toList());
 
@@ -165,7 +168,7 @@ public class MissionService {
 	/**
 	 * Seules les missions au statut INITIALE ou REJETEE peuvent être modifiées
 	 */
-	private Boolean regleMetierStatut(MissionDto mission) {
+	private Boolean regleMetierStatut(Mission mission) {
 		if (mission.getStatut() == Statut.INITIALE || mission.getStatut() == Statut.REJETEE) {
 			return true;
 		} else {
