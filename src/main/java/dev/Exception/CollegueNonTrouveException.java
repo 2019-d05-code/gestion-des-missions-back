@@ -3,12 +3,12 @@ package dev.Exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CollegueNonTrouve extends RuntimeException {
+public class CollegueNonTrouveException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = LoggerFactory.getLogger(MissionInvalidException.class);
 	
-	public CollegueNonTrouve(String message) {
+	public CollegueNonTrouveException(String message) {
 		LOG.error(message);
 	}
 

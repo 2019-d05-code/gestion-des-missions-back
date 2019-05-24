@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.Exception.CollegueNonTrouve;
+import dev.Exception.CollegueNonTrouveException;
 import dev.domain.Collegue;
 import dev.domainDto.MissionDto;
 import dev.repository.CollegueRepo;
@@ -36,12 +36,12 @@ public class CollegueController {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			Collegue idCollegueConnecte = this.collegueRepo.findByEmail(email)
-					.orElseThrow(() -> new CollegueNonTrouve("Collegue non trouvé"));
+					.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
 
 			if (idCollegueConnecte.getId() == id) {
 				return this.missionService.recupererMissionParCollegue(id);
 			}
-		} catch (CollegueNonTrouve e) {
+		} catch (CollegueNonTrouveException e) {
 			LOG.error("Collegue non trouvé");
 		}
 		return null;
