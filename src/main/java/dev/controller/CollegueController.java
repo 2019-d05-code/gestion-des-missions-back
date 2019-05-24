@@ -17,9 +17,9 @@ public class CollegueController {
 	@Autowired
 	private MissionService missionService;
 
-	@GetMapping(path = "/{id}")
-	public List<MissionDto> afficherToutesLesMissions(@PathVariable Integer id) {
-		return this.missionService.recupererMissionParCollegue(id);
+	@GetMapping(path = "/{email}")
+	public List<MissionDto> afficherToutesLesMissions(@PathVariable String email) {
+		return this.missionService.recupererMissionParCollegue(email);
 	}
 
 }

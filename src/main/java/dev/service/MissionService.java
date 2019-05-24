@@ -93,8 +93,8 @@ public class MissionService {
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
-	public List<MissionDto> recupererMissionParCollegue(Integer id) {
-		Collegue collegue = collegueRepo.findById(id).orElseThrow(RuntimeException::new);
+	public List<MissionDto> recupererMissionParCollegue(String email) {
+		Collegue collegue = collegueRepo.findByEmail(email).orElseThrow(RuntimeException::new);
 		List<Mission> missionList = this.missionRepo.findByCollegue(collegue);
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
@@ -122,10 +122,17 @@ public class MissionService {
 		return false;
 	}
 
+	public void missionSupreme(Integer id) {
+		this.missionRepo.deleteById(id);
+
+	}
+
 	// Règles métier :
 	/** Une mission ne peut pas débuter le jour même, ni dans le passé */
 	private Boolean regleMetierDateDebut(Mission mission) {
 		LocalDate dateDebut = LocalDate.now().plusDays(1);
+		System.out.println(dateDebut);
+		System.out.println(mission.getDateDebut());
 		if (mission.getDateDebut().isBefore(dateDebut)) {
 			throw new MissionInvalidException(" La mission ne peut pas démarrer le jour même ou avant. ");
 		} else {
@@ -142,7 +149,6 @@ public class MissionService {
 		if (mission.getTransport().equals(Transport.Avion)) {
 			if (mission.getDateDebut().isBefore(dateAvion)) {
 				throw new MissionInvalidException(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
-			} else {
 			}
 		}
 		return true;
