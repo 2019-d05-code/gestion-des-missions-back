@@ -73,6 +73,7 @@ public class MissionService {
 			} else {
 				LOG.error(" Modification impossible. ");
 			}
+			missionAModifier.setNature(modifications.getNature());
 			missionAModifier.setVilleDepart(modifications.getVilleDepart());
 			missionAModifier.setVilleArrivee(modifications.getVilleArrivee());
 			missionAModifier.setStatut(Statut.INITIALE);

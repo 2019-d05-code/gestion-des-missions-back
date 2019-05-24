@@ -41,8 +41,10 @@ public class MissionDto {
 	}
 
 	/** touch pas cest pour modif */
+
 	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
 			String villeArrivee, Transport transport, Statut statut) {
+
 		this.id = id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
