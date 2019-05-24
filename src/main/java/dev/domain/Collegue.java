@@ -17,7 +17,7 @@ public class Collegue
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private Integer id;
     @Column
     private String nom;
     @Column
@@ -30,7 +30,7 @@ public class Collegue
     @OneToMany(mappedBy = "collegue", cascade = CascadeType.PERSIST)
     private List<RoleCollegue> roles;
     @Column
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     @Column
@@ -38,7 +38,7 @@ public class Collegue
     private List<Mission> missions;
 
     // - getter/setter - 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
