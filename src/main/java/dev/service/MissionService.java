@@ -170,8 +170,9 @@ public class MissionService {
 		// iterator loop
 		Iterator<MissionDto> iterator = missionList.iterator();
 		while (iterator.hasNext()) {
-			if (mission.getDateDebut().isAfter(iterator.next().getDateDebut())
-					&& mission.getDateDebut().isBefore(iterator.next().getDateFin())) {
+			MissionDto missionTemp = iterator.next();
+			if (mission.getDateDebut().isAfter(missionTemp.getDateDebut())
+					&& mission.getDateDebut().isBefore(missionTemp.getDateFin())) {
 				throw new MissionInvalidException(" La date de Fin n'est pas correcte. ");
 			} else {
 			}
