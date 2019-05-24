@@ -23,13 +23,15 @@ public class MissionDto {
 	private Transport transport;
 
 	private Statut statut;
+	
+	private String emailColl;
 
 	// - constructeur -
 	public MissionDto() {
 	}
 
 	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
-			Transport transport) {
+			Transport transport, String email) {
 
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -38,6 +40,7 @@ public class MissionDto {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
+		this.emailColl = email;
 	}
 
 	/** touch pas cest pour modif */
@@ -209,5 +212,13 @@ public class MissionDto {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getEmailColl() {
+		return emailColl;
+	}
+
+	public void setEmailColl(String emailColl) {
+		this.emailColl = emailColl;
 	}
 }

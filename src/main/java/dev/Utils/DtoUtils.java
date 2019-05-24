@@ -7,10 +7,11 @@ public interface DtoUtils {
 
 	public static MissionDto toMissionDto(Mission miss) {
 		return new MissionDto(miss.getDateDebut(), miss.getDateFin(), miss.getNature(), miss.getVilleDepart(),
-				miss.getVilleArrivee(), miss.getTransport());
+				miss.getVilleArrivee(), miss.getTransport(), miss.getCollegue().getEmail());
 	}
 
 	public static Mission toMission(MissionDto missDto) {
+		
 		return new Mission(missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(), missDto.getVilleDepart(),
 				missDto.getVilleArrivee(), missDto.getTransport());
 	}
