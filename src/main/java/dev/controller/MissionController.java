@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.Utils.DtoUtils;
+import dev.domain.Collegue;
+import dev.domain.Mission;
 import dev.domainDto.MissionDto;
+import dev.repository.CollegueRepo;
 import dev.service.MissionService;
 
 @RestController
@@ -24,6 +27,9 @@ public class MissionController {
 
 	@Autowired
 	private MissionService missionService;
+	
+	@Autowired
+	public CollegueRepo collegueRepo;
 
 	@GetMapping
 	public List<MissionDto> afficherToutesLesMissions() {
@@ -37,7 +43,10 @@ public class MissionController {
 
 	@PostMapping
 	public ResponseEntity<Boolean> creer(@RequestBody MissionDto mission) {
-		this.missionService.ajouterMission(DtoUtils.toMission(mission));
+		Collegue tmp = collegueRepo.findByEmail(mission.getEmailColl()).orElseThrow(RuntimeException::new);
+		Mission miss = DtoUtils.toMission(mission);
+		miss.setCollegue(tmp);
+		this.missionService.ajouterMission(miss);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
