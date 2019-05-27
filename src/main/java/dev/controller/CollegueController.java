@@ -43,7 +43,6 @@ public class CollegueController {
 			Collegue idCollegueConnecte = this.collegueRepo.findByEmail(email)
 					.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
 
-
 			if (idCollegueConnecte.getId() == id) {
 				return this.missionService.recupererMissionParCollegue(id);
 			}

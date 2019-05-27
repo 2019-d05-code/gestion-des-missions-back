@@ -82,9 +82,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 																				// celle
 																				// dur
 																				// h2
-				.antMatchers("/collegue").hasAuthority(Role.ROLE_EMPLOYE.name())
-				.antMatchers("/manager").hasAuthority(Role.ROLE_MANAGER.name()).anyRequest().authenticated().and()
-				.headers().frameOptions().disable().and()
+				.antMatchers("/collegue").hasAuthority(Role.ROLE_EMPLOYE.name()).antMatchers("/mission")
+				.hasAuthority(Role.ROLE_EMPLOYE.name()).anyRequest().authenticated().antMatchers("/manager")
+				.hasAuthority(Role.ROLE_MANAGER.name()).anyRequest().authenticated().and().headers().frameOptions()
+				.disable().and()
 				// génération d'un formulaire de login
 				// il faut produire une requête avec les caractéristiques
 				// suivantes :
