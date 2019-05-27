@@ -197,4 +197,14 @@ public class MissionService {
 					" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
 		}
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public List<MissionDto> recupererMissionParCollegue(int id) {
+		Collegue collegue = collegueRepo.findById(id).orElseThrow(RuntimeException::new);
+		List<Mission> missionList = this.missionRepo.findByCollegue(collegue);
+		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
+	}
 }
