@@ -78,7 +78,6 @@ public class Mission {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.statut = statut;
-		this.nature = nature;
 	}
 
 	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,

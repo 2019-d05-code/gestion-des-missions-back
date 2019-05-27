@@ -93,5 +93,36 @@ public class MissionServiceTest {
 		this.missionService.ajouterMission(newMission);
 		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
 	}
+	
+	@Test(expected = RuntimeException.class)
+	public void testModifierMissionNOK_IdInvalide() {
+		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
+		int id = 42 ;
+		this.missionService.modifierMission(id, mission);
+	}
+	
+	@Test(expected = MissionInvalidException.class)
+	public void testModifierMissionNOK_dateDebutInvalide() {
+		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
+		this.missionService.ajouterMission(mission);
+		Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+		Mission modifications = new Mission (LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
+		this.missionService.modifierMission(mission.getId(), modifications);
+		
+	}
+	
+	@Test
+	public void testModifierMissionOK_dateDebutValide() {
+		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
+		this.missionService.ajouterMission(mission);
+		Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+		Mission modifications = new Mission (LocalDate.now().plusDays(1), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train);
+		this.missionService.modifierMission(mission.getId(), modifications);
+	}
 
 }
