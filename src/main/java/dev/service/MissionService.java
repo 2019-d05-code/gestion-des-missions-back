@@ -122,7 +122,7 @@ public class MissionService {
 		return false;
 	}
 
-	public void missionSupreme(Integer id) {
+	public void missionSupprimer(Integer id) {
 		this.missionRepo.deleteById(id);
 
 	}

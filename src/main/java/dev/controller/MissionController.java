@@ -27,7 +27,7 @@ public class MissionController {
 
 	@Autowired
 	private MissionService missionService;
-	
+
 	@Autowired
 	public CollegueRepo collegueRepo;
 
@@ -58,9 +58,9 @@ public class MissionController {
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Object> supreme(@PathVariable Integer id) {
+	public ResponseEntity<Object> supprimer(@PathVariable Integer id) {
 
-		this.missionService.missionSupreme(id);
+		this.missionService.missionSupprimer(id);
 
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
