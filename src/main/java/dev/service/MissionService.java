@@ -29,14 +29,15 @@ public class MissionService {
 
 	@Autowired
 	private MissionRepo missionRepo;
+	
 	@Autowired
 	private CollegueRepo collegueRepo;
-
-	// mise à jour de la base de données
+	
 	public void setMissionRepository(MissionRepo missionRepo) {
 		this.missionRepo = missionRepo;
 	}
 
+	
 	public Boolean ajouterMission(Mission missionAjouter) {
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)

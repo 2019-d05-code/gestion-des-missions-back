@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.Utils.DtoUtils;
-import dev.domain.Collegue;
 import dev.domain.Mission;
 import dev.domainDto.MissionDto;
 import dev.repository.CollegueRepo;
+import dev.service.CollegueService;
 import dev.service.MissionService;
 
 @RestController
@@ -43,9 +43,8 @@ public class MissionController {
 
 	@PostMapping
 	public ResponseEntity<Boolean> creer(@RequestBody MissionDto mission) {
-		Collegue tmp = collegueRepo.findByEmail(mission.getEmailColl()).orElseThrow(RuntimeException::new);
-		Mission miss = DtoUtils.toMission(mission);
-		miss.setCollegue(tmp);
+		CollegueService col= null;
+		Mission miss = DtoUtils.toMissionAvecMail(mission, col);
 		this.missionService.ajouterMission(miss);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

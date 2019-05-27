@@ -81,6 +81,19 @@ public class Mission {
 		this.nature = nature;
 	}
 
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+			String villeArrivee, Transport transport, Collegue collegue) {
+		super();
+		this.id = id;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.nature = nature;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.collegue = collegue;
+	}
+
 	// - getter/setter
 	public Integer getId() {
 		return id;

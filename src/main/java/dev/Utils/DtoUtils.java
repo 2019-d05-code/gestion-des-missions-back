@@ -1,16 +1,19 @@
 package dev.Utils;
 
+import dev.domain.Collegue;
 import dev.domain.Mission;
 import dev.domainDto.MissionDto;
+import dev.service.CollegueService;
 
 public interface DtoUtils {
 
+	
 	public static MissionDto toMissionDto(Mission miss) {
 		return new MissionDto(miss.getDateDebut(), miss.getDateFin(), miss.getNature(), miss.getVilleDepart(),
 				miss.getVilleArrivee(), miss.getTransport(), miss.getCollegue().getEmail());
 	}
 
-	public static Mission toMission(MissionDto missDto) {
+	public static Mission toMission(MissionDto missDto ) {
 		
 		return new Mission(missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(), missDto.getVilleDepart(),
 				missDto.getVilleArrivee(), missDto.getTransport());
@@ -35,4 +38,11 @@ public interface DtoUtils {
 		return new Mission(missDto.getId(), missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(),
 				missDto.getVilleDepart(), missDto.getVilleArrivee(), missDto.getTransport(), missDto.getStatut());
 	}
+	
+public static Mission toMissionAvecMail(MissionDto missDto, CollegueService col ) {
+		Collegue collegue = col.findCollegueByEmail(missDto.getEmailColl());
+		return new Mission(missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(), missDto.getVilleDepart(),
+				missDto.getVilleArrivee(), missDto.getTransport(), collegue);
+	}
+
 }
