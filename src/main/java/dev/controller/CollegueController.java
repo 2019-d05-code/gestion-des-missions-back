@@ -6,11 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.Exception.CollegueNonTrouveException;
+import dev.domain.Collegue;
 import dev.domainDto.MissionDto;
 import dev.repository.CollegueRepo;
 import dev.service.MissionService;
@@ -33,8 +36,8 @@ public class CollegueController {
 		return this.missionService.recupererMissionParCollegue(email);
 	}
 
-	/*@GetMapping(path = "/{id}")
-	public List<MissionDto> afficherToutesLesMissions(@PathVariable int id) {
+	@GetMapping(path = "/id/{id}")
+	public List<MissionDto> afficherToutesLesMissionsById(@PathVariable int id) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			Collegue idCollegueConnecte = this.collegueRepo.findByEmail(email)
@@ -48,5 +51,5 @@ public class CollegueController {
 			LOG.error("Collegue non trouvé");
 		}
 		return null;
-	}*/
+	}
 }
