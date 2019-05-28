@@ -62,7 +62,7 @@ public class StartupListener {
 		col2.setPrenom("DEV");
 		col2.setEmail("user@dev.fr");
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
-		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
+		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE), new RoleCollegue(col2, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
@@ -71,7 +71,7 @@ public class StartupListener {
 		col3.setEmail("manag@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
 		col3.setRoles(
-				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_EMPLOYE), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
+				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col3);
 
 		Collegue col4 = new Collegue();
@@ -79,16 +79,16 @@ public class StartupListener {
 		col3.setPrenom("DEV");
 		col3.setEmail("manager@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
-		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col3);
+		col3.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col4);
 
 		Collegue col5 = new Collegue();
 		col4.setNom("Manager2");
 		col4.setPrenom("DEV");
 		col4.setEmail("manager2@dev.fr");
 		col4.setMotDePasse(passwordEncoder.encode("superpass"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col4);
+		col4.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE), new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col5);
 
 
 
