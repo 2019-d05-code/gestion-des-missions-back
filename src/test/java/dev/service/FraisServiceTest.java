@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import dev.Exception.FraisInvalideException;
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
@@ -54,7 +55,7 @@ public class FraisServiceTest
 	}
 
 	@Test
-	public void testAjouterFrais()
+	public void testAjouterFrais() throws FraisInvalideException
 	{
 		LigneDeFrais frais = new LigneDeFrais(LocalDate.parse("2019-11-08"), NatureFrais.Restaurant, 15, miss);
 		testServ.ajouterFrais(frais);
