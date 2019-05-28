@@ -9,6 +9,7 @@ public class CollegueNonTrouveException extends RuntimeException {
 	private static final Logger LOG = LoggerFactory.getLogger(MissionInvalidException.class);
 	
 	public CollegueNonTrouveException(String message) {
+		super(message);
 		LOG.error(message);
 	}
 

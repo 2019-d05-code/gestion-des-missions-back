@@ -8,6 +8,7 @@ public class ModificationInvalideException extends RuntimeException {
 	private static final Logger LOG = LoggerFactory.getLogger(MissionInvalidException.class);
 
 	public ModificationInvalideException(String message) {
+		super(message);
 		LOG.error(message);
 	}
 

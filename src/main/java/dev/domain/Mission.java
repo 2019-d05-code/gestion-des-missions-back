@@ -18,7 +18,7 @@ public class Mission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Integer id;
+	private int id;
 	@Column
 	private LocalDate dateDebut;
 	@Column
@@ -68,7 +68,7 @@ public class Mission {
 	}
 
 	/** touch pas cest pour modif */
-	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
 			Transport transport, Statut statut) {
 		this.id = id;
 		this.dateDebut = dateDebut;
@@ -78,10 +78,9 @@ public class Mission {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.statut = statut;
-		this.nature = nature;
 	}
 
-	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
 			String villeArrivee, Transport transport, Collegue collegue) {
 		super();
 		this.id = id;
@@ -95,11 +94,11 @@ public class Mission {
 	}
 
 	// - getter/setter
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -165,5 +164,57 @@ public class Mission {
 
 	public void setCollegue(Collegue collegue) {
 		this.collegue = collegue;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateDebut == null) ? 0 : dateDebut.hashCode());
+		result = prime * result + ((dateFin == null) ? 0 : dateFin.hashCode());
+		result = prime * result + ((nature == null) ? 0 : nature.hashCode());
+		result = prime * result + ((statut == null) ? 0 : statut.hashCode());
+		result = prime * result + ((transport == null) ? 0 : transport.hashCode());
+		result = prime * result + ((villeArrivee == null) ? 0 : villeArrivee.hashCode());
+		result = prime * result + ((villeDepart == null) ? 0 : villeDepart.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mission other = (Mission) obj;
+		if (dateDebut == null) {
+			if (other.dateDebut != null)
+				return false;
+		} else if (!dateDebut.equals(other.dateDebut))
+			return false;
+		if (dateFin == null) {
+			if (other.dateFin != null)
+				return false;
+		} else if (!dateFin.equals(other.dateFin))
+			return false;
+		if (nature != other.nature)
+			return false;
+		if (statut != other.statut)
+			return false;
+		if (transport != other.transport)
+			return false;
+		if (villeArrivee == null) {
+			if (other.villeArrivee != null)
+				return false;
+		} else if (!villeArrivee.equals(other.villeArrivee))
+			return false;
+		if (villeDepart == null) {
+			if (other.villeDepart != null)
+				return false;
+		} else if (!villeDepart.equals(other.villeDepart))
+			return false;
+		return true;
 	}
 }
