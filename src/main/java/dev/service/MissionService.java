@@ -30,27 +30,22 @@ public class MissionService {
 
 	@Autowired
 	private MissionRepo missionRepo;
-	
+
 	@Autowired
 	private CollegueRepo collegueRepo;
-	
+
 	public void setMissionRepository(MissionRepo missionRepo) {
 		this.missionRepo = missionRepo;
 	}
 
-	
+
 	public Boolean ajouterMission(Mission missionAjouter) {
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)
 				&& regleMetierDateFin(missionAjouter) && regleMetierMissionDisponible(missionAjouter)) {
 			// Vérification de la présence en base de données avant l'insertion
-			if (missionExistante(missionAjouter)) {
-				LOG.error(" Cette mission existe déjà. ");
-				return false;
-			} else {
-				missionRepo.save(missionAjouter);
-				return true;
-			}
+			missionRepo.save(missionAjouter);
+			return true;
 		} else {
 			return false;
 		}
@@ -92,6 +87,7 @@ public class MissionService {
 
 	public List<MissionDto> recupererToutesLesMissions() {
 		List<Mission> missionList = this.missionRepo.findAll();
+		missionList.forEach(m -> System.out.println (m.getId() + " " + m.getDateDebut() + " " + m.getDateFin() ));
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
@@ -116,7 +112,9 @@ public class MissionService {
 
 		List<Mission> missionBDD = missionsEnBaseDeDonnees.stream()
 				.map(missionUnique -> DtoUtils.toMission(missionUnique)).collect(Collectors.toList());
+
 		for (Mission m : missionBDD) {
+			System.out.println(m.getDateDebut() + " " + m.getDateFin() + " " + m.getId());
 			if (m.equals(mission)) {
 				return true;
 			}
