@@ -87,7 +87,6 @@ public class MissionService {
 
 	public List<MissionDto> recupererToutesLesMissions() {
 		List<Mission> missionList = this.missionRepo.findAll();
-		missionList.forEach(m -> System.out.println (m.getId() + " " + m.getDateDebut() + " " + m.getDateFin() ));
 		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
 	}
 
@@ -114,7 +113,6 @@ public class MissionService {
 				.map(missionUnique -> DtoUtils.toMission(missionUnique)).collect(Collectors.toList());
 
 		for (Mission m : missionBDD) {
-			System.out.println(m.getDateDebut() + " " + m.getDateFin() + " " + m.getId());
 			if (m.equals(mission)) {
 				return true;
 			}
@@ -131,8 +129,6 @@ public class MissionService {
 	/** Une mission ne peut pas débuter le jour même, ni dans le passé */
 	private Boolean regleMetierDateDebut(Mission mission) {
 		LocalDate dateDebut = LocalDate.now().plusDays(1);
-		System.out.println(dateDebut);
-		System.out.println(mission.getDateDebut());
 		if (mission.getDateDebut().isBefore(dateDebut)) {
 			throw new MissionInvalidException(" La mission ne peut pas démarrer le jour même ou avant. ");
 		} else {
