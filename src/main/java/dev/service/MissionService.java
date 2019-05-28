@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.Exception.MissionInvalidException;
+import dev.Exception.MissionNonTrouveeException;
 import dev.Exception.ModificationInvalideException;
 import dev.Utils.DtoUtils;
 import dev.domain.Collegue;
@@ -29,34 +30,29 @@ public class MissionService {
 
 	@Autowired
 	private MissionRepo missionRepo;
-	
+
 	@Autowired
 	private CollegueRepo collegueRepo;
-	
+
 	public void setMissionRepository(MissionRepo missionRepo) {
 		this.missionRepo = missionRepo;
 	}
 
-	
+
 	public Boolean ajouterMission(Mission missionAjouter) {
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)
 				&& regleMetierDateFin(missionAjouter) && regleMetierMissionDisponible(missionAjouter)) {
 			// Vérification de la présence en base de données avant l'insertion
-			if (missionExistante(missionAjouter)) {
-				LOG.error(" Cette mission existe déjà. ");
-				return false;
-			} else {
-				missionRepo.save(missionAjouter);
-				return true;
-			}
+			missionRepo.save(missionAjouter);
+			return true;
 		} else {
 			return false;
 		}
 	}
 
 	public void modifierMission(Integer id, Mission modifications) {
-		Mission missionAModifier = missionRepo.findById(id).orElseThrow(RuntimeException::new);
+		Mission missionAModifier = missionRepo.findById(id).orElseThrow(() -> new MissionNonTrouveeException ("Aucune mission ne correspond à cet ID."));
 
 		if (regleMetierStatut(missionAModifier)) {
 			if (regleMetierDateDebut(modifications)) {
@@ -115,6 +111,7 @@ public class MissionService {
 
 		List<Mission> missionBDD = missionsEnBaseDeDonnees.stream()
 				.map(missionUnique -> DtoUtils.toMission(missionUnique)).collect(Collectors.toList());
+
 		for (Mission m : missionBDD) {
 			if (m.equals(mission)) {
 				return true;
@@ -132,8 +129,6 @@ public class MissionService {
 	/** Une mission ne peut pas débuter le jour même, ni dans le passé */
 	private Boolean regleMetierDateDebut(Mission mission) {
 		LocalDate dateDebut = LocalDate.now().plusDays(1);
-		System.out.println(dateDebut);
-		System.out.println(mission.getDateDebut());
 		if (mission.getDateDebut().isBefore(dateDebut)) {
 			throw new MissionInvalidException(" La mission ne peut pas démarrer le jour même ou avant. ");
 		} else {
@@ -157,7 +152,7 @@ public class MissionService {
 
 	/** La date de fin est supérieure ou égale à la date de début */
 	private Boolean regleMetierDateFin(Mission mission) {
-		LocalDate dateToCheck = LocalDate.now();
+		LocalDate dateToCheck = mission.getDateDebut();
 		if (mission.getDateFin().isBefore(dateToCheck)) {
 			throw new MissionInvalidException(" La date de Fin n'est pas correcte. ");
 		} else {
