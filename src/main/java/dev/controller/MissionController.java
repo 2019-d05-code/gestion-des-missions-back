@@ -31,6 +31,9 @@ public class MissionController {
 	@Autowired
 	public CollegueRepo collegueRepo;
 
+	@Autowired
+	CollegueService col;
+
 	@GetMapping
 	public List<MissionDto> afficherToutesLesMissions() {
 		return this.missionService.recupererToutesLesMissions();
@@ -43,7 +46,6 @@ public class MissionController {
 
 	@PostMapping
 	public ResponseEntity<Boolean> creer(@RequestBody MissionDto mission) {
-		CollegueService col= null;
 		Mission miss = DtoUtils.toMissionAvecMail(mission, col);
 		this.missionService.ajouterMission(miss);
 		return ResponseEntity.status(HttpStatus.OK).build();
