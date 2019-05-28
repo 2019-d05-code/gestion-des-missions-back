@@ -3,6 +3,7 @@ package dev.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class LigneDeFrais
 {
 	// - attribut - 
@@ -32,6 +34,13 @@ public class LigneDeFrais
 	
 	// - constructeur - 
 	public LigneDeFrais() {}
+	
+	public LigneDeFrais(LocalDate date, NatureFrais nature, double montant)
+	{
+		this.date = date;
+		this.nature = nature;
+		this.montant = montant;
+	}
 	
 	public LigneDeFrais(LocalDate date, NatureFrais nature, double montant, Mission miss)
 	{

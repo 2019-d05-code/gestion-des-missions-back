@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.Exception.FraisInvalideException;
 import dev.domain.LigneDeFrais;
 import dev.repository.FraisRepo;
 
@@ -21,13 +22,18 @@ public class FraisService
 	}
 	
 	// - ajouter -
-	public void ajouterFrais(LigneDeFrais frais) {
+	public void ajouterFrais(LigneDeFrais frais) throws FraisInvalideException
+	{
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (montantPositif(frais.getMontant()) && 
 				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()) && 
 				verificationUnique(fraisRepo.findAll(), frais) )
 		{
 			fraisRepo.save(frais);
+		}
+		else 
+		{
+			throw new FraisInvalideException("Les paramétres sont invalides");
 		}
 
 	}
