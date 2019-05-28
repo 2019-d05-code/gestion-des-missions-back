@@ -9,6 +9,7 @@ public class MissionInvalidException extends RuntimeException {
 	private static final Logger LOG = LoggerFactory.getLogger(MissionInvalidException.class);
 
 	public MissionInvalidException(String message) {
+		super(message);
 		LOG.error(message);
 	}
 
