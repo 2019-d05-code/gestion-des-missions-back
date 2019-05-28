@@ -39,18 +39,17 @@ public class MissionServiceTest {
 	public ExpectedException exception = ExpectedException.none();
 
 	@Test
-	public void testIfTheDateIsToday() {
+	public void test_ajouter_mission_nok_date_debut_invalide_aujourdhui() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" La mission ne peut pas démarrer le jour même ou avant. ");
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now(), LocalDate.now().plusDays(80), Nature.Conseil, "Toulouse",
 				"Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
-
 	}
 
 	@Test
-	public void testIfTheDateIsNotToday() {
+	public void test_ajouter_mission_ok_date_debut_valide() {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(8), Nature.Conseil,
 				"Toulouse", "Bordeaux", Transport.Train);
@@ -58,18 +57,17 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testIfTheDateFinIsInPast() {
+	public void test_ajouter_mission_nok_date_fin_passee_invalide() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" La date de Fin n'est pas correcte. ");
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().minusDays(1), Nature.Technique,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
-
 	}
 
 	@Test
-	public void testIfTheDateFinIsInToday() {
+	public void test_ajouter_mission_ok_date_debut_meme_jour_date_fin() {
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(1), Nature.Conseil,
 				"Toulouse", "Bordeaux", Transport.Train);
@@ -77,36 +75,34 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testIfTheTransAvion() {
+	public void test_ajouter_mission_nok_date_invalide_pour_transport_avion() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
 		LOG.info("Etant donné, une instance de Mission");
 		Mission newMission = new Mission(LocalDate.now().plusDays(5), LocalDate.now().plusDays(20), Nature.Conseil,
 				"Toulouse", "Bordeaux", Transport.Avion);
 		this.missionService.ajouterMission(newMission);
-
 	}
 
 	@Test
-	public void testIfProjectPresent() {
+	public void test_ajouter_mission_ok_toutes_regles_metier_valides() {
 		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(20), Nature.Expertise,
 				"Toulouse", "Bordeaux", Transport.Avion);
 		Assert.assertTrue(newMission.getDateDebut().isAfter(LocalDate.now().plusDays(8))
 				&& newMission.getDateDebut().isBefore(LocalDate.now().plusDays(20)));
 		this.missionService.ajouterMission(newMission);
-
 	}
 
 	@Test
-	public void testForBaseDesDonne() {
+	public void test_ajouter_mission_ok() {
 		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(newMission);
-		Mockito.when(missionRepo.findById(newMission.getId())).thenReturn(Optional.of(newMission));
+		Mockito.verify(missionRepo).save(newMission);
 	}
 
 	@Test
-	public void testModifierMissionNOK_IdInvalide() {
+	public void test_modifier_mission_nok_id_invalide() {
 		exception.expect(MissionNonTrouveeException.class);
 		exception.expectMessage("Aucune mission ne correspond à cet ID");
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
@@ -116,20 +112,29 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionNOK_dateDebutInvalide() {
+	public void test_modifier_mission_nok_date_debut_invalide() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" La mission ne peut pas démarrer le jour même ou avant. ");
+		// Instanciation et insertion d'une mission en BDD mockée
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(mission);
+
+		// Récupère la mission à modifier à partir d'une recherche par ID
 		Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+
+		/*
+		 * Instanciation d'une mission correspondant aux modifications à
+		 * apporter à la mission existante
+		 */
 		Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
+		
 		this.missionService.modifierMission(mission.getId(), modifications);
 	}
 
 	@Test
-	public void testModifierMissionNOK_dateFinInvalide() {
+	public void test_modifier_mission_nok_date_fin_invalide() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" La date de Fin n'est pas correcte. ");
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
@@ -142,7 +147,7 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionNOK_AvionInvalide() {
+	public void test_modifier_mission_nok_avion_invalide() {
 		exception.expect(MissionInvalidException.class);
 		exception.expectMessage(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
 		Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), Nature.Formation,
@@ -155,7 +160,7 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionNOK_AvionValide() {
+	public void test_modifier_mission_nok_avion_valide() {
 		Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(mission);
@@ -166,7 +171,7 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionNOK_statutInvalide_EN_ATTENTE_VALIDATION() {
+	public void test_modifier_mission_nok_statut_invalide_en_attente_validation() {
 		exception.expect(ModificationInvalideException.class);
 		exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
@@ -180,7 +185,7 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionNOK_statutInvalide_VALIDEE() {
+	public void test_modifier_mission_nok_statut_invalide_mission_validee() {
 		exception.expect(ModificationInvalideException.class);
 		exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
@@ -194,7 +199,7 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testModifierMissionOK() {
+	public void test_modifier_mission_ok() {
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(mission);
@@ -209,14 +214,14 @@ public class MissionServiceTest {
 	}
 
 	@Test
-	public void testSupprimerMission() {
+	public void test_supprimer_mission_ok() {
 		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
 				"Toulouse", "Bordeaux", Transport.Train);
 		this.missionService.ajouterMission(mission);
-		// vérifie si la mission est présente en BDD 
-		Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+		// vérifie si la mission est présente en BDD
+		Mockito.verify(missionRepo).save(mission);
 		this.missionService.missionSupprimer(mission.getId());
 		// vérifie si la mission a été retirée de la BDD
-		Mockito.when(missionRepo.existsById(mission.getId())).thenReturn(true);
+		Mockito.verify(missionRepo).deleteById(mission.getId());
 	}
 }
