@@ -1,7 +1,10 @@
 package dev.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Mission {
@@ -40,6 +44,10 @@ public class Mission {
 	@ManyToOne
 	@JoinColumn(name = "collegue_id")
 	private Collegue collegue;
+	
+	@Column
+	@OneToMany(mappedBy = "mission", cascade = CascadeType.PERSIST)
+	private List<LigneDeFrais> notesFrais;
 
 	// - constructeur -
 	public Mission() {
@@ -53,6 +61,7 @@ public class Mission {
 		this.villeArrivee = arrivee;
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
+		this.notesFrais = new ArrayList<>();
 	}
 
 	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport,
@@ -65,6 +74,7 @@ public class Mission {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 		this.collegue = coll;
+		this.notesFrais = new ArrayList<>();
 	}
 
 	/** touch pas cest pour modif */
@@ -79,6 +89,7 @@ public class Mission {
 		this.transport = transport;
 		this.statut = statut;
 		this.nature = nature;
+		this.notesFrais = new ArrayList<>();
 	}
 
 	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
@@ -92,6 +103,7 @@ public class Mission {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.collegue = collegue;
+		this.notesFrais = new ArrayList<>();
 	}
 
 	// - getter/setter
@@ -165,5 +177,13 @@ public class Mission {
 
 	public void setCollegue(Collegue collegue) {
 		this.collegue = collegue;
+	}
+	
+	public List<LigneDeFrais> getNotesFrais() {
+		return notesFrais;
+	}
+
+	public void setNotesFrais(List<LigneDeFrais> notesFrais) {
+		this.notesFrais = notesFrais;
 	}
 }
