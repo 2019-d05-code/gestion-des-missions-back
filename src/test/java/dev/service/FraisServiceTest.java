@@ -2,6 +2,7 @@ package dev.service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,6 +43,7 @@ public class FraisServiceTest
 		coll.setMotDePasse("superpass");
 		coll.setRoles(Arrays.asList(new RoleCollegue(coll, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(coll, Role.ROLE_EMPLOYE), new RoleCollegue(coll, Role.ROLE_UTILISATEUR)));
+		//this.collegueRepo.save(col1);
 		
 		miss = new Mission();
 		miss.setDateDebut(LocalDate.parse("2019-10-31"));
@@ -52,8 +54,10 @@ public class FraisServiceTest
 		miss.setStatut(Statut.EN_ATTENTE_VALIDATION);
 		miss.setTransport(Transport.VoitureDeService);
 		miss.setCollegue(coll);
+		
 	}
 
+	// - test sur repo - 
 	@Test
 	public void testAjouterFrais() throws FraisInvalideException
 	{
@@ -61,9 +65,17 @@ public class FraisServiceTest
 		testServ.ajouterFrais(frais);
 
 		Mockito.verify(testRepo).save(frais);
+	}
+	
+	@Test
+	public void testEnvoyerListeFrais() throws FraisInvalideException
+	{
+		List<LigneDeFrais> test = testRepo.findByMission(miss);
 
+		Mockito.verify(testRepo).findByMission(miss);
 	}
 
+	// - test regle metier - 
 	@Test
 	public void testMontantPositif()
 	{

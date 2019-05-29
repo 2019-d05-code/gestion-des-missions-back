@@ -1,20 +1,28 @@
 package dev.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.Exception.FraisInvalideException;
+import dev.Utils.DtoUtils;
 import dev.domain.LigneDeFrais;
+import dev.domain.Mission;
+import dev.domainDto.FraisDto;
 import dev.repository.FraisRepo;
+import dev.repository.MissionRepo;
 
 @Service
 public class FraisService
 {
 	
 	private FraisRepo fraisRepo;
+	
+	@Autowired
+	private MissionRepo missionRepo;
 
 	@Autowired
 	public FraisService(FraisRepo fraisRepo) {
@@ -36,6 +44,20 @@ public class FraisService
 			throw new FraisInvalideException("Les paramétres sont invalides");
 		}
 
+	}
+	
+	// - recuperer des frais
+	public List<FraisDto> envoyerListeFrais(int idMiss)
+	{
+		Mission miss = missionRepo.findById(idMiss).get();
+		List<LigneDeFrais> liste = fraisRepo.findByMission(miss);
+		List<FraisDto> sortie = new ArrayList<>();
+		for(LigneDeFrais f:liste)
+		{
+			sortie.add(DtoUtils.fraisVersDto(f));
+		}
+
+		return sortie;
 	}
 	
 	
