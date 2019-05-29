@@ -33,7 +33,7 @@ public class MissionDto {
 	}
 
 	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
-			Transport transport, String email) {
+			Transport transport, String email, double prime) {
 
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -43,6 +43,7 @@ public class MissionDto {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 		this.emailColl = email;
+		this.prime = prime;
 	}
 
 	/** touch pas cest pour modif */
