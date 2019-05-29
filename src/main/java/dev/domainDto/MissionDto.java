@@ -23,8 +23,10 @@ public class MissionDto {
 	private Transport transport;
 
 	private Statut statut;
-	
+
 	private String emailColl;
+
+	private double prime = 0;
 
 	// - constructeur -
 	public MissionDto() {
@@ -46,7 +48,7 @@ public class MissionDto {
 	/** touch pas cest pour modif */
 
 	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
-			String villeArrivee, Transport transport, Statut statut) {
+			String villeArrivee, Transport transport, Statut statut, double prime) {
 
 		this.id = id;
 		this.dateDebut = dateDebut;
@@ -56,6 +58,20 @@ public class MissionDto {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.statut = statut;
+		this.prime = prime;
+	}
+
+	/** C'est un constructor avec prime */
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+			Transport transport, double prime) {
+
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.nature = nature;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.prime = prime;
 	}
 
 	// - getter/setter
@@ -155,6 +171,21 @@ public class MissionDto {
 	 */
 	public void setStatut(Statut statut) {
 		this.statut = statut;
+	}
+
+	/**
+	 * @return the prime
+	 */
+	public double getPrime() {
+		return prime;
+	}
+
+	/**
+	 * @param prime
+	 *            the prime to set
+	 */
+	public void setPrime(double prime) {
+		this.prime = prime;
 	}
 
 	@Override
