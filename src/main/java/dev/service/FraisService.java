@@ -66,6 +66,21 @@ public class FraisService
 		fraisRepo.deleteById(idFrais);
 	}
 	
+	// - modifier des frais
+	public void modifierFrais(LigneDeFrais frais) throws FraisInvalideException
+	{
+		if (montantPositif(frais.getMontant()) && 
+				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()) && 
+				verificationUnique(fraisRepo.findAll(), frais) )
+		{ 
+			fraisRepo.save(frais);
+		}
+		else 
+		{
+			throw new FraisInvalideException("Les paramétres sont invalides");
+		}
+		
+	}
 	
 	// - regle metier - 
 	public boolean montantPositif(double montant)

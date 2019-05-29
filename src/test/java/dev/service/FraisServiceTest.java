@@ -54,6 +54,9 @@ public class FraisServiceTest
 		miss.setTransport(Transport.VoitureDeService);
 		miss.setCollegue(coll);
 		
+		LigneDeFrais frais = new LigneDeFrais(LocalDate.parse("2019-11-20"), NatureFrais.Restaurant, 15, miss);
+		testRepo.save(frais);
+		
 	}
 
 	// - test sur repo - 
@@ -73,12 +76,23 @@ public class FraisServiceTest
 
 		Mockito.verify(testRepo).findByMission(miss);
 	}
+	
 	@Test
 	public void testSupprimerFrais() throws FraisInvalideException
 	{
 		testRepo.deleteById(1);
 
 		Mockito.verify(testRepo).deleteById(1);
+	}
+	
+
+	@Test
+	public void testModifierFrais() throws FraisInvalideException
+	{
+		LigneDeFrais frais = new LigneDeFrais(LocalDate.parse("2019-11-22"), NatureFrais.Transport, 15, miss);
+		testServ.modifierFrais(frais);
+
+		Mockito.verify(testRepo).save(frais);
 	}
 
 	// - test regle metier - 
