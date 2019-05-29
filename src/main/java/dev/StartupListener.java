@@ -90,6 +90,14 @@ public class StartupListener {
 		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE), new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col5);
 
+		Collegue col6 = new Collegue();
+		col6.setNom("PAUL");
+		col6.setPrenom("Gurpratap Singh");
+		col6.setEmail("user2@dev.fr");
+		col6.setMotDePasse(passwordEncoder.encode("superpass"));
+		col6.setRoles(Arrays.asList(new RoleCollegue(col6, Role.ROLE_EMPLOYE), new RoleCollegue(col6, Role.ROLE_MANAGER), new RoleCollegue(col6, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col6);
+
 		// creation de trois (enfin six) missions
 
 		Mission miss1 = new Mission();
