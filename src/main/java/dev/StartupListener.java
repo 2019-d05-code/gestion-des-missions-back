@@ -62,7 +62,7 @@ public class StartupListener {
 		col2.setPrenom("DEV");
 		col2.setEmail("user@dev.fr");
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
-		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
+		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE), new RoleCollegue(col2, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
@@ -71,26 +71,32 @@ public class StartupListener {
 		col3.setEmail("manag@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
 		col3.setRoles(
-				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_EMPLOYE), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
+				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col3);
 
 		Collegue col4 = new Collegue();
-		col3.setNom("Manager");
-		col3.setPrenom("DEV");
-		col3.setEmail("manager@dev.fr");
-		col3.setMotDePasse(passwordEncoder.encode("superpass"));
-		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col3);
-
-		Collegue col5 = new Collegue();
-		col4.setNom("Manager2");
+		col4.setNom("Manager");
 		col4.setPrenom("DEV");
-		col4.setEmail("manager2@dev.fr");
+		col4.setEmail("manager@dev.fr");
 		col4.setMotDePasse(passwordEncoder.encode("superpass"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col1, Role.ROLE_UTILISATEUR)));
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col4);
 
+		Collegue col5 = new Collegue();
+		col5.setNom("Manager2");
+		col5.setPrenom("DEV");
+		col5.setEmail("manager2@dev.fr");
+		col5.setMotDePasse(passwordEncoder.encode("superpass"));
+		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE), new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col5);
 
+		Collegue col6 = new Collegue();
+		col6.setNom("PAUL");
+		col6.setPrenom("Gurpratap Singh");
+		col6.setEmail("paul@dev.fr");
+		col6.setMotDePasse(passwordEncoder.encode("superpass"));
+		col6.setRoles(Arrays.asList(new RoleCollegue(col6, Role.ROLE_EMPLOYE), new RoleCollegue(col6, Role.ROLE_MANAGER), new RoleCollegue(col6, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col6);
 
 		// creation de trois (enfin six) missions
 
@@ -146,18 +152,52 @@ public class StartupListener {
 		miss5.setVilleArrivee("St Etienne");
 		miss5.setStatut(Statut.INITIALE);
 		miss5.setTransport(Transport.Avion);
-		miss5.setCollegue(col3);
+		miss5.setCollegue(col4);
 		this.missionRepo.save(miss5);
 
 		Mission miss6 = new Mission();
 		miss6.setDateDebut(LocalDate.parse("2019-06-10"));
 		miss6.setDateFin(LocalDate.parse("2019-07-25"));
+		miss6.setNature(Nature.Expertise);
 		miss6.setVilleDepart("Frejus");
 		miss6.setVilleArrivee("Cannes");
 		miss6.setStatut(Statut.EN_ATTENTE_VALIDATION);
 		miss6.setTransport(Transport.Covoiturage);
 		miss6.setCollegue(col2);
 		this.missionRepo.save(miss6);
+
+		Mission miss7 = new Mission();
+		miss7.setDateDebut(LocalDate.parse("2022-10-15"));
+		miss7.setDateFin(LocalDate.parse("2022-11-05"));
+		miss7.setNature(Nature.Formation);
+		miss7.setVilleDepart("Albi");
+		miss7.setVilleArrivee("St Etienne");
+		miss7.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss7.setTransport(Transport.Covoiturage);
+		miss7.setCollegue(col4);
+		this.missionRepo.save(miss7);
+
+		Mission miss8 = new Mission();
+		miss8.setDateDebut(LocalDate.parse("2020-05-15"));
+		miss8.setDateFin(LocalDate.parse("2020-08-05"));
+		miss8.setNature(Nature.Conseil);
+		miss8.setVilleDepart("Los Angeles");
+		miss8.setVilleArrivee("St-Herblain");
+		miss8.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss8.setTransport(Transport.Avion);
+		miss8.setCollegue(col4);
+		this.missionRepo.save(miss8);
+
+		Mission miss9 = new Mission();
+		miss9.setDateDebut(LocalDate.parse("2019-10-15"));
+		miss9.setDateFin(LocalDate.parse("2019-12-05"));
+		miss9.setNature(Nature.Conseil);
+		miss9.setVilleDepart("Los Angeles");
+		miss9.setVilleArrivee("St-Herblain");
+		miss9.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss9.setTransport(Transport.VoitureDeService);
+		miss9.setCollegue(col4);
+		this.missionRepo.save(miss9);
 	}
 
 }
