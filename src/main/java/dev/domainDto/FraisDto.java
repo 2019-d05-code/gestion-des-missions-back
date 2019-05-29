@@ -19,6 +19,15 @@ public class FraisDto
 
 	public FraisDto(LocalDate date, NatureFrais nature, double montant, int idMiss)
 	{
+		this.setId(-1);
+		this.date = date;
+		this.nature = nature;
+		this.montant = montant;
+		this.idMiss = idMiss;
+	}
+	public FraisDto(int id, LocalDate date, NatureFrais nature, double montant, int idMiss)
+	{
+		this.id = id;
 		this.date = date;
 		this.nature = nature;
 		this.montant = montant;

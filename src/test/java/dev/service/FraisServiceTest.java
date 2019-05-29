@@ -43,7 +43,6 @@ public class FraisServiceTest
 		coll.setMotDePasse("superpass");
 		coll.setRoles(Arrays.asList(new RoleCollegue(coll, Role.ROLE_ADMINISTRATEUR),
 				new RoleCollegue(coll, Role.ROLE_EMPLOYE), new RoleCollegue(coll, Role.ROLE_UTILISATEUR)));
-		//this.collegueRepo.save(col1);
 		
 		miss = new Mission();
 		miss.setDateDebut(LocalDate.parse("2019-10-31"));
@@ -73,6 +72,13 @@ public class FraisServiceTest
 		List<LigneDeFrais> test = testRepo.findByMission(miss);
 
 		Mockito.verify(testRepo).findByMission(miss);
+	}
+	@Test
+	public void testSupprimerFrais() throws FraisInvalideException
+	{
+		testRepo.deleteById(1);
+
+		Mockito.verify(testRepo).deleteById(1);
 	}
 
 	// - test regle metier - 

@@ -60,6 +60,12 @@ public class FraisService
 		return sortie;
 	}
 	
+	// - supprimer des frais
+	public void supprimerFrais(int idFrais)
+	{
+		fraisRepo.deleteById(idFrais);
+	}
+	
 	
 	// - regle metier - 
 	public boolean montantPositif(double montant)

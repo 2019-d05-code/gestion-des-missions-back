@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,13 +50,19 @@ public class FraisController
 	}*/
 
 	@PostMapping(path = "/{idMiss}")
-	public void creer(@PathVariable int idMiss, @RequestBody FraisDto dto) throws FraisInvalideException
+	public void enregistrerFrais(@PathVariable int idMiss, @RequestBody FraisDto dto) throws FraisInvalideException
 	{
 		LigneDeFrais frais = DtoUtils.dtoVersFrais(dto);
 		Mission miss = missionRepo.findById(idMiss).get(); // check isPresent() ?
 		frais.setMission(miss);
 		this.fraisService.ajouterFrais(frais);
 		
+	}
+	
+	@DeleteMapping(path = "/{idMiss}")
+	public void enleverFrais( int idFrais )
+	{
+		this.fraisService.supprimerFrais(idFrais);
 	}
 
 }
