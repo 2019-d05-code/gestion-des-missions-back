@@ -2,7 +2,7 @@ package dev.domainDto;
 
 import java.time.LocalDate;
 
-import dev.domain.Nature;
+import dev.domain.NatureEnum;
 import dev.domain.Statut;
 import dev.domain.Transport;
 
@@ -14,7 +14,7 @@ public class MissionDto {
 
 	private LocalDate dateFin;
 
-	private Nature nature;
+	private NatureEnum nature;
 
 	private String villeDepart;
 
@@ -32,7 +32,7 @@ public class MissionDto {
 	public MissionDto() {
 	}
 
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart, String villeArrivee,
 			Transport transport, String email) {
 
 		this.dateDebut = dateDebut;
@@ -47,7 +47,7 @@ public class MissionDto {
 
 	/** touch pas cest pour modif */
 
-	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart,
 			String villeArrivee, Transport transport, Statut statut, double prime) {
 
 		this.id = id;
@@ -62,7 +62,7 @@ public class MissionDto {
 	}
 
 	/** C'est un constructor avec prime */
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart, String villeArrivee,
 			Transport transport, double prime) {
 
 		this.dateDebut = dateDebut;
@@ -105,11 +105,11 @@ public class MissionDto {
 		this.dateFin = dateFin;
 	}
 
-	public Nature getNature() {
+	public NatureEnum getNature() {
 		return nature;
 	}
 
-	public void setNature(Nature nature) {
+	public void setNature(NatureEnum nature) {
 		this.nature = nature;
 	}
 

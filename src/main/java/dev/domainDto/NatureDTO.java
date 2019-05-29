@@ -1,48 +1,26 @@
 /**
  *
  */
-package dev.domain;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package dev.domainDto;
 
 /**
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-@Entity
-public class Nature {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class NatureDTO {
+
 	int id;
-
-	@Column
 	String nomNature;
-
-	@Column
 	boolean facturee;
-
-	@Column
 	boolean prime;
-
-	@Column
 	double tauxJournalierMoyen;
-
-	@Column
 	int pourcentPrime;
-
-	@Column
 	int plafondQuotidien;
-
-	@Column
 	boolean depassementFrais;
 
-	public Nature () {}
+	public NatureDTO () {}
 
-	public Nature(String nature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime, int plafondFrais, boolean departementFrais) {
+	public NatureDTO(String nature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime, int plafondFrais, boolean departementFrais) {
 		super();
 		this.nomNature = nature;
 		this.facturee = facturee;
@@ -53,7 +31,7 @@ public class Nature {
 		this.depassementFrais = departementFrais;
 	}
 
-	public Nature(int id, String nature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime, int plafondFrais, boolean departementFrais) {
+	public NatureDTO(int id, String nature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime, int plafondFrais, boolean departementFrais) {
 		super();
 		this.id = id;
 		this.nomNature = nature;

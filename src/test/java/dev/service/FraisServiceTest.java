@@ -13,7 +13,7 @@ import dev.Exception.FraisInvalideException;
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
-import dev.domain.Nature;
+import dev.domain.NatureEnum;
 import dev.domain.NatureFrais;
 import dev.domain.Role;
 import dev.domain.RoleCollegue;
@@ -47,7 +47,7 @@ public class FraisServiceTest
 		miss = new Mission();
 		miss.setDateDebut(LocalDate.parse("2019-10-31"));
 		miss.setDateFin(LocalDate.parse("2019-12-01"));
-		miss.setNature(Nature.Technique);
+		miss.setNature(NatureEnum.Technique);
 		miss.setVilleDepart("Bordeaux");
 		miss.setVilleArrivee("Strasbourg");
 		miss.setStatut(Statut.EN_ATTENTE_VALIDATION);
