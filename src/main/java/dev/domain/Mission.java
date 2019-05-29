@@ -40,6 +40,8 @@ public class Mission {
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Statut statut;
+	@Column
+	private double prime = 0;
 
 	@ManyToOne
 	@JoinColumn(name = "collegue_id")
@@ -77,9 +79,24 @@ public class Mission {
 		this.notesFrais = new ArrayList<>();
 	}
 
+	/** touch pas cest pour primes */
+	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport,
+			double prime, Collegue coll) {
+		this.dateDebut = debut;
+		this.dateFin = fin;
+		this.nature = nature;
+		this.villeDepart = depart;
+		this.villeArrivee = arrivee;
+		this.transport = transport;
+		this.prime = prime;
+		this.setStatut(Statut.INITIALE);
+		this.collegue = coll;
+	}
+
 	/** touch pas cest pour modif */
-	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
-			Transport transport, Statut statut) {
+
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+			String villeArrivee, Transport transport, Statut statut) {
 		this.id = id;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -88,7 +105,25 @@ public class Mission {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.statut = statut;
+
+
+	}
+
+	/** touch pas cest pour modif avec prime */
+	public Mission(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+			Transport transport, double prime) {
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.nature = nature;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.prime = prime;
+		this.setStatut(Statut.INITIALE);
+
+
 		this.notesFrais = new ArrayList<>();
+
 	}
 
 	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
@@ -177,6 +212,17 @@ public class Mission {
 	public void setCollegue(Collegue collegue) {
 		this.collegue = collegue;
 	}
+
+
+	public double getPrime() {
+		return prime;
+	}
+
+	public void setPrime(double prime) {
+		this.prime = prime;
+	}
+
+
 	
 	public List<LigneDeFrais> getNotesFrais() {
 		return notesFrais;
@@ -237,4 +283,5 @@ public class Mission {
 			return false;
 		return true;
 	}
+
 }

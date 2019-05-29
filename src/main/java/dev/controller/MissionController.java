@@ -54,7 +54,7 @@ public class MissionController {
 	@PatchMapping(path = "/{id}")
 	public ResponseEntity<Object> modifier(@PathVariable int id, @RequestBody MissionDto nouvelleMission) {
 		// La mission à modifier est indiquée dans l'URL depuis son identifiant
-		this.missionService.modifierMission(id, DtoUtils.toMission(nouvelleMission));
+		this.missionService.modifierMission(id, DtoUtils.toMissionAvecPrime(nouvelleMission));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

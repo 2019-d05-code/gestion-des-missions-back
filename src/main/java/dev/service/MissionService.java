@@ -38,7 +38,6 @@ public class MissionService {
 		this.missionRepo = missionRepo;
 	}
 
-
 	public Boolean ajouterMission(Mission missionAjouter) {
 		// Envoi d'une exception en cas de non-respect des règles métier
 		if (regleMetierDateDebut(missionAjouter) && regleMetierAvion(missionAjouter)
@@ -74,6 +73,7 @@ public class MissionService {
 			missionAModifier.setVilleDepart(modifications.getVilleDepart());
 			missionAModifier.setVilleArrivee(modifications.getVilleArrivee());
 			missionAModifier.setStatut(Statut.INITIALE);
+			missionAModifier.setPrime(modifications.getPrime());
 			// Envoi d'une exception en cas de non-respect des règles métier
 			if (ajouterMission(missionAModifier)) {
 				LOG.info(" La mission a bien été modifiée. ");
