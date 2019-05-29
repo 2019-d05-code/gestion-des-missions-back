@@ -3,13 +3,17 @@ package dev.Utils;
 import org.springframework.stereotype.Service;
 
 import dev.domain.Collegue;
+import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
+import dev.domainDto.FraisDto;
 import dev.domainDto.MissionDto;
 import dev.service.CollegueService;
 
 @Service
 public interface DtoUtils {
 
+	// -- Mission -- 
+	
 	public static MissionDto toMissionDto(Mission miss) {
 		return new MissionDto(miss.getDateDebut(), miss.getDateFin(), miss.getNature(), miss.getVilleDepart(),
 				miss.getVilleArrivee(), miss.getTransport(), miss.getCollegue().getEmail());
@@ -45,6 +49,17 @@ public interface DtoUtils {
 		Collegue collegue = col.findCollegueByEmail(missDto.getEmailColl());
 		return new Mission(missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(), missDto.getVilleDepart(),
 				missDto.getVilleArrivee(), missDto.getTransport(), collegue);
+	}
+	
+	// -- Ligne de Frais -- 
+	public static LigneDeFrais dtoVersFrais(FraisDto dto)
+	{
+		return new LigneDeFrais(dto.getDate(), dto.getNature(), dto.getMontant() );
+	}
+	
+	public static FraisDto fraisVersDto(LigneDeFrais frais)
+	{
+		return new FraisDto(frais.getDate(), frais.getNature(), frais.getMontant(), frais.getMission().getId());
 	}
 
 }

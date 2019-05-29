@@ -10,14 +10,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.domain.Collegue;
+import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
 import dev.domain.Nature;
+import dev.domain.NatureFrais;
 import dev.domain.Role;
 import dev.domain.RoleCollegue;
 import dev.domain.Statut;
 import dev.domain.Transport;
 import dev.domain.Version;
 import dev.repository.CollegueRepo;
+import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
 import dev.repository.VersionRepo;
 
@@ -32,21 +35,23 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 	private MissionRepo missionRepo;
+	private FraisRepo fraisRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo, FraisRepo fraisRepo) {
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
 		this.missionRepo = missionRepo;
+		this.fraisRepo = fraisRepo;
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onStart() {
 		this.versionRepo.save(new Version(appVersion));
 
-		// Création de deux utilisateurs
+		// Création de quatre utilisateurs
 
 		Collegue col1 = new Collegue();
 		col1.setNom("Admin");
@@ -66,33 +71,23 @@ public class StartupListener {
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
-		col3.setNom("Manag");
-		col3.setPrenom("DEV");
-		col3.setEmail("manag@dev.fr");
-		col3.setMotDePasse(passwordEncoder.encode("superpass"));
-		col3.setRoles(
-				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col3);
-
-		Collegue col4 = new Collegue();
 		col3.setNom("Manager");
 		col3.setPrenom("DEV");
 		col3.setEmail("manager@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
-		col3.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col4);
+		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col3);
 
-		Collegue col5 = new Collegue();
+		Collegue col4 = new Collegue();
 		col4.setNom("Manager2");
 		col4.setPrenom("DEV");
 		col4.setEmail("manager2@dev.fr");
 		col4.setMotDePasse(passwordEncoder.encode("superpass"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE), new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col5);
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col4);
 
 
-
-		// creation de trois (enfin six) missions
+		// creation de six missions
 
 		Mission miss1 = new Mission();
 		miss1.setDateDebut(LocalDate.parse("2015-05-15"));
@@ -158,6 +153,21 @@ public class StartupListener {
 		miss6.setTransport(Transport.Covoiturage);
 		miss6.setCollegue(col2);
 		this.missionRepo.save(miss6);
+		
+		
+		//creation de quatre frais
+		
+		LigneDeFrais frais1 = new LigneDeFrais(LocalDate.parse("2014-04-20"), NatureFrais.Hotel, 50, miss3);
+		this.fraisRepo.save(frais1);
+		
+		LigneDeFrais frais2 = new LigneDeFrais(LocalDate.parse("2015-01-01"), NatureFrais.Restaurant, 49.99, miss3);
+		this.fraisRepo.save(frais2);
+		
+		LigneDeFrais frais3 = new LigneDeFrais(LocalDate.parse("2015-08-08"), NatureFrais.PetitDejeuner, 12.5, miss2);
+		this.fraisRepo.save(frais3);
+		
+		LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
+		this.fraisRepo.save(frais4);
 	}
 
 }
