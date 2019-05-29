@@ -59,7 +59,7 @@ public interface DtoUtils {
 	
 	public static FraisDto fraisVersDto(LigneDeFrais frais)
 	{
-		return new FraisDto(frais.getDate(), frais.getNature(), frais.getMontant(), frais.getMission().getId());
+		return new FraisDto(frais.getId(), frais.getDate(), frais.getNature(), frais.getMontant(), frais.getMission().getId());
 	}
 
 }

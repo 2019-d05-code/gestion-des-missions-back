@@ -2,6 +2,7 @@ package dev.service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,8 +53,10 @@ public class FraisServiceTest
 		miss.setStatut(Statut.EN_ATTENTE_VALIDATION);
 		miss.setTransport(Transport.VoitureDeService);
 		miss.setCollegue(coll);
+		
 	}
 
+	// - test sur repo - 
 	@Test
 	public void testAjouterFrais() throws FraisInvalideException
 	{
@@ -61,9 +64,24 @@ public class FraisServiceTest
 		testServ.ajouterFrais(frais);
 
 		Mockito.verify(testRepo).save(frais);
+	}
+	
+	@Test
+	public void testEnvoyerListeFrais() throws FraisInvalideException
+	{
+		List<LigneDeFrais> test = testRepo.findByMission(miss);
 
+		Mockito.verify(testRepo).findByMission(miss);
+	}
+	@Test
+	public void testSupprimerFrais() throws FraisInvalideException
+	{
+		testRepo.deleteById(1);
+
+		Mockito.verify(testRepo).deleteById(1);
 	}
 
+	// - test regle metier - 
 	@Test
 	public void testMontantPositif()
 	{
