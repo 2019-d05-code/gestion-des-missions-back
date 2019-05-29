@@ -10,14 +10,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.domain.Collegue;
+import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
 import dev.domain.Nature;
+import dev.domain.NatureFrais;
 import dev.domain.Role;
 import dev.domain.RoleCollegue;
 import dev.domain.Statut;
 import dev.domain.Transport;
 import dev.domain.Version;
 import dev.repository.CollegueRepo;
+import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
 import dev.repository.VersionRepo;
 
@@ -32,21 +35,23 @@ public class StartupListener {
 	private PasswordEncoder passwordEncoder;
 	private CollegueRepo collegueRepo;
 	private MissionRepo missionRepo;
+	private FraisRepo fraisRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo, FraisRepo fraisRepo) {
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
 		this.missionRepo = missionRepo;
+		this.fraisRepo = fraisRepo;
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onStart() {
 		this.versionRepo.save(new Version(appVersion));
 
-		// Création de deux utilisateurs
+		// Création de six utilisateurs
 
 		Collegue col1 = new Collegue();
 		col1.setNom("Admin");
@@ -98,7 +103,7 @@ public class StartupListener {
 		col6.setRoles(Arrays.asList(new RoleCollegue(col6, Role.ROLE_EMPLOYE), new RoleCollegue(col6, Role.ROLE_MANAGER), new RoleCollegue(col6, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col6);
 
-		// creation de trois (enfin six) missions
+		// creation de neuf missions
 
 		Mission miss1 = new Mission();
 		miss1.setDateDebut(LocalDate.parse("2015-05-15"));
@@ -198,6 +203,20 @@ public class StartupListener {
 		miss9.setTransport(Transport.VoitureDeService);
 		miss9.setCollegue(col4);
 		this.missionRepo.save(miss9);
+
+		//creation de quatre frais
+
+		LigneDeFrais frais1 = new LigneDeFrais(LocalDate.parse("2014-04-20"), NatureFrais.Hotel, 50, miss3);
+		this.fraisRepo.save(frais1);
+
+		LigneDeFrais frais2 = new LigneDeFrais(LocalDate.parse("2015-01-01"), NatureFrais.Restaurant, 49.99, miss3);
+		this.fraisRepo.save(frais2);
+
+		LigneDeFrais frais3 = new LigneDeFrais(LocalDate.parse("2015-08-08"), NatureFrais.PetitDejeuner, 12.5, miss2);
+		this.fraisRepo.save(frais3);
+
+		LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
+		this.fraisRepo.save(frais4);
 	}
 
 }

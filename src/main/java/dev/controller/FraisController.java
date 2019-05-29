@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,12 +44,6 @@ public class FraisController
 		return this.fraisService.envoyerListeFrais(idMiss);
 	}
 
-	/*
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<MissionDto> afficherParId(@PathVariable Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(missionService.trouverMissionDepuisId(id));
-	}*/
-
 	@PostMapping(path = "/{idMiss}")
 	public void enregistrerFrais(@PathVariable int idMiss, @RequestBody FraisDto dto) throws FraisInvalideException
 	{
@@ -56,7 +51,16 @@ public class FraisController
 		Mission miss = missionRepo.findById(idMiss).get(); // check isPresent() ?
 		frais.setMission(miss);
 		this.fraisService.ajouterFrais(frais);
-		
+	}
+	
+	@PutMapping(path = "/{idMiss}")
+	public void changerFrais(@PathVariable int idMiss, @RequestBody FraisDto dto) throws FraisInvalideException
+	{
+		LigneDeFrais frais = DtoUtils.dtoVersFrais(dto);
+		frais.setId(dto.getId());
+		Mission miss = missionRepo.findById(idMiss).get(); // check isPresent() ?
+		frais.setMission(miss);
+		this.fraisService.modifierFrais(frais);
 	}
 	
 	@DeleteMapping(path = "/{idMiss}")
