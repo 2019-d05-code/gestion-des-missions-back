@@ -52,7 +52,7 @@ public class TraitementDeNuit
 		{
 			if(miss.getStatut().equals(Statut.VALIDEE))
 			{
-				list<Nature> tmp = 
+				Days.daysBetween(date1, date2).getDays();
 				//a revoir
 				double prime = (nombre de jours travaillés)* TJM * %Prime/100 - déduction
 				miss.setPrime(prime);
