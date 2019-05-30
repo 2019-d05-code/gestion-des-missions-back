@@ -24,7 +24,7 @@ public class NatureService {
     @Autowired
     NatureRepository natureRepository;
 
-    Nature ajoutNature (NatureDTO nature) {
+    public Nature ajoutNature (NatureDTO nature) {
 
 	if (nature.getPlafondQuotidien() < 0) {
 	    throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
@@ -53,7 +53,7 @@ public class NatureService {
 	return nat;
     }
 
-    Nature modificationNature (NatureDTO nature) {
+    public Nature modificationNature (NatureDTO nature) {
 
 	if (nature.getPlafondQuotidien() < 0) {
 	    throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
@@ -96,7 +96,7 @@ public class NatureService {
 	return nat;
     }
 
-    void suppressionNature (NatureDTO nature) {
+    public void suppressionNature (NatureDTO nature) {
 
 	if (natureRepository.existsById(nature.getId ())) {
 	    throw new NatureInvalideException ("La nature que vous voulez supprimée n'existe pas !");
@@ -105,7 +105,7 @@ public class NatureService {
 	natureRepository.deleteById(nature.getId());
     }
 
-    List <NatureDTO> afficherToutesNatures () {
+    public List <NatureDTO> afficherToutesNatures () {
 	return natureRepository.findAll().stream().map(nature -> new NatureDTO (nature.getId (), nature.getNomNature (), nature.isFacturee(), nature.isPrime (), nature.getTauxJournalierMoyen(), nature.getPourcentPrime(), nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(), nature.getDateFin())).collect(Collectors.toList());
     }
 
