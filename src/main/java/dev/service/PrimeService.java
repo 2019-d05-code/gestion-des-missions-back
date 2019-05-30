@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.Utils.DtoUtils;
+import dev.domain.Statut;
 import dev.domainDto.MissionDto;
 import dev.repository.PrimeRepo;
 
@@ -22,13 +23,14 @@ public class PrimeService {
 
 	public List<MissionDto> missionAvecPrimeAsc() {
 
-		return this.primeRepo.sortAllMissionAsc().stream().map(DtoUtils::toMissionDtoAvecPrime)
-				.collect(Collectors.toList());
+		return this.primeRepo.sortAllMissionAsc().stream().filter(mission -> mission.getStatut().equals(Statut.VALIDEE))
+				.map(DtoUtils::toMissionDtoAvecPrime).collect(Collectors.toList());
 	}
 
 	public List<MissionDto> missionAvecPrimeDesc() {
 
-		return this.primeRepo.sortAllMissionDesc().stream().map(DtoUtils::toMissionDtoAvecPrime)
+		return this.primeRepo.sortAllMissionDesc().stream()
+				.filter(mission -> mission.getStatut().equals(Statut.VALIDEE)).map(DtoUtils::toMissionDtoAvecPrime)
 				.collect(Collectors.toList());
 	}
 }
