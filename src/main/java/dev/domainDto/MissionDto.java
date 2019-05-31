@@ -32,7 +32,7 @@ public class MissionDto {
 	public MissionDto() {
 	}
 
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart, String villeArrivee,
 			Transport transport, String email, double prime) {
 
 		this.dateDebut = dateDebut;
@@ -75,7 +75,7 @@ public class MissionDto {
 		this.prime = prime;
 	}
 
-	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart,
 			String villeArrivee, Transport transport, Statut statut, String email) {
 		this.id = id;
 		this.dateDebut = dateDebut;
