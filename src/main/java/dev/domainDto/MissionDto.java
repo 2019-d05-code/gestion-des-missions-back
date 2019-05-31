@@ -32,8 +32,8 @@ public class MissionDto {
 	public MissionDto() {
 	}
 
-	public MissionDto(LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart, String villeArrivee,
-			Transport transport, String email) {
+	public MissionDto(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+			Transport transport, String email, double prime) {
 
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -43,6 +43,7 @@ public class MissionDto {
 		this.transport = transport;
 		this.setStatut(Statut.INITIALE);
 		this.emailColl = email;
+		this.prime = prime;
 	}
 
 	/** touch pas cest pour modif */
@@ -72,6 +73,20 @@ public class MissionDto {
 		this.villeArrivee = villeArrivee;
 		this.transport = transport;
 		this.prime = prime;
+	}
+
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+			String villeArrivee, Transport transport, Statut statut, String email) {
+		this.id = id;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.nature = nature;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.statut = statut;
+		this.emailColl = email;
+
 	}
 
 	// - getter/setter

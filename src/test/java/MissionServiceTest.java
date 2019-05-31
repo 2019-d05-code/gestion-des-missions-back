@@ -95,8 +95,8 @@ public class MissionServiceTest {
 
 	@Test
 	public void test_ajouter_mission_ok() {
-		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-				"Toulouse", "Bordeaux", Transport.Train);
+		Mission newMission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train, 100);
 		this.missionService.ajouterMission(newMission);
 		Mockito.verify(missionRepo).save(newMission);
 	}
@@ -127,9 +127,8 @@ public class MissionServiceTest {
 		 * Instanciation d'une mission correspondant aux modifications à
 		 * apporter à la mission existante
 		 */
-		Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), NatureEnum.Formation,
-				"Toulouse", "Bordeaux", Transport.Train);
-		
+		Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train, 100);
 		this.missionService.modifierMission(mission.getId(), modifications);
 	}
 
@@ -205,8 +204,9 @@ public class MissionServiceTest {
 		this.missionService.ajouterMission(mission);
 		int id = mission.getId();
 		Mockito.when(missionRepo.findById(id)).thenReturn(Optional.of(mission));
-		Mission modifications = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(79), NatureEnum.Conseil,
-				"Nantes", "Carquefou", Transport.Covoiturage);
+
+		Mission modifications = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(79), Nature.Conseil,
+				"Nantes", "Carquefou", Transport.Covoiturage, 230);
 
 		Assert.assertFalse(mission.equals(modifications));
 		this.missionService.modifierMission(id, modifications);
@@ -215,8 +215,9 @@ public class MissionServiceTest {
 
 	@Test
 	public void test_supprimer_mission_ok() {
-		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-				"Toulouse", "Bordeaux", Transport.Train);
+		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+				"Toulouse", "Bordeaux", Transport.Train, 365);
+
 		this.missionService.ajouterMission(mission);
 		// vérifie si la mission est présente en BDD
 		Mockito.verify(missionRepo).save(mission);

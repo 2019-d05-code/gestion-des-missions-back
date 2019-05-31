@@ -51,7 +51,8 @@ public class MissionService {
 	}
 
 	public void modifierMission(Integer id, Mission modifications) {
-		Mission missionAModifier = missionRepo.findById(id).orElseThrow(() -> new MissionNonTrouveeException ("Aucune mission ne correspond à cet ID."));
+		Mission missionAModifier = missionRepo.findById(id)
+				.orElseThrow(() -> new MissionNonTrouveeException("Aucune mission ne correspond à cet ID."));
 
 		if (regleMetierStatut(missionAModifier)) {
 			if (regleMetierDateDebut(modifications)) {
@@ -87,7 +88,7 @@ public class MissionService {
 
 	public List<MissionDto> recupererToutesLesMissions() {
 		List<Mission> missionList = this.missionRepo.findAll();
-		return missionList.stream().map(DtoUtils::toMissionDtoAvecId).collect(Collectors.toList());
+		return missionList.stream().map(DtoUtils::toMissionDtoAvecEmail).collect(Collectors.toList());
 	}
 
 	public List<MissionDto> recupererMissionParCollegue(String email) {

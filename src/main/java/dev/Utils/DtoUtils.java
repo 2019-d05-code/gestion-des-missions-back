@@ -12,11 +12,11 @@ import dev.service.CollegueService;
 @Service
 public interface DtoUtils {
 
-	// -- Mission -- 
-	
+	// -- Mission --
+
 	public static MissionDto toMissionDto(Mission miss) {
 		return new MissionDto(miss.getDateDebut(), miss.getDateFin(), miss.getNature(), miss.getVilleDepart(),
-				miss.getVilleArrivee(), miss.getTransport(), miss.getCollegue().getEmail());
+				miss.getVilleArrivee(), miss.getTransport(), miss.getCollegue().getEmail(), miss.getPrime());
 	}
 
 	public static Mission toMission(MissionDto missDto) {
@@ -46,6 +46,12 @@ public interface DtoUtils {
 				miss.getVilleDepart(), miss.getVilleArrivee(), miss.getTransport(), miss.getStatut(), miss.getPrime());
 	}
 
+	public static MissionDto toMissionDtoAvecEmail(Mission miss) {
+		return new MissionDto(miss.getId(), miss.getDateDebut(), miss.getDateFin(), miss.getNature(),
+				miss.getVilleDepart(), miss.getVilleArrivee(), miss.getTransport(), miss.getStatut(),
+				miss.getCollegue().getEmail());
+	}
+
 	public static Mission toMissionAvecId(MissionDto missDto) {
 		return new Mission(missDto.getId(), missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(),
 				missDto.getVilleDepart(), missDto.getVilleArrivee(), missDto.getTransport(), missDto.getStatut());
@@ -62,16 +68,15 @@ public interface DtoUtils {
 		return new Mission(missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(), missDto.getVilleDepart(),
 				missDto.getVilleArrivee(), missDto.getTransport(), collegue);
 	}
-	
-	// -- Ligne de Frais -- 
-	public static LigneDeFrais dtoVersFrais(FraisDto dto)
-	{
-		return new LigneDeFrais(dto.getDate(), dto.getNature(), dto.getMontant() );
+
+	// -- Ligne de Frais --
+	public static LigneDeFrais dtoVersFrais(FraisDto dto) {
+		return new LigneDeFrais(dto.getDate(), dto.getNature(), dto.getMontant());
 	}
-	
-	public static FraisDto fraisVersDto(LigneDeFrais frais)
-	{
-		return new FraisDto(frais.getId(), frais.getDate(), frais.getNature(), frais.getMontant(), frais.getMission().getId());
+
+	public static FraisDto fraisVersDto(LigneDeFrais frais) {
+		return new FraisDto(frais.getId(), frais.getDate(), frais.getNature(), frais.getMontant(),
+				frais.getMission().getId());
 	}
 
 	public static MissionDto toMissionDtoAvecPrime(Mission miss) {
