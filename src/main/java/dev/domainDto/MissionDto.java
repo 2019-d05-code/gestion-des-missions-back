@@ -75,6 +75,20 @@ public class MissionDto {
 		this.prime = prime;
 	}
 
+	public MissionDto(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+			String villeArrivee, Transport transport, Statut statut, String email) {
+		this.id = id;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.nature = nature;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.transport = transport;
+		this.statut = statut;
+		this.emailColl = email;
+
+	}
+
 	// - getter/setter
 	/**
 	 * @return the dateDebut
