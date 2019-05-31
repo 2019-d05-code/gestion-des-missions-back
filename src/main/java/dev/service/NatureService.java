@@ -1,6 +1,3 @@
-/**
- *
- */
 package dev.service;
 
 import java.util.List;
@@ -26,26 +23,28 @@ public class NatureService {
 
 	public Nature ajoutNature (NatureDTO nature) {
 
-		if (nature.getPlafondQuotidien() < 0) {
-			throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
+		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
 		}
 
 		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
 		if (nature.isFacturee()) {
-			if (nature.getTauxJournalierMoyen() <= 0) {
-				throw new NatureInvalideException("Le taux journalier moyen doit exister pour une nature facturée !");
+			if (nature.getPlafondQuotidien() < 0) {
+				throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
 			}
 
-			if (nature.getPlafondQuotidien () <= 0) {
-				throw new NatureInvalideException("Pas de plafond quotidien pour une nature non facturée !");
+			if (nature.getTauxJournalierMoyen() <= 0) {
+				throw new NatureInvalideException("Le taux journalier moyen doit exister pour une nature facturée !");
 			}
 		}
 
 		// Si la nature octroie une prime, elle doit avoir un % de prime (négatif et 0 refusé)
-		if (nature.isPrime()) {
-			if (nature.getPourcentPrime() <= 0) {
-				throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
-			}
+		if (nature.isPrime() && nature.getPourcentPrime() <= 0) {
+			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
+		}
+
+		if (nature.getDateFin () != null && nature.getDateDebut().isBefore(nature.getDateFin())) {
+			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
 		Nature nat = new Nature (nature.getNomNature (), nature.isFacturee(), nature.isPrime (), nature.getTauxJournalierMoyen(), nature.getPourcentPrime(), nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(), nature.getDateFin());
@@ -55,22 +54,28 @@ public class NatureService {
 
 	public Nature modificationNature (NatureDTO nature) {
 
-		if (nature.getPlafondQuotidien() < 0) {
-			throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
+		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
 		}
 
 		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
 		if (nature.isFacturee()) {
+			if (nature.getPlafondQuotidien() < 0) {
+				throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
+			}
+
 			if (nature.getTauxJournalierMoyen() <= 0) {
 				throw new NatureInvalideException("Le taux journalier moyen doit exister pour une nature facturée !");
 			}
 		}
 
 		// Si la nature octroie une prime, elle doit avoir un % de prime (négatif et 0 refusé)
-		if (nature.isPrime()) {
-			if (nature.getPourcentPrime() <= 0) {
-				throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
-			}
+		if (nature.isPrime() && nature.getPourcentPrime() <= 0) {
+			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
+		}
+
+		if (nature.getDateFin () != null && nature.getDateDebut().isBefore(nature.getDateFin())) {
+			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
 		Nature nat = natureRepository.findById(nature.getId ()).orElseThrow(() -> new NatureInvalideException ("La nature n'a pas été trouvée !"));
@@ -90,7 +95,10 @@ public class NatureService {
 		nat.setDepassementFrais(nature.isDepassementFrais());
 
 		nat.setDateDebut(nature.getDateDebut());
-		nat.setDateFin(nature.getDateFin());
+
+		if (nature.getDateFin() != null) {
+			nat.setDateFin(nature.getDateFin());
+		}
 
 		natureRepository.save(nat);
 		return nat;
