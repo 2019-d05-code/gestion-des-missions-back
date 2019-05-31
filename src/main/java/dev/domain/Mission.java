@@ -29,7 +29,7 @@ public class Mission {
 	private LocalDate dateFin;
 	@Column
 	@Enumerated(EnumType.STRING)
-	private Nature nature;
+	private NatureEnum nature;
 	@Column
 	private String villeDepart;
 	@Column
@@ -55,7 +55,7 @@ public class Mission {
 	public Mission() {
 	}
 
-	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport) {
+	public Mission(LocalDate debut, LocalDate fin, NatureEnum nature, String depart, String arrivee, Transport transport) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
 		this.nature = nature;
@@ -66,7 +66,7 @@ public class Mission {
 		this.notesFrais = new ArrayList<>();
 	}
 
-	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport,
+	public Mission(LocalDate debut, LocalDate fin, NatureEnum nature, String depart, String arrivee, Transport transport,
 			Collegue coll) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
@@ -80,7 +80,7 @@ public class Mission {
 	}
 
 	/** touch pas cest pour primes */
-	public Mission(LocalDate debut, LocalDate fin, Nature nature, String depart, String arrivee, Transport transport,
+	public Mission(LocalDate debut, LocalDate fin, NatureEnum nature, String depart, String arrivee, Transport transport,
 			double prime, Collegue coll) {
 		this.dateDebut = debut;
 		this.dateFin = fin;
@@ -95,7 +95,7 @@ public class Mission {
 
 	/** touch pas cest pour modif */
 
-	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+	public Mission(Integer id, LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart,
 			String villeArrivee, Transport transport, Statut statut) {
 		this.id = id;
 		this.dateDebut = dateDebut;
@@ -110,7 +110,7 @@ public class Mission {
 	}
 
 	/** touch pas cest pour modif avec prime */
-	public Mission(LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart, String villeArrivee,
+	public Mission(LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart, String villeArrivee,
 			Transport transport, double prime) {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -126,7 +126,7 @@ public class Mission {
 
 	}
 
-	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, Nature nature, String villeDepart,
+	public Mission(int id, LocalDate dateDebut, LocalDate dateFin, NatureEnum nature, String villeDepart,
 			String villeArrivee, Transport transport, Collegue collegue) {
 		super();
 		this.id = id;
@@ -165,11 +165,11 @@ public class Mission {
 		this.dateFin = dateFin;
 	}
 
-	public Nature getNature() {
+	public NatureEnum getNature() {
 		return nature;
 	}
 
-	public void setNature(Nature nature) {
+	public void setNature(NatureEnum nature) {
 		this.nature = nature;
 	}
 

@@ -1,74 +1,32 @@
 /**
  *
  */
-package dev.domain;
+package dev.domainDto;
 
 import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-@Entity
-public class Nature {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class NatureDTO {
+
 	int id;
-
-	@Column
 	String nomNature;
-
-	@Column
 	boolean facturee;
-
-	@Column
 	boolean prime;
-
-	@Column
 	double tauxJournalierMoyen;
-
-	@Column
 	int pourcentPrime;
-
-	@Column
 	int plafondQuotidien;
-
-	@Column
 	boolean depassementFrais;
-
-	@Column
 	LocalDate dateDebut;
-
-	@Column
 	LocalDate dateFin;
 
-	public Nature () {}
+	public NatureDTO () {}
 
-	public Nature(int id, String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
-			int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut, LocalDate dateFin) {
+	public NatureDTO(String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime,
+			int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut) {
 		super();
-		this.id = id;
-		this.nomNature = nomNature;
-		this.facturee = facturee;
-		this.prime = prime;
-		this.tauxJournalierMoyen = tauxJournalierMoyen;
-		this.pourcentPrime = pourcentPrime;
-		this.plafondQuotidien = plafondQuotidien;
-		this.depassementFrais = depassementFrais;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-	}
-
-	public Nature(int id, String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
-			int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut) {
-		super();
-		this.id = id;
 		this.nomNature = nomNature;
 		this.facturee = facturee;
 		this.prime = prime;
@@ -79,7 +37,7 @@ public class Nature {
 		this.dateDebut = dateDebut;
 	}
 
-	public Nature(String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime,
+	public NatureDTO(String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen, int pourcentPrime,
 			int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut, LocalDate dateFin) {
 		super();
 		this.nomNature = nomNature;
@@ -93,9 +51,10 @@ public class Nature {
 		this.dateFin = dateFin;
 	}
 
-	public Nature(String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
+	public NatureDTO(int id, String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
 			int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut) {
 		super();
+		this.id = id;
 		this.nomNature = nomNature;
 		this.facturee = facturee;
 		this.prime = prime;
@@ -104,6 +63,21 @@ public class Nature {
 		this.plafondQuotidien = plafondQuotidien;
 		this.depassementFrais = depassementFrais;
 		this.dateDebut = dateDebut;
+	}
+
+	public NatureDTO(int id, String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
+			int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut, LocalDate dateFin) {
+		super();
+		this.id = id;
+		this.nomNature = nomNature;
+		this.facturee = facturee;
+		this.prime = prime;
+		this.tauxJournalierMoyen = tauxJournalierMoyen;
+		this.pourcentPrime = pourcentPrime;
+		this.plafondQuotidien = plafondQuotidien;
+		this.depassementFrais = depassementFrais;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
 	}
 
 	public LocalDate getDateDebut() {
@@ -255,8 +229,9 @@ public class Nature {
 	 */
 	@Override
 	public String toString() {
-		return "Nature [id=" + id + ", nomNature=" + nomNature + ", facturee=" + facturee + ", prime=" + prime + ", tauxJournalierMoyen=" + tauxJournalierMoyen + ", pourcentPrime=" + pourcentPrime + ", plafondQuotidien=" + plafondQuotidien
+		return "NatureDTO [id=" + id + ", nomNature=" + nomNature + ", facturee=" + facturee + ", prime=" + prime + ", tauxJournalierMoyen=" + tauxJournalierMoyen + ", pourcentPrime=" + pourcentPrime + ", plafondQuotidien=" + plafondQuotidien
 				+ ", depassementFrais=" + depassementFrais + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + "]";
 	}
+
 
 }

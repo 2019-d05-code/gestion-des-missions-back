@@ -63,56 +63,56 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				// désactivation CSRF
-				.csrf().disable()
-				// support de requêtes Cross-Domain pour Spring Security
-				// cette configuration permet d'utiliser les règles CORS de
-				// Spring MVC
-				.cors().and()
-				// Suppression du cookie JSESSIONID
-				// nous ne souhaitons pas de stockage d'état côté serveur
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				// en cas d'erreur, un code 403 est envoyé
-				.exceptionHandling()
-				.authenticationEntryPoint(
-						(request, response, authException) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
-				.and()
-				// toutes les requêtes doivent être authentifiées
-				.authorizeRequests().antMatchers("/h2-console/**").permitAll() // sauf
-																				// celle
-																				// dur
-																				// h2
-				.antMatchers("/collegue").hasAuthority(Role.ROLE_EMPLOYE.name()).antMatchers("/mission")
-				.hasAuthority(Role.ROLE_EMPLOYE.name()).anyRequest().authenticated().antMatchers("/manager")
-				.hasAuthority(Role.ROLE_MANAGER.name()).anyRequest().authenticated().and().headers().frameOptions()
-				.disable().and()
-				// génération d'un formulaire de login
-				// il faut produire une requête avec les caractéristiques
-				// suivantes :
-				// POST /login
-				// 'Content-Type': 'application/x-www-form-urlencoded'
-				// Deux paramètres : username et password
-				.formLogin()
-				// en cas de validation avec succès du formulaire
-				// jwtAuthenticationSuccessHandler personnalise la réponse à
-				// envoyer
-				// => la génération d'un jeton JWT
-				.successHandler(jwtAuthenticationSuccessHandler)
-				// en cas d'echec, code 400 envoyé
-				.failureHandler(
-						(request, response, exception) -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST))
-				// la requête POST /login n'est pas soumise à authentification
-				.permitAll().and()
-				// Filtre permettant de récupérer le jeton JWT et transformer
-				// son contenu en utilisateur connecté au sens Spring Security
-				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-				// Gestion de la déconnexion
-				// /POST /logout
-				.logout()
-				// en cas de succès un OK est envoyé (à la place d'une
-				// redirection vers /login)
-				.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
-				// suppression du cookie d'authentification
-				.deleteCookies(TOKEN_COOKIE);
+		// désactivation CSRF
+		.csrf().disable()
+		// support de requêtes Cross-Domain pour Spring Security
+		// cette configuration permet d'utiliser les règles CORS de
+		// Spring MVC
+		.cors().and()
+		// Suppression du cookie JSESSIONID
+		// nous ne souhaitons pas de stockage d'état côté serveur
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		// en cas d'erreur, un code 403 est envoyé
+		.exceptionHandling()
+		.authenticationEntryPoint(
+				(request, response, authException) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
+		.and()
+		// toutes les requêtes doivent être authentifiées
+		.authorizeRequests().antMatchers("/h2-console/**").permitAll() // sauf
+		// celle
+		// dur
+		// h2
+		.antMatchers("/collegue").hasAuthority(Role.ROLE_EMPLOYE.name()).antMatchers("/mission")
+		.hasAuthority(Role.ROLE_EMPLOYE.name()).anyRequest().authenticated().antMatchers("/manager")
+		.hasAuthority(Role.ROLE_MANAGER.name()).anyRequest().authenticated().and().headers().frameOptions()
+		.disable().and()
+		// génération d'un formulaire de login
+		// il faut produire une requête avec les caractéristiques
+		// suivantes :
+		// POST /login
+		// 'Content-Type': 'application/x-www-form-urlencoded'
+		// Deux paramètres : username et password
+		.formLogin()
+		// en cas de validation avec succès du formulaire
+		// jwtAuthenticationSuccessHandler personnalise la réponse à
+		// envoyer
+		// => la génération d'un jeton JWT
+		.successHandler(jwtAuthenticationSuccessHandler)
+		// en cas d'echec, code 400 envoyé
+		.failureHandler(
+				(request, response, exception) -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST))
+		// la requête POST /login n'est pas soumise à authentification
+		.permitAll().and()
+		// Filtre permettant de récupérer le jeton JWT et transformer
+		// son contenu en utilisateur connecté au sens Spring Security
+		.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+		// Gestion de la déconnexion
+		// /POST /logout
+		.logout()
+		// en cas de succès un OK est envoyé (à la place d'une
+		// redirection vers /login)
+		.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
+		// suppression du cookie d'authentification
+		.deleteCookies(TOKEN_COOKIE);
 	}
 }

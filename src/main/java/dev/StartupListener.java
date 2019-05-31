@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
-import dev.domain.Nature;
+import dev.domain.NatureEnum;
 import dev.domain.NatureFrais;
 import dev.domain.Role;
 import dev.domain.RoleCollegue;
@@ -108,7 +108,7 @@ public class StartupListener {
 		Mission miss1 = new Mission();
 		miss1.setDateDebut(LocalDate.parse("2015-05-15"));
 		miss1.setDateFin(LocalDate.parse("2015-09-25"));
-		miss1.setNature(Nature.Conseil);
+		miss1.setNature(NatureEnum.Conseil);
 		miss1.setVilleDepart("Pau");
 		miss1.setVilleArrivee("Bordeau");
 		miss1.setStatut(Statut.REJETEE);
@@ -119,7 +119,7 @@ public class StartupListener {
 		Mission miss2 = new Mission();
 		miss2.setDateDebut(LocalDate.parse("2015-12-01"));
 		miss2.setDateFin(LocalDate.parse("2016-02-28"));
-		miss2.setNature(Nature.Expertise);
+		miss2.setNature(NatureEnum.Expertise);
 		miss2.setVilleDepart("Nice");
 		miss2.setVilleArrivee("Brest");
 		miss2.setStatut(Statut.VALIDEE);
@@ -130,7 +130,7 @@ public class StartupListener {
 		Mission miss3 = new Mission();
 		miss3.setDateDebut(LocalDate.parse("2014-04-20"));
 		miss3.setDateFin(LocalDate.parse("2016-07-10"));
-		miss3.setNature(Nature.Formation);
+		miss3.setNature(NatureEnum.Formation);
 		miss3.setVilleDepart("Paris");
 		miss3.setVilleArrivee("Montpellier");
 		miss3.setStatut(Statut.INITIALE);
@@ -141,7 +141,7 @@ public class StartupListener {
 		Mission miss4 = new Mission();
 		miss4.setDateDebut(LocalDate.parse("2019-10-31"));
 		miss4.setDateFin(LocalDate.parse("2019-12-01"));
-		miss4.setNature(Nature.Technique);
+		miss4.setNature(NatureEnum.Technique);
 		miss4.setVilleDepart("Bordeaux");
 		miss4.setVilleArrivee("Strasbourg");
 		miss4.setStatut(Statut.EN_ATTENTE_VALIDATION);
@@ -152,7 +152,7 @@ public class StartupListener {
 		Mission miss5 = new Mission();
 		miss5.setDateDebut(LocalDate.parse("2019-10-15"));
 		miss5.setDateFin(LocalDate.parse("2019-11-05"));
-		miss5.setNature(Nature.Expertise);
+		miss5.setNature(NatureEnum.Expertise);
 		miss5.setVilleDepart("Albi");
 		miss5.setVilleArrivee("St Etienne");
 		miss5.setStatut(Statut.INITIALE);
@@ -163,7 +163,7 @@ public class StartupListener {
 		Mission miss6 = new Mission();
 		miss6.setDateDebut(LocalDate.parse("2019-06-10"));
 		miss6.setDateFin(LocalDate.parse("2019-07-25"));
-		miss6.setNature(Nature.Expertise);
+		miss6.setNature(NatureEnum.Expertise);
 		miss6.setVilleDepart("Frejus");
 		miss6.setVilleArrivee("Cannes");
 		miss6.setStatut(Statut.EN_ATTENTE_VALIDATION);
@@ -174,7 +174,7 @@ public class StartupListener {
 		Mission miss7 = new Mission();
 		miss7.setDateDebut(LocalDate.parse("2022-10-15"));
 		miss7.setDateFin(LocalDate.parse("2022-11-05"));
-		miss7.setNature(Nature.Formation);
+		miss7.setNature(NatureEnum.Formation);
 		miss7.setVilleDepart("Albi");
 		miss7.setVilleArrivee("St Etienne");
 		miss7.setStatut(Statut.EN_ATTENTE_VALIDATION);
@@ -185,7 +185,7 @@ public class StartupListener {
 		Mission miss8 = new Mission();
 		miss8.setDateDebut(LocalDate.parse("2020-05-15"));
 		miss8.setDateFin(LocalDate.parse("2020-08-05"));
-		miss8.setNature(Nature.Conseil);
+		miss8.setNature(NatureEnum.Conseil);
 		miss8.setVilleDepart("Los Angeles");
 		miss8.setVilleArrivee("St-Herblain");
 		miss8.setStatut(Statut.EN_ATTENTE_VALIDATION);
@@ -196,7 +196,7 @@ public class StartupListener {
 		Mission miss9 = new Mission();
 		miss9.setDateDebut(LocalDate.parse("2019-10-15"));
 		miss9.setDateFin(LocalDate.parse("2019-12-05"));
-		miss9.setNature(Nature.Conseil);
+		miss9.setNature(NatureEnum.Conseil);
 		miss9.setVilleDepart("Los Angeles");
 		miss9.setVilleArrivee("St-Herblain");
 		miss9.setStatut(Statut.EN_ATTENTE_VALIDATION);
