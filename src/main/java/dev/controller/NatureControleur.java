@@ -26,30 +26,30 @@ import dev.service.NatureService;
 @RequestMapping("/nature")
 public class NatureControleur {
 
-    @Autowired
-    NatureService natureService;
+	@Autowired
+	NatureService natureService;
 
-    @PostMapping
-    public NatureDTO ajout (@RequestBody NatureDTO nature) {
-	Nature natureRetour = natureService.ajoutNature (nature);
-	return new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin());
-    }
+	@PostMapping
+	public NatureDTO ajout (@RequestBody NatureDTO nature) {
+		Nature natureRetour = natureService.ajoutNature (nature);
+		return new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin());
+	}
 
-    @PatchMapping
-    public NatureDTO modification (@RequestBody NatureDTO nature) {
-	Nature natureRetour = natureService.modificationNature (nature);
-	return new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin());
-    }
+	@PatchMapping
+	public NatureDTO modification (@RequestBody NatureDTO nature) {
+		Nature natureRetour = natureService.modificationNature (nature);
+		return new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin());
+	}
 
-    @DeleteMapping
-    public void suppression (@RequestBody NatureDTO nature) {
-	natureService.suppressionNature (nature);
-    }
+	@DeleteMapping
+	public void suppression (@RequestBody int nature) {
+		natureService.suppressionNature (nature);
+	}
 
-    @GetMapping
-    public List <NatureDTO> recupererNatures () {
-	return natureService.afficherToutesNatures();
-    }
+	@GetMapping
+	public List <NatureDTO> recupererNatures () {
+		return natureService.afficherToutesNatures();
+	}
 
 
 }
