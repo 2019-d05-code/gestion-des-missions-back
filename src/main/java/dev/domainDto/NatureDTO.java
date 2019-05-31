@@ -223,4 +223,15 @@ public class NatureDTO {
 	public void setDepassementFrais(boolean departementFrais) {
 		this.depassementFrais = departementFrais;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "NatureDTO [id=" + id + ", nomNature=" + nomNature + ", facturee=" + facturee + ", prime=" + prime + ", tauxJournalierMoyen=" + tauxJournalierMoyen + ", pourcentPrime=" + pourcentPrime + ", plafondQuotidien=" + plafondQuotidien
+				+ ", depassementFrais=" + depassementFrais + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + "]";
+	}
+
+
 }

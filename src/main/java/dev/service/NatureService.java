@@ -37,13 +37,24 @@ public class NatureService {
 				throw new NatureInvalideException("Le taux journalier moyen doit exister pour une nature facturée !");
 			}
 		}
+		else {
+			nature.setPlafondQuotidien(0);
+			nature.setTauxJournalierMoyen(0);
+		}
 
 		// Si la nature octroie une prime, elle doit avoir un % de prime (négatif et 0 refusé)
 		if (nature.isPrime() && nature.getPourcentPrime() <= 0) {
 			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
 		}
+		else {
+			nature.setPourcentPrime(0);
+		}
 
-		if (nature.getDateFin () != null && nature.getDateDebut().isBefore(nature.getDateFin())) {
+		if (nature.getDateDebut() == null) {
+			throw new NatureInvalideException ("La date de début est obligatoire !");
+		}
+
+		if (nature.getDateFin () != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
 			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
@@ -74,10 +85,15 @@ public class NatureService {
 			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
 		}
 
-		if (nature.getDateFin () != null && nature.getDateDebut().isBefore(nature.getDateFin())) {
+		if (nature.getDateDebut() == null) {
+			throw new NatureInvalideException ("La date de début est obligatoire !");
+		}
+
+		if (nature.getDateFin () != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
 			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
+		System.out.println(nature.getId ());
 		Nature nat = natureRepository.findById(nature.getId ()).orElseThrow(() -> new NatureInvalideException ("La nature n'a pas été trouvée !"));
 		nat.setNomNature(nature.getNomNature ());
 		nat.setFacturee(nature.isFacturee());
