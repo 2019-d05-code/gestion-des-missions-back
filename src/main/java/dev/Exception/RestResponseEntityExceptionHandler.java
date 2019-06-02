@@ -21,15 +21,40 @@ public class RestResponseEntityExceptionHandler {
 	return ResponseEntity.status(404).body(bodyOfResponse);
     }
 
+    @ExceptionHandler(value = { MissionNonTrouveeException.class })
+    protected ResponseEntity<Object> conflictHandleMissionNonTrouvee (RuntimeException ex, WebRequest request) {
+	String bodyOfResponse = "La mission n'existe pas : " + ex.getMessage();
+	return ResponseEntity.status(404).body(bodyOfResponse);
+    }
+
     @ExceptionHandler(value = { NatureInvalideException.class })
     protected ResponseEntity<Object> handleConflictNature(RuntimeException ex, WebRequest request) {
 	String bodyOfResponse = "La nature est invalide : " + ex.getMessage ();
 	return ResponseEntity.status(404).body(bodyOfResponse);
     }
 
+    @ExceptionHandler(value = { ModificationInvalideException.class })
+    protected ResponseEntity<Object> handleConflictModification(RuntimeException ex, WebRequest request) {
+	String bodyOfResponse = "La modification est invalide : " + ex.getMessage ();
+	return ResponseEntity.status(404).body(bodyOfResponse);
+    }
+
+
+    @ExceptionHandler(value = { FraisInvalideException.class })
+    protected ResponseEntity<Object> conflictHandleFrais (RuntimeException ex, WebRequest request) {
+	String bodyOfResponse = "Frais est invalide : " + ex.getMessage();
+	return ResponseEntity.status(404).body(bodyOfResponse);
+    }
+
     @ExceptionHandler(value = { CollegueNonTrouveException.class })
     protected ResponseEntity<Object> conflictHandleCollegue(RuntimeException ex, WebRequest request) {
 	String bodyOfResponse = "Collegue n'existe pas : " + ex.getMessage();
+	return ResponseEntity.status(404).body(bodyOfResponse);
+    }
+
+    @ExceptionHandler(value = { NullPointerException.class })
+    protected ResponseEntity<Object> conflictHandleNull(RuntimeException ex, WebRequest request) {
+	String bodyOfResponse = "Une valeur n'a pas correctement été saisie !";
 	return ResponseEntity.status(404).body(bodyOfResponse);
     }
 }
