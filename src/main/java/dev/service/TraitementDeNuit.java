@@ -1,7 +1,5 @@
 package dev.service;
 
-import static org.hamcrest.CoreMatchers.is;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -70,7 +68,7 @@ public class TraitementDeNuit
 				}
 
 				// avec nature (classe) dans la mission
-				//double prime = c* miss.getNature().getTauxJournalierMoyen() * (miss.getNature().getPourcentPrime())/100 - calculerDeduction(miss, miss.getNature(), c)
+				//double prime = c* miss.getNature().getTauxJournalierMoyen() * (miss.getNature().getPourcentPrime())/100 - this.calculerDeduction(miss, miss.getNature(), c)
 				
 				// avec nature(enum) dans la mission
 				String nat = miss.getNature().toString();
@@ -79,7 +77,7 @@ public class TraitementDeNuit
 				{
 					if(nat.equals(n.getNomNature()) )
 					{
-						double prime = c * n.getTauxJournalierMoyen() * (n.getPourcentPrime())/100 - calculerDeduction(miss, n, c); //deduction
+						double prime = c * n.getTauxJournalierMoyen() * (n.getPourcentPrime())/100 - this.calculerDeduction(miss, n, c); //deduction
 						miss.setPrime(prime);
 						missionRepo.save(miss);
 						System.out.println("set prime");
