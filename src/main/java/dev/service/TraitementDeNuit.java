@@ -4,27 +4,16 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
 import dev.domain.Nature;
 import dev.domain.Statut;
-import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
 import dev.repository.NatureRepository;
 
