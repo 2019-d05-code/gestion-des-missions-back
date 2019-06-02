@@ -92,5 +92,11 @@ public class LigneDeFrais
 		this.mission = mission;
 	}
 
+	@Override
+	public String toString() {
+		return "LigneDeFrais [id=" + id + ", date=" + date + ", nature=" + nature + ", montant=" + montant
+				+ ", mission=" + mission + "]";
+	}
+
 
 }

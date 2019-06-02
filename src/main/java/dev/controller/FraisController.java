@@ -1,6 +1,7 @@
 package dev.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -37,7 +38,12 @@ public class FraisController
 	@Autowired
 	private MissionRepo missionRepo;
 	
-	
+	@GetMapping
+	public List<FraisDto> afficherToutesLesFrais()
+	{
+		return fraisRepo.findAll ().stream().map(frais -> new FraisDto (frais.getId (), frais.getDate(), frais.getNature(), frais.getMontant(), frais.getMission().getId())).collect (Collectors.toList());
+	}
+		
 	@GetMapping(path = "/{idMiss}")
 	public List<FraisDto> afficherToutesLesFrais(@PathVariable int idMiss)
 	{
@@ -48,7 +54,7 @@ public class FraisController
 	public void enregistrerFrais(@PathVariable int idMiss, @RequestBody FraisDto dto) throws FraisInvalideException
 	{
 		LigneDeFrais frais = DtoUtils.dtoVersFrais(dto);
-		Mission miss = missionRepo.findById(idMiss).get(); // check isPresent() ?
+		Mission miss = missionRepo.findById(idMiss).orElseThrow(() -> new FraisInvalideException ("La mission n'existe pas !"));
 		frais.setMission(miss);
 		this.fraisService.ajouterFrais(frais);
 	}
@@ -58,13 +64,13 @@ public class FraisController
 	{
 		LigneDeFrais frais = DtoUtils.dtoVersFrais(dto);
 		frais.setId(dto.getId());
-		Mission miss = missionRepo.findById(idMiss).get(); // check isPresent() ?
+		Mission miss = missionRepo.findById(idMiss).orElseThrow(() -> new FraisInvalideException ("La mission n'existe pas !"));
 		frais.setMission(miss);
 		this.fraisService.modifierFrais(frais);
 	}
 	
-	@DeleteMapping(path = "/{idMiss}")
-	public void enleverFrais( int idFrais )
+	@DeleteMapping(path = "/{idFrais}")
+	public void enleverFrais(@PathVariable int idFrais )
 	{
 		this.fraisService.supprimerFrais(idFrais);
 	}
