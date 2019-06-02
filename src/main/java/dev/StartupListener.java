@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domain.NatureEnum;
 import dev.domain.NatureFrais;
 import dev.domain.Role;
@@ -22,6 +23,7 @@ import dev.domain.Version;
 import dev.repository.CollegueRepo;
 import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
+import dev.repository.NatureRepository;
 import dev.repository.VersionRepo;
 
 /**
@@ -36,15 +38,17 @@ public class StartupListener {
 	private CollegueRepo collegueRepo;
 	private MissionRepo missionRepo;
 	private FraisRepo fraisRepo;
+	private NatureRepository natureRepo;
 
 	public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
-			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo, FraisRepo fraisRepo) {
+			PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo, FraisRepo fraisRepo, NatureRepository natureRepo) {
 		this.appVersion = appVersion;
 		this.versionRepo = versionRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.collegueRepo = collegueRepo;
 		this.missionRepo = missionRepo;
 		this.fraisRepo = fraisRepo;
+		this.natureRepo = natureRepo;
 	}
 
 	@EventListener(ContextRefreshedEvent.class)
@@ -217,6 +221,16 @@ public class StartupListener {
 
 		LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
 		this.fraisRepo.save(frais4);
+		
+		//initialisation de qq nature
+		//String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
+		//int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut
+		Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+		this.natureRepo.save(nat1);
+		
+		Nature nat2 = new Nature("Conseil", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+		this.natureRepo.save(nat2);
+		
 	}
 
 }

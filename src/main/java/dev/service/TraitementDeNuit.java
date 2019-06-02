@@ -15,25 +15,37 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domain.Statut;
 import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
+import dev.repository.NatureRepository;
 
-@Service
+//@Service
+@Configuration
+@EnableScheduling
 public class TraitementDeNuit
 {
 	@Autowired
 	private MissionRepo missionRepo;
+	@Autowired
+	private NatureRepository natureRepo;
 
 	@Autowired
-	public TraitementDeNuit(MissionRepo missionRepo) {
+	public TraitementDeNuit(MissionRepo missionRepo, NatureRepository natureRepo) {
 		this.missionRepo = missionRepo;
+		this.natureRepo = natureRepo;
 	}
 	
 	// - changement de statut - 
+	//@Scheduled(cron="0 0 23 * * *") //pour le deploiement
+	@Scheduled(initialDelay=10000, fixedDelay=50000) //pour les tests locaux
 	public void changerStatut()
 	{
 		List<Mission> liste = missionRepo.findAll();
@@ -42,12 +54,16 @@ public class TraitementDeNuit
 			if(miss.getStatut().equals(Statut.INITIALE))
 			{
 				miss.setStatut(Statut.EN_ATTENTE_VALIDATION);
+				missionRepo.save(miss);
+				System.out.println("set statut");
 				//code pour envoyer un email au manager
 				//envoyerEmail()
 			}
 		}
 	}
 	
+	//@Scheduled(cron="0 0 23 * * *") //pour le deploiement
+	@Scheduled(initialDelay=10000, fixedDelay=50000) //pour les tests locaux
 	public void calculPrime()
 	{
 		List<Mission> liste = missionRepo.findAll();
@@ -55,6 +71,7 @@ public class TraitementDeNuit
 		{
 			if(miss.getStatut().equals(Statut.VALIDEE))
 			{
+				// calcul du nombre de jours travaille
 				int c = 0;
 				for(LocalDate d = miss.getDateDebut(); d.isBefore(miss.getDateFin()); d = d.plusDays(1) )
 				{
@@ -62,13 +79,31 @@ public class TraitementDeNuit
 					else {c++;}
 				}
 				//a revoir
-				double prime = c* TJM * %Prime/100 - déduction
-				miss.setPrime(prime);
+				// avec nature (classe) dans la mission
+				//double prime = c* miss.getNature().getTauxJournalierMoyen() * (miss.getNature().getPourcentPrime())/100 - déduction
+				
+				// avec nature(enum) dans la mission
+				// trouver la nature correspondante
+				String nat = miss.getNature().toString();
+				List<Nature> natures = natureRepo.findAll();
+				for(Nature n:natures)
+				{
+					if(nat.equals(n.getNomNature()) )
+					{
+						double prime = c * n.getTauxJournalierMoyen() * (n.getPourcentPrime())/100; //deduction
+						miss.setPrime(prime);
+						missionRepo.save(miss);
+						System.out.println("set prime");
+					}
+				}
+
 			}
+			
 		}
 	}
 	
 	// - envoie d'un email - 
+	/*
 	public static void envoyerEmail(String subject, String text, String destinataire, String copyDest) {
 	    // 1 -> Création de la session
 	    Properties properties = new Properties();
@@ -107,7 +142,7 @@ public class TraitementDeNuit
 	        }
 	    }
 	    
-	}
+	}*/
 
 
 }
