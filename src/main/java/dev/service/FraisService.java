@@ -18,90 +18,88 @@ import dev.repository.MissionRepo;
 @Service
 public class FraisService
 {
-	
-	private FraisRepo fraisRepo;
-	
-	@Autowired
-	private MissionRepo missionRepo;
 
-	@Autowired
-	public FraisService(FraisRepo fraisRepo) {
-		this.fraisRepo = fraisRepo;
-	}
-	
-	// - ajouter -
-	public void ajouterFrais(LigneDeFrais frais) throws FraisInvalideException
-	{
-		// Envoi d'une exception en cas de non-respect des règles métier
-		if (montantPositif(frais.getMontant()) && 
-				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()) && 
-				verificationUnique(fraisRepo.findAll(), frais) )
-		{
-			fraisRepo.save(frais);
-		}
-		else 
-		{
-			throw new FraisInvalideException("Les paramètres sont invalides");
-		}
+    private FraisRepo fraisRepo;
 
-	}
-	
-	// - recuperer des frais
-	public List<FraisDto> envoyerListeFrais(int idMiss)
-	{
-		Mission miss = missionRepo.findById(idMiss).get();
-		List<LigneDeFrais> liste = fraisRepo.findByMission(miss);
-		List<FraisDto> sortie = new ArrayList<>();
-		for(LigneDeFrais f:liste)
-		{
-			sortie.add(DtoUtils.fraisVersDto(f));
-		}
+    @Autowired
+    private MissionRepo missionRepo;
 
-		return sortie;
-	}
-	
-	// - supprimer des frais
-	public void supprimerFrais(int idFrais)
+    @Autowired
+    public FraisService(FraisRepo fraisRepo) {
+	this.fraisRepo = fraisRepo;
+    }
+
+    // - ajouter -
+    public void ajouterFrais(LigneDeFrais frais)
+    {
+	// Envoi d'une exception en cas de non-respect des règles métier
+	if (montantPositif(frais.getMontant()) &&
+		verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()) &&
+		verificationUnique(fraisRepo.findAll(), frais) )
 	{
-		fraisRepo.deleteById(idFrais);
+	    fraisRepo.save(frais);
 	}
-	
-	// - modifier des frais
-	public void modifierFrais(LigneDeFrais frais) throws FraisInvalideException
+	else
 	{
-		System.out.println("coucou" + frais.toString());
-		
-		if (montantPositif(frais.getMontant()) && 
-				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()))
-		{ 
-			fraisRepo.save(frais);
-		}
-		else 
-		{
-			throw new FraisInvalideException("Les paramètres sont invalides");
-		}
-		
+	    throw new FraisInvalideException("Les paramètres sont invalides");
 	}
-	
-	// - regle metier - 
-	public boolean montantPositif(double montant)
+
+    }
+
+    // - recuperer des frais
+    public List<FraisDto> envoyerListeFrais(int idMiss)
+    {
+	Mission miss = missionRepo.findById(idMiss).get();
+	List<LigneDeFrais> liste = fraisRepo.findByMission(miss);
+	List<FraisDto> sortie = new ArrayList<>();
+	for(LigneDeFrais f:liste)
 	{
-		return montant>0;
+	    sortie.add(DtoUtils.fraisVersDto(f));
 	}
-	
-	public boolean verificationDate(LocalDate debut, LocalDate fin, LocalDate date)
+
+	return sortie;
+    }
+
+    // - supprimer des frais
+    public void supprimerFrais(int idFrais)
+    {
+	fraisRepo.deleteById(idFrais);
+    }
+
+    // - modifier des frais
+    public void modifierFrais(LigneDeFrais frais)
+    {
+	if (montantPositif(frais.getMontant()) &&
+		verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()))
 	{
-		return ( date.isAfter(debut) && date.isBefore(fin) );
+	    fraisRepo.save(frais);
 	}
-	
-	public boolean verificationUnique(List<LigneDeFrais> liste, LigneDeFrais frais)
+	else
 	{
-		for(LigneDeFrais l:liste)
-		{
-			if(l.getDate().isEqual(frais.getDate()) && l.getNature().equals(frais.getNature()) )
-			{ return false; }
-		}
-		return true;
+	    throw new FraisInvalideException("Les paramètres sont invalides");
 	}
+
+    }
+
+    // - regle metier -
+    public boolean montantPositif(double montant)
+    {
+	return montant>0;
+    }
+
+    public boolean verificationDate(LocalDate debut, LocalDate fin, LocalDate date)
+    {
+	return ( date.isAfter(debut) && date.isBefore(fin) );
+    }
+
+    public boolean verificationUnique(List<LigneDeFrais> liste, LigneDeFrais frais)
+    {
+	for(LigneDeFrais l:liste)
+	{
+	    if(l.getDate().isEqual(frais.getDate()) && l.getNature().equals(frais.getNature()) )
+	    { return false; }
+	}
+	return true;
+    }
 
 }
