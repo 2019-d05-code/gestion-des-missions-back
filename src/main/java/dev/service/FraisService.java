@@ -41,7 +41,7 @@ public class FraisService
 		}
 		else 
 		{
-			throw new FraisInvalideException("Les paramétres sont invalides");
+			throw new FraisInvalideException("Les paramètres sont invalides");
 		}
 
 	}
@@ -69,15 +69,16 @@ public class FraisService
 	// - modifier des frais
 	public void modifierFrais(LigneDeFrais frais) throws FraisInvalideException
 	{
+		System.out.println("coucou" + frais.toString());
+		
 		if (montantPositif(frais.getMontant()) && 
-				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()) && 
-				verificationUnique(fraisRepo.findAll(), frais) )
+				verificationDate(frais.getMission().getDateDebut(),frais.getMission().getDateFin(),frais.getDate()))
 		{ 
 			fraisRepo.save(frais);
 		}
 		else 
 		{
-			throw new FraisInvalideException("Les paramétres sont invalides");
+			throw new FraisInvalideException("Les paramètres sont invalides");
 		}
 		
 	}
