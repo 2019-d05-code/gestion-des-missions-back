@@ -46,6 +46,12 @@ public interface DtoUtils {
 				miss.getVilleDepart(), miss.getVilleArrivee(), miss.getTransport(), miss.getStatut(), miss.getPrime());
 	}
 
+	public static MissionDto toMissionDtoAvecEmail(Mission miss) {
+		return new MissionDto(miss.getId(), miss.getDateDebut(), miss.getDateFin(), miss.getNature(),
+				miss.getVilleDepart(), miss.getVilleArrivee(), miss.getTransport(), miss.getStatut(),
+				miss.getCollegue().getEmail());
+	}
+
 	public static Mission toMissionAvecId(MissionDto missDto) {
 		return new Mission(missDto.getId(), missDto.getDateDebut(), missDto.getDateFin(), missDto.getNature(),
 				missDto.getVilleDepart(), missDto.getVilleArrivee(), missDto.getTransport(), missDto.getStatut());

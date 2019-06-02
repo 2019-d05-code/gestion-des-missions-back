@@ -1,7 +1,5 @@
 package dev.PrimeService;
 
-import static org.junit.Assert.assertTrue;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dev.domain.Mission;
-import dev.domain.Nature;
+import dev.domain.NatureEnum;
 import dev.domain.Transport;
 import dev.repository.MissionRepo;
 import dev.repository.PrimeRepo;
@@ -44,11 +42,11 @@ public class PrimeServiceTest {
 
 	@Test
 	public void TestPourAscList() {
-		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), Nature.Formation,
+		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
 				"Toulouse", "Bordeaux", Transport.Train, 1500);
-		Mission mission2 = new Mission(LocalDate.now().plusDays(90), LocalDate.now().plusDays(150), Nature.Formation,
+		Mission mission2 = new Mission(LocalDate.now().plusDays(90), LocalDate.now().plusDays(150), NatureEnum.Formation,
 				"Toulouse", "nantes", Transport.Covoiturage, 450);
-		Mission mission3 = new Mission(LocalDate.now().plusDays(200), LocalDate.now().plusDays(300), Nature.Formation,
+		Mission mission3 = new Mission(LocalDate.now().plusDays(200), LocalDate.now().plusDays(300), NatureEnum.Formation,
 				"Toulouse", "pau", Transport.Avion, 900);
 
 		List<Mission> missionList = new ArrayList<>();
@@ -58,11 +56,11 @@ public class PrimeServiceTest {
 		this.missionService.ajouterMission(mission2);
 		Mockito.when(missionRepo.save(mission)).thenReturn(mission3);
 		this.missionService.ajouterMission(mission3);
-//
-//		Mockito.when(primeRepo.sortAllMissionAsc()).thenReturn(missionList);
-//		this.primeRepo.sortAllMissionAsc();
-//		Mockito.verify(primeRepo).sortAllMissionAsc();
-//		assertTrue(missionList.get(0).getPrime() > missionList.get(1).getPrime());
+		//
+		//		Mockito.when(primeRepo.sortAllMissionAsc()).thenReturn(missionList);
+		//		this.primeRepo.sortAllMissionAsc();
+		//		Mockito.verify(primeRepo).sortAllMissionAsc();
+		//		assertTrue(missionList.get(0).getPrime() > missionList.get(1).getPrime());
 		// System.out.println(missionList.get(0).getPrime());
 		// System.out.println(missionList.get(1).getPrime());
 
