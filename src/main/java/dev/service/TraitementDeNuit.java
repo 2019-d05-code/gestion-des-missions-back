@@ -1,5 +1,8 @@
 package dev.service;
 
+import static org.hamcrest.CoreMatchers.is;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,7 +43,7 @@ public class TraitementDeNuit
 			{
 				miss.setStatut(Statut.EN_ATTENTE_VALIDATION);
 				//code pour envoyer un email au manager
-				envoyerEmail()
+				//envoyerEmail()
 			}
 		}
 	}
@@ -52,15 +55,20 @@ public class TraitementDeNuit
 		{
 			if(miss.getStatut().equals(Statut.VALIDEE))
 			{
-				Days.daysBetween(date1, date2).getDays();
+				int c = 0;
+				for(LocalDate d = miss.getDateDebut(); d.isBefore(miss.getDateFin()); d = d.plusDays(1) )
+				{
+					if (d.getDayOfWeek().equals("SATURDAY") || d.getDayOfWeek().equals("SUNDAY") ) {}
+					else {c++;}
+				}
 				//a revoir
-				double prime = (nombre de jours travaillés)* TJM * %Prime/100 - déduction
+				double prime = c* TJM * %Prime/100 - déduction
 				miss.setPrime(prime);
 			}
 		}
 	}
 	
-	// - envoie d'un email
+	// - envoie d'un email - 
 	public static void envoyerEmail(String subject, String text, String destinataire, String copyDest) {
 	    // 1 -> Création de la session
 	    Properties properties = new Properties();
