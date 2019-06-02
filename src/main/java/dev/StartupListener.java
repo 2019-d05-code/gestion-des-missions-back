@@ -223,8 +223,6 @@ public class StartupListener {
 		this.fraisRepo.save(frais4);
 		
 		//initialisation de qq nature
-		//String nomNature, boolean facturee, boolean prime, double tauxJournalierMoyen,
-		//int pourcentPrime, int plafondQuotidien, boolean depassementFrais, LocalDate dateDebut
 		Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
 		this.natureRepo.save(nat1);
 		

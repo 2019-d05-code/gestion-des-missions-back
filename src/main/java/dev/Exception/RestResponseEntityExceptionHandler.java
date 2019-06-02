@@ -39,7 +39,6 @@ public class RestResponseEntityExceptionHandler {
 	return ResponseEntity.status(404).body(bodyOfResponse);
     }
 
-
     @ExceptionHandler(value = { FraisInvalideException.class })
     protected ResponseEntity<Object> conflictHandleFrais (RuntimeException ex, WebRequest request) {
 	String bodyOfResponse = "Frais est invalide : " + ex.getMessage();
