@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
 import dev.domain.Nature;
 import dev.domain.Statut;
@@ -78,19 +79,18 @@ public class TraitementDeNuit
 					if (d.getDayOfWeek().equals("SATURDAY") || d.getDayOfWeek().equals("SUNDAY") ) {}
 					else {c++;}
 				}
-				//a revoir
+
 				// avec nature (classe) dans la mission
-				//double prime = c* miss.getNature().getTauxJournalierMoyen() * (miss.getNature().getPourcentPrime())/100 - déduction
+				//double prime = c* miss.getNature().getTauxJournalierMoyen() * (miss.getNature().getPourcentPrime())/100 - calculerDeduction(miss, miss.getNature(), c)
 				
 				// avec nature(enum) dans la mission
-				// trouver la nature correspondante
 				String nat = miss.getNature().toString();
 				List<Nature> natures = natureRepo.findAll();
 				for(Nature n:natures)
 				{
 					if(nat.equals(n.getNomNature()) )
 					{
-						double prime = c * n.getTauxJournalierMoyen() * (n.getPourcentPrime())/100; //deduction
+						double prime = c * n.getTauxJournalierMoyen() * (n.getPourcentPrime())/100 - calculerDeduction(miss, n, c); //deduction
 						miss.setPrime(prime);
 						missionRepo.save(miss);
 						System.out.println("set prime");
@@ -99,6 +99,22 @@ public class TraitementDeNuit
 
 			}
 			
+		}
+	}
+	
+	public double calculerDeduction(Mission miss, Nature nat, int c)
+	{
+		if (nat.isDepassementFrais()==false)
+		{return 0.0;}
+		else
+		{
+			double somme = 0;
+			for (LigneDeFrais f : miss.getNotesFrais() )
+			{
+				somme += f.getMontant();
+			}
+			
+			return somme - nat.getPlafondQuotidien() * c;
 		}
 	}
 	

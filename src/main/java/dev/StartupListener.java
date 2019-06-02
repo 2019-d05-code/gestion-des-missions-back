@@ -181,7 +181,7 @@ public class StartupListener {
 		miss7.setNature(NatureEnum.Formation);
 		miss7.setVilleDepart("Albi");
 		miss7.setVilleArrivee("St Etienne");
-		miss7.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss7.setStatut(Statut.VALIDEE); //
 		miss7.setTransport(Transport.Covoiturage);
 		miss7.setCollegue(col4);
 		this.missionRepo.save(miss7);
@@ -192,7 +192,7 @@ public class StartupListener {
 		miss8.setNature(NatureEnum.Conseil);
 		miss8.setVilleDepart("Los Angeles");
 		miss8.setVilleArrivee("St-Herblain");
-		miss8.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss8.setStatut(Statut.VALIDEE); //
 		miss8.setTransport(Transport.Avion);
 		miss8.setCollegue(col4);
 		this.missionRepo.save(miss8);
@@ -203,7 +203,7 @@ public class StartupListener {
 		miss9.setNature(NatureEnum.Conseil);
 		miss9.setVilleDepart("Los Angeles");
 		miss9.setVilleArrivee("St-Herblain");
-		miss9.setStatut(Statut.EN_ATTENTE_VALIDATION);
+		miss9.setStatut(Statut.VALIDEE); //
 		miss9.setTransport(Transport.VoitureDeService);
 		miss9.setCollegue(col4);
 		this.missionRepo.save(miss9);
