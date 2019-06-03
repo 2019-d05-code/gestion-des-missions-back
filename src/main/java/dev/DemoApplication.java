@@ -10,23 +10,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class DemoApplication {
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*")
-						.allowedMethods("GET", "POST", "PATCH", "PUT", "OPTIONS", "DELETE").allowCredentials(true);
-			}
-		};
-	}
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+	return new WebMvcConfigurer() {
+	    @Override
+	    public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedOrigins("*")
+		.allowedMethods("GET", "POST", "PATCH", "PUT", "OPTIONS", "DELETE").allowCredentials(true);
+	    }
+	};
+    }
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    public RestTemplate restTemplate() {
+	return new RestTemplate();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+	SpringApplication.run(DemoApplication.class, args);
+    }
 }

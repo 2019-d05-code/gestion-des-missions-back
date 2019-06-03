@@ -9,7 +9,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import dev.Exception.MissionInvalidException;
 import dev.Exception.MissionNonTrouveeException;
@@ -171,13 +173,22 @@ public class MissionService {
 	Iterator<MissionDto> iterator = missionList.iterator();
 	while (iterator.hasNext()) {
 	    MissionDto missionTemp = iterator.next();
+
 	    if (mission.getDateDebut().isAfter(missionTemp.getDateDebut())
 		    && mission.getDateDebut().isBefore(missionTemp.getDateFin())
 		    && mission.getDateFin().isAfter(missionTemp.getDateDebut())
 		    && mission.getDateFin().isBefore(missionTemp.getDateFin())) {
 		throw new MissionInvalidException("La date d'une ne peut pas être comprise pendant la date d'une autre mission !");
 	    }
+
 	}
+
+	RestTemplate rt = new RestTemplate();
+	ResponseEntity<MissionDto> result = rt.getForEntity("https://absences-back.cleverapps.io/gestion-absences/listeAbsencesValidees?email="+mission.getCollegue().getEmail(),
+		MissionDto.class);
+
+	System.out.println(result);
+
 	return true;
     }
 
