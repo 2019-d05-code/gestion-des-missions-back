@@ -1,22 +1,10 @@
-import java.time.LocalDate;
-import java.util.Optional;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dev.Exception.MissionInvalidException;
-import dev.Exception.MissionNonTrouveeException;
-import dev.Exception.ModificationInvalideException;
-import dev.domain.Mission;
-import dev.domain.NatureEnum;
-import dev.domain.Statut;
-import dev.domain.Transport;
 import dev.repository.MissionRepo;
 import dev.service.MissionService;
 
@@ -124,10 +112,7 @@ public class MissionServiceTest {
 	// Récupère la mission à modifier à partir d'une recherche par ID
 	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
 
-	/*
-     * Instanciation d'une mission correspondant aux modifications à
-     * apporter à la mission existante
-     */
+
     Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), NatureEnum.Formation,
 	    "Toulouse", "Bordeaux", Transport.Train, 100);
     this.missionService.modifierMission(mission.getId(), modifications);
@@ -183,7 +168,7 @@ public void test_modifier_mission_nok_statut_invalide_en_attente_validation() {
     Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
 	    "Toulouse", "Bordeaux", Transport.Train);
     this.missionService.modifierMission(mission.getId(), modifications);
-}*
+}
 
 @Test
 public void test_modifier_mission_nok_statut_invalide_mission_validee() {
@@ -228,5 +213,5 @@ public void test_supprimer_mission_ok() {
     Mockito.verify(missionRepo).deleteById(mission.getId());
 }
 
-*/
+     */
 }
