@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import dev.Exception.NatureInvalideException;
 import dev.Utils.DtoUtils;
-import dev.domain.Mission;
 import dev.domain.Nature;
-import dev.domainDto.MissionDto;
 import dev.domainDto.NatureDTO;
 import dev.repository.NatureRepository;
 
@@ -27,58 +25,64 @@ public class NatureService {
 	@Autowired
 	NatureRepository natureRepository;
 
-	public Nature ajoutNature (NatureDTO nature) {
+	public Nature ajoutNature(NatureDTO nature) {
 
-//		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
-//			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
-//		}
+		if (natureRepository.findAll().stream()
+				.anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+			throw new NatureInvalideException("Une nature avec ce nom existe déjà !");
+		}
 
-		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
+		// Si la nature est facturée, elle doit avoir un TJM moyen en euros
+		// (négatif et 0 refusé)
 		if (nature.isFacturee()) {
 			if (nature.getPlafondQuotidien() < 0) {
-				throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
+				throw new NatureInvalideException("Le plafond quotidien doit être positif !");
 			}
 
 			if (nature.getTauxJournalierMoyen() <= 0) {
 				throw new NatureInvalideException("Le taux journalier moyen doit exister pour une nature facturée !");
 			}
-		}
-		else {
+		} else {
 			nature.setPlafondQuotidien(0);
 			nature.setTauxJournalierMoyen(0);
 		}
 
-		// Si la nature octroie une prime, elle doit avoir un % de prime (négatif et 0 refusé)
+		// Si la nature octroie une prime, elle doit avoir un % de prime
+		// (négatif et 0 refusé)
 		if (nature.isPrime() && nature.getPourcentPrime() <= 0) {
-			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
-		}
-		else {
+			throw new NatureInvalideException(
+					"Le taux de la prime doit être renseigner pour une nature incluant une prime !");
+		} else if (!nature.isPrime()) {
 			nature.setPourcentPrime(0);
 		}
 
 		if (nature.getDateDebut() == null) {
-			throw new NatureInvalideException ("La date de début est obligatoire !");
+			throw new NatureInvalideException("La date de début est obligatoire !");
 		}
 
-		if (nature.getDateFin () != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
+		if (nature.getDateFin() != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
 			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
-		Nature nat = new Nature (nature.getNomNature (), nature.isFacturee(), nature.isPrime (), nature.getTauxJournalierMoyen(), nature.getPourcentPrime(), nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(), nature.getDateFin());
+		Nature nat = new Nature(nature.getNomNature(), nature.isFacturee(), nature.isPrime(),
+				nature.getTauxJournalierMoyen(), nature.getPourcentPrime(), nature.getPlafondQuotidien(),
+				nature.isDepassementFrais(), nature.getDateDebut(), nature.getDateFin());
 		natureRepository.save(nat);
 		return nat;
 	}
 
-	public Nature modificationNature (int id, NatureDTO nature) {
+	public Nature modificationNature(int id, NatureDTO nature) {
 
-//		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
-//			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
-//		}
+		if (natureRepository.findAll().stream()
+				.anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+			throw new NatureInvalideException("Une nature avec ce nom existe déjà !");
+		}
 
-		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
+		// Si la nature est facturée, elle doit avoir un TJM moyen en euros
+		// (négatif et 0 refusé)
 		if (nature.isFacturee()) {
 			if (nature.getPlafondQuotidien() < 0) {
-				throw new NatureInvalideException ("Le plafond quotidien doit être positif !");
+				throw new NatureInvalideException("Le plafond quotidien doit être positif !");
 			}
 
 			if (nature.getTauxJournalierMoyen() <= 0) {
@@ -86,26 +90,28 @@ public class NatureService {
 			}
 		}
 
-		// Si la nature octroie une prime, elle doit avoir un % de prime (négatif et 0 refusé)
+		// Si la nature octroie une prime, elle doit avoir un % de prime
+		// (négatif et 0 refusé)
 		if (nature.isPrime() && nature.getPourcentPrime() <= 0) {
-			throw new NatureInvalideException("Le taux de la prime doit être renseigner pour une nature incluant une prime !");
+			throw new NatureInvalideException(
+					"Le taux de la prime doit être renseigner pour une nature incluant une prime !");
 		}
 
 		if (nature.getDateDebut() == null) {
-			throw new NatureInvalideException ("La date de début est obligatoire !");
+			throw new NatureInvalideException("La date de début est obligatoire !");
 		}
 
-		if (nature.getDateFin () != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
+		if (nature.getDateFin() != null && nature.getDateFin().isBefore(nature.getDateDebut())) {
 			throw new NatureInvalideException("La date de fin ne doit pas être précéder la date de début !");
 		}
 
-		System.out.println(nature.getId ());
-		Nature nat = natureRepository.findById(id).orElseThrow(() -> new NatureInvalideException ("La nature n'a pas été trouvée !"));
-		nat.setNomNature(nature.getNomNature ());
+		Nature nat = natureRepository.findById(id)
+				.orElseThrow(() -> new NatureInvalideException("La nature n'a pas été trouvée !"));
+		nat.setNomNature(nature.getNomNature());
 		nat.setFacturee(nature.isFacturee());
-		nat.setPrime(nature.isPrime ());
+		nat.setPrime(nature.isPrime());
 
-		if (nat.isFacturee ()) {
+		if (nat.isFacturee()) {
 			nat.setTauxJournalierMoyen(nature.getTauxJournalierMoyen());
 			nat.setPlafondQuotidien(nature.getPlafondQuotidien());
 		}
@@ -126,17 +132,22 @@ public class NatureService {
 		return nat;
 	}
 
-	public void suppressionNature (int id) {
+	public void suppressionNature(int id) {
 
 		if (!natureRepository.existsById(id)) {
-			throw new NatureInvalideException ("La nature que vous voulez supprimée n'existe pas !");
+			throw new NatureInvalideException("La nature que vous voulez supprimée n'existe pas !");
 		}
 
 		natureRepository.deleteById(id);
 	}
 
-	public List <NatureDTO> afficherToutesNatures () {
-		return natureRepository.findAll().stream().map(nature -> new NatureDTO (nature.getId (), nature.getNomNature (), nature.isFacturee(), nature.isPrime (), nature.getTauxJournalierMoyen(), nature.getPourcentPrime(), nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(), nature.getDateFin())).collect(Collectors.toList());
+	public List<NatureDTO> afficherToutesNatures() {
+		return natureRepository.findAll().stream()
+				.map(nature -> new NatureDTO(nature.getId(), nature.getNomNature(), nature.isFacturee(),
+						nature.isPrime(), nature.getTauxJournalierMoyen(), nature.getPourcentPrime(),
+						nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(),
+						nature.getDateFin()))
+				.collect(Collectors.toList());
 	}
 
 	public NatureRepository getNatureRepository() {
@@ -155,5 +166,5 @@ public class NatureService {
 			LOG.error("Aucune mission trouvée avec cet ID");
 			return null;
 		}
-	}  
+	}
 }
