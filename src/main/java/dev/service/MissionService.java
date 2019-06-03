@@ -143,10 +143,8 @@ public class MissionService {
      */
     private Boolean regleMetierAvion(Mission mission) {
 	LocalDate dateAvion = LocalDate.now().plusDays(7);
-	if (mission.getTransport().equals(Transport.Avion)) {
-	    if (mission.getDateDebut().isBefore(dateAvion)) {
-		throw new MissionInvalidException(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
-	    }
+	if (mission.getTransport().equals(Transport.Avion) && mission.getDateDebut().isBefore(dateAvion)) {
+	    throw new MissionInvalidException(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
 	}
 	return true;
     }
@@ -167,17 +165,20 @@ public class MissionService {
      * commence ou finit un jour non travaillé
      */
     private Boolean regleMetierMissionDisponible(Mission mission) {
-	List<MissionDto> missionList = this.recupererToutesLesMissions().stream().collect(Collectors.toList());
+	List<MissionDto> missionList = this.recupererMissionParCollegue(mission.getCollegue().getId()).stream().collect(Collectors.toList());
 
 	// iterator loop
 	Iterator<MissionDto> iterator = missionList.iterator();
 	while (iterator.hasNext()) {
 	    MissionDto missionTemp = iterator.next();
+
 	    if (mission.getDateDebut().isAfter(missionTemp.getDateDebut())
-		    && mission.getDateDebut().isBefore(missionTemp.getDateFin()) && mission.getDateFin().isAfter(missionTemp.getDateDebut())
+		    && mission.getDateDebut().isBefore(missionTemp.getDateFin())
+		    && mission.getDateFin().isAfter(missionTemp.getDateDebut())
 		    && mission.getDateFin().isBefore(missionTemp.getDateFin())) {
 		throw new MissionInvalidException("La date d'une ne peut pas être comprise pendant la date d'une autre mission !");
 	    }
+
 	}
 	return true;
     }
