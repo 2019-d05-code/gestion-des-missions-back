@@ -75,7 +75,8 @@ public class StartupListener {
 		col2.setPrenom("DEV");
 		col2.setEmail("user@dev.fr");
 		col2.setMotDePasse(passwordEncoder.encode("superpass"));
-		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE), new RoleCollegue(col2, Role.ROLE_UTILISATEUR)));
+		col2.setRoles(Arrays.asList(new RoleCollegue(col2, Role.ROLE_EMPLOYE),
+				new RoleCollegue(col2, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col2);
 
 		Collegue col3 = new Collegue();
@@ -83,8 +84,8 @@ public class StartupListener {
 		col3.setPrenom("DEV");
 		col3.setEmail("manag@dev.fr");
 		col3.setMotDePasse(passwordEncoder.encode("superpass"));
-		col3.setRoles(
-				Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER), new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
+		col3.setRoles(Arrays.asList(new RoleCollegue(col3, Role.ROLE_MANAGER),
+				new RoleCollegue(col3, Role.ROLE_EMPLOYE), new RoleCollegue(col3, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col3);
 
 		Collegue col4 = new Collegue();
@@ -100,16 +101,18 @@ public class StartupListener {
 		col5.setPrenom("DEV");
 		col5.setEmail("manager2@dev.fr");
 		col5.setMotDePasse(passwordEncoder.encode("superpass"));
-		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE), new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
+		col5.setRoles(Arrays.asList(new RoleCollegue(col5, Role.ROLE_EMPLOYE),
+				new RoleCollegue(col5, Role.ROLE_MANAGER), new RoleCollegue(col5, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col5);
 
-		Collegue col6 = new Collegue();
-		col6.setNom("PAUL");
-		col6.setPrenom("Gurpratap Singh");
-		col6.setEmail("paul@dev.fr");
-		col6.setMotDePasse(passwordEncoder.encode("superpass"));
-		col6.setRoles(Arrays.asList(new RoleCollegue(col6, Role.ROLE_EMPLOYE), new RoleCollegue(col6, Role.ROLE_MANAGER), new RoleCollegue(col6, Role.ROLE_UTILISATEUR)));
-		this.collegueRepo.save(col6);
+		Collegue col42 = new Collegue();
+		col42.setNom("PAUL");
+		col42.setPrenom("Gurpratap Singh");
+		col42.setEmail("paul@dev.fr");
+		col42.setMotDePasse(passwordEncoder.encode("superpass"));
+		col42.setRoles(Arrays.asList(new RoleCollegue(col42, Role.ROLE_EMPLOYE),
+				new RoleCollegue(col42, Role.ROLE_MANAGER), new RoleCollegue(col42, Role.ROLE_UTILISATEUR)));
+		this.collegueRepo.save(col42);
 
 		// creation de neuf missions
 
@@ -234,8 +237,40 @@ public class StartupListener {
 		miss11.setCollegue(col1);
 		this.missionRepo.save(miss11);
 
-		//creation de quatre frais
+		Mission miss12 = new Mission();
+		miss12.setDateDebut(LocalDate.parse("2018-12-16"));
+		miss12.setDateFin(LocalDate.parse("2018-12-26"));
+		miss12.setNature(NatureEnum.Conseil);
+		miss12.setVilleDepart("Pey-Berland");
+		miss12.setVilleArrivee("Floirac");
+		miss12.setStatut(Statut.REJETEE);
+		miss12.setTransport(Transport.Covoiturage);
+		miss12.setCollegue(col1);
+		this.missionRepo.save(miss12);
 
+		Mission miss13 = new Mission();
+		miss13.setDateDebut(LocalDate.parse("2019-03-20"));
+		miss13.setDateFin(LocalDate.parse("2019-04-01"));
+		miss13.setNature(NatureEnum.Conseil);
+		miss13.setVilleDepart("Nantes");
+		miss13.setVilleArrivee("Saint-Herblain");
+		miss13.setStatut(Statut.REJETEE);
+		miss13.setTransport(Transport.Avion);
+		miss13.setCollegue(col4);
+		this.missionRepo.save(miss13);
+
+		Mission miss14 = new Mission();
+		miss14.setDateDebut(LocalDate.parse("2017-06-24"));
+		miss14.setDateFin(LocalDate.parse("2018-07-14"));
+		miss14.setNature(NatureEnum.Conseil);
+		miss14.setVilleDepart("Paris");
+		miss14.setVilleArrivee("New York");
+		miss14.setStatut(Statut.REJETEE);
+		miss14.setTransport(Transport.Avion);
+		miss14.setCollegue(col4);
+		this.missionRepo.save(miss14);
+
+		// creation de quelques frais
 		LigneDeFrais frais1 = new LigneDeFrais(LocalDate.parse("2014-04-20"), NatureFrais.Hotel, 50, miss3);
 		this.fraisRepo.save(frais1);
 
@@ -248,12 +283,20 @@ public class StartupListener {
 		LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
 		this.fraisRepo.save(frais4);
 
-		//initialisation de qq nature
+		LigneDeFrais frais5 = new LigneDeFrais(LocalDate.parse("2015-12-24"), NatureFrais.Restaurant, 249.99, miss12);
+		this.fraisRepo.save(frais5);
+
+		LigneDeFrais frais6 = new LigneDeFrais(LocalDate.parse("2017-08-08"), NatureFrais.PetitDejeuner, 12.5, miss14);
+		this.fraisRepo.save(frais6);
+
+		LigneDeFrais frais7 = new LigneDeFrais(LocalDate.parse("2018-03-03"), NatureFrais.Transport, 1.70, miss14);
+		this.fraisRepo.save(frais7);
+
+		// initialisation de qq nature
 		Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
 		this.natureRepo.save(nat1);
 
 		Nature nat2 = new Nature("Conseil", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
 		this.natureRepo.save(nat2);
-
 	}
 }
