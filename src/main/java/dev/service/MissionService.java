@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import dev.Exception.MissionInvalidException;
 import dev.Exception.MissionNonTrouveeException;
@@ -182,13 +180,6 @@ public class MissionService {
 	    }
 
 	}
-
-	RestTemplate rt = new RestTemplate();
-	ResponseEntity<MissionDto> result = rt.getForEntity("https://absences-back.cleverapps.io/gestion-absences/listeAbsencesValidees?email="+mission.getCollegue().getEmail(),
-		MissionDto.class);
-
-	System.out.println(result);
-
 	return true;
     }
 
