@@ -93,8 +93,7 @@ public class StartupListener {
 		col4.setPrenom("DEV");
 		col4.setEmail("manager@dev.fr");
 		col4.setMotDePasse(passwordEncoder.encode("superpass"));
-		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE),
-				new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
+		col4.setRoles(Arrays.asList(new RoleCollegue(col4, Role.ROLE_EMPLOYE), new RoleCollegue(col4, Role.ROLE_MANAGER), new RoleCollegue(col4, Role.ROLE_UTILISATEUR)));
 		this.collegueRepo.save(col4);
 
 		Collegue col5 = new Collegue();
@@ -222,7 +221,7 @@ public class StartupListener {
 		miss10.setNature(NatureEnum.Conseil);
 		miss10.setVilleDepart("Los Angeles");
 		miss10.setVilleArrivee("St-Herblain");
-		miss10.setStatut(Statut.INITIALE);
+		miss10.setStatut(Statut.VALIDEE);
 		miss10.setTransport(Transport.Covoiturage);
 		miss10.setCollegue(col1);
 		this.missionRepo.save(miss10);
@@ -233,7 +232,7 @@ public class StartupListener {
 		miss11.setNature(NatureEnum.Conseil);
 		miss11.setVilleDepart("Paris");
 		miss11.setVilleArrivee("New York");
-		miss11.setStatut(Statut.INITIALE);
+		miss11.setStatut(Statut.VALIDEE);
 		miss11.setTransport(Transport.Avion);
 		miss11.setCollegue(col1);
 		this.missionRepo.save(miss11);
@@ -272,7 +271,6 @@ public class StartupListener {
 		this.missionRepo.save(miss14);
 
 		// creation de quelques frais
-
 		LigneDeFrais frais1 = new LigneDeFrais(LocalDate.parse("2014-04-20"), NatureFrais.Hotel, 50, miss3);
 		this.fraisRepo.save(frais1);
 
