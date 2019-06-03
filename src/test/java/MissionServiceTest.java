@@ -38,6 +38,7 @@ public class MissionServiceTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /*
     @Test
     public void test_ajouter_mission_nok_date_debut_invalide_aujourdhui() {
 	exception.expect(MissionInvalidException.class);
@@ -124,106 +125,108 @@ public class MissionServiceTest {
 	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
 
 	/*
-	 * Instanciation d'une mission correspondant aux modifications à
-	 * apporter à la mission existante
-	 */
-	Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train, 100);
-	this.missionService.modifierMission(mission.getId(), modifications);
-    }
+     * Instanciation d'une mission correspondant aux modifications à
+     * apporter à la mission existante
+     */
+    Mission modifications = new Mission(LocalDate.now().plusDays(0), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train, 100);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}
 
-    @Test
-    public void test_modifier_mission_nok_date_fin_invalide() {
-	exception.expect(MissionInvalidException.class);
-	exception.expectMessage(" La date de Fin n'est pas correcte. ");
-	Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.ajouterMission(mission);
-	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
-	Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.modifierMission(mission.getId(), modifications);
-    }
+@Test
+public void test_modifier_mission_nok_date_fin_invalide() {
+    exception.expect(MissionInvalidException.class);
+    exception.expectMessage(" La date de Fin n'est pas correcte. ");
+    Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.ajouterMission(mission);
+    Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+    Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}
 
-    @Test
-    public void test_modifier_mission_nok_avion_invalide() {
-	exception.expect(MissionInvalidException.class);
-	exception.expectMessage(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
-	Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.ajouterMission(mission);
-	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
-	Mission modifications = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Avion);
-	this.missionService.modifierMission(mission.getId(), modifications);
-    }
+@Test
+public void test_modifier_mission_nok_avion_invalide() {
+    exception.expect(MissionInvalidException.class);
+    exception.expectMessage(" Il faut une anticipation de 7 jours pour prendre l'avion. ");
+    Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.ajouterMission(mission);
+    Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+    Mission modifications = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Avion);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}
 
-    @Test
-    public void test_modifier_mission_nok_avion_valide() {
-	Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.ajouterMission(mission);
-	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
-	Mission modifications = new Mission(LocalDate.now().plusDays(7), LocalDate.now().plusDays(7), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Avion);
-	this.missionService.modifierMission(mission.getId(), modifications);
-    }
+@Test
+public void test_modifier_mission_nok_avion_valide() {
+    Mission mission = new Mission(LocalDate.now().plusDays(3), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.ajouterMission(mission);
+    Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+    Mission modifications = new Mission(LocalDate.now().plusDays(7), LocalDate.now().plusDays(7), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Avion);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}
 
-    /*
-	@Test
-	public void test_modifier_mission_nok_statut_invalide_en_attente_validation() {
-		exception.expect(ModificationInvalideException.class);
-		exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
-		Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-				"Toulouse", "Bordeaux", Transport.Train);
-		mission.setStatut(Statut.EN_ATTENTE_VALIDATION);
-		this.missionService.ajouterMission(mission);
-		Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
-		Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
-				"Toulouse", "Bordeaux", Transport.Train);
-		this.missionService.modifierMission(mission.getId(), modifications);
-	}*/
 
-    @Test
-    public void test_modifier_mission_nok_statut_invalide_mission_validee() {
-	exception.expect(ModificationInvalideException.class);
-	exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
-	Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	mission.setStatut(Statut.VALIDEE);
-	this.missionService.ajouterMission(mission);
-	Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
-	Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.modifierMission(mission.getId(), modifications);
-    }
+@Test
+public void test_modifier_mission_nok_statut_invalide_en_attente_validation() {
+    exception.expect(ModificationInvalideException.class);
+    exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
+    Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    mission.setStatut(Statut.EN_ATTENTE_VALIDATION);
+    this.missionService.ajouterMission(mission);
+    Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+    Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}*
 
-    @Test
-    public void test_modifier_mission_ok() {
-	Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train);
-	this.missionService.ajouterMission(mission);
-	int id = mission.getId();
-	Mockito.when(missionRepo.findById(id)).thenReturn(Optional.of(mission));
+@Test
+public void test_modifier_mission_nok_statut_invalide_mission_validee() {
+    exception.expect(ModificationInvalideException.class);
+    exception.expectMessage(" Les missions en attentes ou validées ne peuvent plus être modifiées. ");
+    Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    mission.setStatut(Statut.VALIDEE);
+    this.missionService.ajouterMission(mission);
+    Mockito.when(missionRepo.findById(mission.getId())).thenReturn(Optional.of(mission));
+    Mission modifications = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(0), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.modifierMission(mission.getId(), modifications);
+}
 
-	Mission modifications = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(79), NatureEnum.Conseil,
-		"Nantes", "Carquefou", Transport.Covoiturage, 230);
+@Test
+public void test_modifier_mission_ok() {
+    Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train);
+    this.missionService.ajouterMission(mission);
+    int id = mission.getId();
+    Mockito.when(missionRepo.findById(id)).thenReturn(Optional.of(mission));
 
-	Assert.assertFalse(mission.equals(modifications));
-	this.missionService.modifierMission(id, modifications);
-	Assert.assertTrue(mission.equals(modifications));
-    }
+    Mission modifications = new Mission(LocalDate.now().plusDays(1), LocalDate.now().plusDays(79), NatureEnum.Conseil,
+	    "Nantes", "Carquefou", Transport.Covoiturage, 230);
 
-    @Test
-    public void test_supprimer_mission_ok() {
-	Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
-		"Toulouse", "Bordeaux", Transport.Train, 365);
+    Assert.assertFalse(mission.equals(modifications));
+    this.missionService.modifierMission(id, modifications);
+    Assert.assertTrue(mission.equals(modifications));
+}
 
-	this.missionService.ajouterMission(mission);
-	// vérifie si la mission est présente en BDD
-	Mockito.verify(missionRepo).save(mission);
-	this.missionService.missionSupprimer(mission.getId());
-	// vérifie si la mission a été retirée de la BDD
-	Mockito.verify(missionRepo).deleteById(mission.getId());
-    }
+@Test
+public void test_supprimer_mission_ok() {
+    Mission mission = new Mission(LocalDate.now().plusDays(10), LocalDate.now().plusDays(80), NatureEnum.Formation,
+	    "Toulouse", "Bordeaux", Transport.Train, 365);
+
+    this.missionService.ajouterMission(mission);
+    // vérifie si la mission est présente en BDD
+    Mockito.verify(missionRepo).save(mission);
+    this.missionService.missionSupprimer(mission.getId());
+    // vérifie si la mission a été retirée de la BDD
+    Mockito.verify(missionRepo).deleteById(mission.getId());
+}
+
+*/
 }
