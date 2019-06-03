@@ -23,9 +23,9 @@ public class NatureService {
 
 	public Nature ajoutNature (NatureDTO nature) {
 
-		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
-			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
-		}
+//		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+//			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
+//		}
 
 		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
 		if (nature.isFacturee()) {
@@ -63,11 +63,11 @@ public class NatureService {
 		return nat;
 	}
 
-	public Nature modificationNature (NatureDTO nature) {
+	public Nature modificationNature (int id, NatureDTO nature) {
 
-		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
-			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
-		}
+//		if (natureRepository.findAll ().stream().anyMatch(nat -> nature.getNomNature().equalsIgnoreCase(nat.getNomNature()))) {
+//			throw new NatureInvalideException ("Une nature avec ce nom existe déjà !");
+//		}
 
 		// Si la nature est facturée, elle doit avoir un TJM moyen en euros (négatif et 0 refusé)
 		if (nature.isFacturee()) {
@@ -94,7 +94,7 @@ public class NatureService {
 		}
 
 		System.out.println(nature.getId ());
-		Nature nat = natureRepository.findById(nature.getId ()).orElseThrow(() -> new NatureInvalideException ("La nature n'a pas été trouvée !"));
+		Nature nat = natureRepository.findById(id).orElseThrow(() -> new NatureInvalideException ("La nature n'a pas été trouvée !"));
 		nat.setNomNature(nature.getNomNature ());
 		nat.setFacturee(nature.isFacturee());
 		nat.setPrime(nature.isPrime ());
@@ -120,13 +120,13 @@ public class NatureService {
 		return nat;
 	}
 
-	public void suppressionNature (int nature) {
+	public void suppressionNature (int id) {
 
-		if (!natureRepository.existsById(nature)) {
+		if (!natureRepository.existsById(id)) {
 			throw new NatureInvalideException ("La nature que vous voulez supprimée n'existe pas !");
 		}
 
-		natureRepository.deleteById(nature);
+		natureRepository.deleteById(id);
 	}
 
 	public List <NatureDTO> afficherToutesNatures () {

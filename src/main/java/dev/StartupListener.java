@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domain.NatureEnum;
 import dev.domain.NatureFrais;
 import dev.domain.Role;
@@ -22,6 +23,7 @@ import dev.domain.Version;
 import dev.repository.CollegueRepo;
 import dev.repository.FraisRepo;
 import dev.repository.MissionRepo;
+import dev.repository.NatureRepository;
 import dev.repository.VersionRepo;
 
 /**
@@ -29,7 +31,7 @@ import dev.repository.VersionRepo;
  */
 @Component
 public class StartupListener {
-
+  
     private String appVersion;
     private VersionRepo versionRepo;
     private PasswordEncoder passwordEncoder;
@@ -240,5 +242,13 @@ public class StartupListener {
 	LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
 	this.fraisRepo.save(frais4);
     }
-
+		
+		//initialisation de qq nature
+		Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+		this.natureRepo.save(nat1);
+		
+		Nature nat2 = new Nature("Conseil", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+		this.natureRepo.save(nat2);
+		
+	}
 }

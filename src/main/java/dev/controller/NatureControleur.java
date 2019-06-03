@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,15 +37,15 @@ public class NatureControleur {
 		return ResponseEntity.status(200).body(new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin()));
 	}
 
-	@PatchMapping
-	public ResponseEntity<NatureDTO> modification (@RequestBody NatureDTO nature) {
-		Nature natureRetour = natureService.modificationNature (nature);
+	@PatchMapping(path = "/{id}")
+	public ResponseEntity<NatureDTO> modification (@PathVariable int id, @RequestBody NatureDTO nature) {
+		Nature natureRetour = natureService.modificationNature(id, nature);
 		return ResponseEntity.status(200).body(new NatureDTO (natureRetour.getId (), natureRetour.getNomNature (), natureRetour.isFacturee(), natureRetour.isPrime (), natureRetour.getTauxJournalierMoyen(), natureRetour.getPourcentPrime(), natureRetour.getPlafondQuotidien(), natureRetour.isDepassementFrais(), natureRetour.getDateDebut(), natureRetour.getDateFin()));
 	}
 
-	@DeleteMapping
-	public void suppression (@RequestBody int nature) {
-		natureService.suppressionNature (nature);
+	@DeleteMapping(path = "/{id}")
+	public void suppression (@PathVariable Integer id) {
+		natureService.suppressionNature (id);
 	}
 
 	@GetMapping
