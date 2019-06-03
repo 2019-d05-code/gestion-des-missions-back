@@ -1,13 +1,19 @@
 package dev.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.Exception.NatureInvalideException;
+import dev.Utils.DtoUtils;
+import dev.domain.Mission;
 import dev.domain.Nature;
+import dev.domainDto.MissionDto;
 import dev.domainDto.NatureDTO;
 import dev.repository.NatureRepository;
 
@@ -17,7 +23,7 @@ import dev.repository.NatureRepository;
  */
 @Service
 public class NatureService {
-
+	private static final Logger LOG = LoggerFactory.getLogger(MissionService.class);
 	@Autowired
 	NatureRepository natureRepository;
 
@@ -140,4 +146,14 @@ public class NatureService {
 	public void setNatureRepository(NatureRepository natureRepository) {
 		this.natureRepository = natureRepository;
 	}
+
+	public NatureDTO trouverNatureDepuisId(Integer id) {
+		Optional<Nature> natureTrouve = natureRepository.findById(id);
+		if (natureTrouve.isPresent()) {
+			return DtoUtils.toNAtureDto(natureTrouve.get());
+		} else {
+			LOG.error("Aucune mission trouvée avec cet ID");
+			return null;
+		}
+	}  
 }

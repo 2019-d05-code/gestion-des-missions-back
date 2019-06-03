@@ -1,12 +1,16 @@
 package dev.Utils;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
 
 import dev.domain.Collegue;
 import dev.domain.LigneDeFrais;
 import dev.domain.Mission;
+import dev.domain.Nature;
 import dev.domainDto.FraisDto;
 import dev.domainDto.MissionDto;
+import dev.domainDto.NatureDTO;
 import dev.service.CollegueService;
 
 @Service
@@ -84,4 +88,8 @@ public interface DtoUtils {
 				miss.getVilleArrivee(), miss.getTransport(), miss.getPrime());
 	}
 
+	public static NatureDTO toNAtureDto(Nature nature){
+	return new NatureDTO(nature.getId(), nature.getNomNature(), nature.isFacturee(), nature.isPrime(),nature.getTauxJournalierMoyen(),
+			nature.getPourcentPrime(), nature.getPlafondQuotidien(), nature.isDepassementFrais(), nature.getDateDebut(),nature.getDateFin());
+	}
 }

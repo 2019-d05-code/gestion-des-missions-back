@@ -6,6 +6,7 @@ package dev.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.domain.Nature;
+import dev.domainDto.MissionDto;
 import dev.domainDto.NatureDTO;
 import dev.service.NatureService;
 
@@ -51,6 +53,11 @@ public class NatureControleur {
 	@GetMapping
 	public List <NatureDTO> recupererNatures () {
 		return natureService.afficherToutesNatures();
+	}
+	
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<NatureDTO> afficherParId(@PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.OK).body(natureService.trouverNatureDepuisId(id));
 	}
 
 
