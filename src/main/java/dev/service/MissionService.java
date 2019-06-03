@@ -167,7 +167,7 @@ public class MissionService {
      * commence ou finit un jour non travaillé
      */
     private Boolean regleMetierMissionDisponible(Mission mission) {
-	List<MissionDto> missionList = this.recupererToutesLesMissions().stream().collect(Collectors.toList());
+	List<MissionDto> missionList = this.recupererMissionParCollegue(mission.getCollegue().getId()).stream().collect(Collectors.toList());
 
 	// iterator loop
 	Iterator<MissionDto> iterator = missionList.iterator();
