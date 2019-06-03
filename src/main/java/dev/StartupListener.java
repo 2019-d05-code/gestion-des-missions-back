@@ -31,13 +31,14 @@ import dev.repository.VersionRepo;
  */
 @Component
 public class StartupListener {
-  
+
     private String appVersion;
     private VersionRepo versionRepo;
     private PasswordEncoder passwordEncoder;
     private CollegueRepo collegueRepo;
     private MissionRepo missionRepo;
     private FraisRepo fraisRepo;
+    private NatureRepository natureRepo;
 
     public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
 	    PasswordEncoder passwordEncoder, CollegueRepo collegueRepo, MissionRepo missionRepo, FraisRepo fraisRepo) {
@@ -241,14 +242,13 @@ public class StartupListener {
 
 	LigneDeFrais frais4 = new LigneDeFrais(LocalDate.parse("2015-09-03"), NatureFrais.Transport, 200.49, miss1);
 	this.fraisRepo.save(frais4);
+
+	//initialisation de qq nature
+	Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+	this.natureRepo.save(nat1);
+
+	Nature nat2 = new Nature("Conseil", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
+	this.natureRepo.save(nat2);
+
     }
-		
-		//initialisation de qq nature
-		Nature nat1 = new Nature("Expertise", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
-		this.natureRepo.save(nat1);
-		
-		Nature nat2 = new Nature("Conseil", true, true, 15.00, 10, 50, false, LocalDate.parse("2013-01-01"));
-		this.natureRepo.save(nat2);
-		
-	}
 }
