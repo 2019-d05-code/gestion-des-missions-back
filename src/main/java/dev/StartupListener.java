@@ -3,6 +3,7 @@ package dev;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -35,9 +36,13 @@ public class StartupListener {
     private String appVersion;
     private VersionRepo versionRepo;
     private PasswordEncoder passwordEncoder;
+    @Autowired
     private CollegueRepo collegueRepo;
+    @Autowired
     private MissionRepo missionRepo;
+    @Autowired
     private FraisRepo fraisRepo;
+    @Autowired
     private NatureRepository natureRepo;
 
     public StartupListener(@Value("${app.version}") String appVersion, VersionRepo versionRepo,
